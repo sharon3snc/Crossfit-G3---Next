@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Logo from '../images/Logo.png'
+import Image from 'next/image'
 import Instalaciones2 from '../images/Instalaciones2.jpg'
 import Instalaciones3 from '../images/Instalaciones3.jpg'
 import Instalaciones4 from '../images/Instalaciones4.jpg'
@@ -21,11 +22,11 @@ export default function Home() {
       </Head>
       
       <header className={styles.flex}>
-        <img src={Logo} alt="logo" width="150px"/>
+        <Image src={Logo} alt="logo" width={100}/>
         <nav className={styles.nav}>
           <ul>
             <li> <a href="#top"> Inicio </a> </li>
-            <li> <a href="#top" > Nosotros </a> </li>
+            <li> <a href="#top"> Nosotros </a> </li>
             <li> <a href="#top"> Galería </a> </li>
             <li> <a href="#top"> Horarios </a> </li>
             <li> <a href="#top"> Tarifas </a> </li>
@@ -65,16 +66,25 @@ export default function Home() {
         </div>
 
         <div className={styles.container2}>
-          <img src=" " />
+          <Image src={Instalaciones2} alt="inst2" width={300}/>
         </div>
 
       </div>
 
       <div className={styles.part3}>
         <div className= {styles.inst}>
-          <div> Atención Personalizada </div>
-          <div> Entrenamientos nuevos cada día </div>
-          <div> Soporte de nutrición </div>
+          <div className= {styles.rtb}>
+            <Image src={Logo} alt="logo" width={100}/>
+            <div> Atención Personalizada </div>
+          </div>
+          <div className= {styles.rtb}>
+            <Image src={Logo} alt="logo" width={100}/>
+            <div> Entrenamientos nuevos cada día </div>
+          </div>
+          <div className= {styles.rtb}>
+            <Image src={Logo} alt="logo" width={100}/>
+            <div> Soporte de nutrición </div>
+          </div>
         </div>
         <div className= {styles.inst2}>
           <div> CONOCE NUESTRAS </div>
@@ -82,11 +92,11 @@ export default function Home() {
           <div> Instalaciones </div>
         </div>
         <div className= {styles.inst}>
-          <img src={Instalaciones2} alt="inst2"/>
-          <img src={Instalaciones3} alt="inst3"/>
-          <img src={Instalaciones4} alt="inst4"/>
-          <img src={Instalaciones6} alt="inst6"/>
-          <img src={Instalaciones7} alt="inst7"/>
+          <Image src={Instalaciones2} alt="inst2" width={300}/>
+          <Image src={Instalaciones3} alt="inst3" width={300}/>
+          <Image src={Instalaciones4} alt="inst4" width={300}/>
+          <Image src={Instalaciones6} alt="inst6" width={300}/>
+          <Image src={Instalaciones7} alt="inst7" width={300}/>
         </div>
 
       </div>
@@ -95,28 +105,67 @@ export default function Home() {
         <button>Conoce nuestros horarios</button>
         <div>TARIFAS</div>
         <div className={styles.tarifas}>
-          <div>
-          Crossfit ilimitado 1 mes
-          95€
-          Paga tu cuota cada mes
+          <div className={styles.card}>
+            <div>Crossfit ilimitado 1 mes</div>
+            <div>95€</div>
+            <div>Paga tu cuota cada mes</div>
           </div>
 
-          <div>
-          Crossfit ilimitado 6 meses
-          535€
-          6% de descuento
+          <div className={styles.card}>
+            <div>Crossfit ilimitado 6 meses</div>
+            <div>535€</div>
+            <div>6% de descuento</div>
           </div>
 
-          <div>
-          Crossfit ilimitado 12 meses
-          995€
-          12% de descuento
+          <div className={styles.card}>
+            <div>Crossfit ilimitado 12 meses</div>
+            <div>995€</div>
+            <div>12% de descuento</div>
           </div>
         </div>
       </div>
   
+      <div className={styles.part5}>
+        <div>MADRID</div>
+        <div>
+          <div className={styles.datos}>
+            <Image src={Logo} alt="logo" width={100}/>
+            <p> Calle Dos Amigos, 3 28015 MADRID</p>
+          </div>
+          <div className={styles.datos}>
+            <Image src={Logo} alt="logo" width={100}/>
+            <p>644885452</p>
+          </div>
+          <div className={styles.datos}>
+            <Image src={Logo} alt="logo" width={100}/>
+            <p>crossfitg3@gmail.com</p>
+          </div>
+        </div>
+
+      </div>  
+      
+      <footer>
+        <div>        
+          <Image src={Logo} alt="instagram" width={100}/>
+          <Image src={Logo} alt="twitter" width={100}/>
+          <Image src={Logo} alt="facebook" width={100}/>
+        </div>
+
+        <div>
+          CROSSFIT G3 - TODOS LOS DERECHOS RESERVADOS
+        </div>
+
+        <nav className={styles.nav}>
+          <ul>
+            <li> <a href="#top"> Aviso Legal </a> </li>
+            <li> <a href="#top"> Política de Privacidad </a> </li>
+            <li> <a href="#top"> Política de Cookies </a> </li>
+          </ul>
+        </nav>
+      </footer>
 
       </main>
+
     </>
   )
 }
