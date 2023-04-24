@@ -6,6 +6,16 @@ import Instalaciones3 from '../images/Instalaciones3.jpg'
 import Instalaciones4 from '../images/Instalaciones4.jpg'
 import Instalaciones6 from '../images/Instalaciones6.jpg'
 import Instalaciones7 from '../images/Instalaciones7.jpg'
+import Img1 from '../images/55KG.jpg'
+import Icon1 from '../images/atpersonalizadared.png'
+import Icon2 from '../images/calendar-week.svg'
+import Icon3 from '../images/applered.png'
+import Icon4 from '../images/geo-alt-fill.svg'
+import Icon5 from '../images/telephone-fill.svg'
+import Icon6 from '../images/envelope.svg'
+import Icon7 from '../images/instagram.svg'
+import Icon8 from '../images/facebook.svg'
+import Icon9 from '../images/twitter.svg'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
@@ -44,9 +54,9 @@ export default function Home() {
           <div>
             G3 CROSSFIT
           </div>
-          <div>
+          <button>
             INICIA HOY
-          </div>        
+          </button>        
         </div>
 
       <div className={styles.part2}>
@@ -66,7 +76,7 @@ export default function Home() {
         </div>
 
         <div className={styles.container2}>
-          <Image src={Instalaciones2} alt="inst2" width={300}/>
+          <Image src={Img1} alt="inst2" width={300}/>
         </div>
 
       </div>
@@ -74,15 +84,15 @@ export default function Home() {
       <div className={styles.part3}>
         <div className= {styles.inst}>
           <div className= {styles.rtb}>
-            <Image src={Logo} alt="logo" width={100}/>
+            <Image src={Icon1} alt="logo" width={100}/>
             <div> Atención Personalizada </div>
           </div>
           <div className= {styles.rtb}>
-            <Image src={Logo} alt="logo" width={100}/>
+            <Image src={Icon2} alt="logo" width={100}/>
             <div> Entrenamientos nuevos cada día </div>
           </div>
           <div className= {styles.rtb}>
-            <Image src={Logo} alt="logo" width={100}/>
+            <Image src={Icon3} alt="logo" width={100}/>
             <div> Soporte de nutrición </div>
           </div>
         </div>
@@ -129,26 +139,26 @@ export default function Home() {
         <div>MADRID</div>
         <div>
           <div className={styles.datos}>
-            <Image src={Logo} alt="logo" width={100}/>
+            <Image src={Icon4} alt="logo" width={20}/>
             <p> Calle Dos Amigos, 3 28015 MADRID</p>
           </div>
           <div className={styles.datos}>
-            <Image src={Logo} alt="logo" width={100}/>
+            <Image src={Icon5} alt="logo" width={20}/>
             <p>644885452</p>
           </div>
           <div className={styles.datos}>
-            <Image src={Logo} alt="logo" width={100}/>
+            <Image src={Icon6} alt="logo" width={20}/>
             <p>crossfitg3@gmail.com</p>
           </div>
         </div>
 
       </div>  
       
-      <footer>
-        <div>        
-          <Image src={Logo} alt="instagram" width={100}/>
-          <Image src={Logo} alt="twitter" width={100}/>
-          <Image src={Logo} alt="facebook" width={100}/>
+      <footer className={styles.footer}>
+        <div className={styles.rrss}>        
+          <Image src={Icon7} alt="instagram" width={20}/>
+          <Image src={Icon8} alt="twitter" width={20}/>
+          <Image src={Icon9} alt="facebook" width={20}/>
         </div>
 
         <div>
