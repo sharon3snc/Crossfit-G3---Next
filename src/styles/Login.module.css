@@ -1,0 +1,117 @@
+.backgroundContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.imagenFondo {
+    width: auto;
+    height: 100vh;
+    min-width: 450px;
+    min-height: 950px;
+}
+
+.backgroundCanvas{
+    background-color: rgb(25, 25, 25);
+    width: 1030px;
+    height: 100%;
+    position: absolute;
+    right: 0px; 
+    min-width: 900px;
+    min-height:950px;
+}
+
+.propContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10%;
+    margin-left: 15%;
+    border-radius: 10px;
+    min-height: 700px;
+    min-width: 200px;
+
+
+    background-color: rgb(145,145,145);
+    width: 70%;
+    height: 40%;
+
+    position: absolute;
+}
+
+.logo{
+    width: 300px;
+    height: 300px;
+    margin-top: 30px;
+}
+
+.formTitle{
+    font-size: 35px;
+    font-weight: bold;
+    color: rgb(231,231,231);
+    margin: 10px;
+    justify-self: left;
+    width: 95%;
+    margin-left: 35px;
+    margin-top: 30px;
+}
+
+.formContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 90%;
+}
+
+.formContainerInfo{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    width: 100%;
+}
+
+.passwordContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr ;
+    width: 100%;
+}
+
+.formInput{
+    background-color: rgb(197,197,197);
+    width: 75%;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    padding: 20px;
+    margin: 10px;
+    color: rgb(212,79,79);
+}
+
+.formInput::placeholder{
+    color: rgb(212,79,79);
+}
+
+.formInputCheckbox{
+    background-color: rgb(197,197,197);
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    color: rgb(212,79,79);
+}
+
+.redRoundButton{
+    background-color: rgb(212,79,79);
+    border: none;
+    border-radius: 9999px;
+    padding: 20px;
+    margin: 10px;
+    margin-bottom: 30px;
+    color: rgb(231,231,231);
+    font-size: 20px;
+    cursor: pointer;
+    width: fit-content;
+}
