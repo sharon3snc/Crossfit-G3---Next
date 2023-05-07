@@ -171,7 +171,12 @@ export default function CrearUsuarioInfo(){
                                     required 
                                 />
                             </div>
-                            <button className={styles2.redRoundButton} type="submit" disabled={!passwordMatch}>Crear Usuario</button>
+                            <button 
+                                className={styles2.redRoundButton} 
+                                type="submit" 
+                                disabled={!passwordMatch}
+                            >Crear Usuario
+                            </button>
                         </form>
                     </div>
                 </div>
