@@ -1,0 +1,71 @@
+.grid {
+  display: grid;
+  grid-template-columns: 50px repeat(6, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+  gap: 1px;
+  background-color: rgb(145,145,145);
+  width:70%;
+  height:80%;
+  margin: 30px;
+}
+
+.dia,
+.hora {
+  background-color: rgb(145,145,145);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty {
+  background-color: rgb(145,145,145);
+}
+
+.celda {
+  background-color: rgb(145,145,145);
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.Crossfit {
+  background-color: rgb(234, 157, 148);
+  color: white;
+}
+
+.Crossfit-Strenght {
+  background-color: #f67043;
+  color: white;
+}
+
+.modal{
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 20%;
+  height: 20%;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
