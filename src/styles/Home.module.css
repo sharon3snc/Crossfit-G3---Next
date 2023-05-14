@@ -32,7 +32,10 @@
   flex-direction: column;
   align-items: center;
   background-image: url(../images/Fondohome.jpg);
-  height: 100vh;
+  background-size: cover;
+  min-height: 100vh;
+  height: auto;
+  width: 100vw;
 }
 
 .part2{
