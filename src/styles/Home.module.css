@@ -33,8 +33,12 @@
   align-items: center;
   background-image: url(../images/Fondohome.jpg);
   background-size: cover;
+<<<<<<< HEAD
   min-height: 100vh;
   height: auto;
+=======
+  min-height: 500px;
+>>>>>>> 7a8633f31de903a8c0c2fbdb8481a69cf3259c1b
   width: 100vw;
 }
 
