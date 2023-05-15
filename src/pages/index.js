@@ -31,30 +31,32 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <header className={styles.flex}>
-        <Image src={Logo} alt="logo" width={100}/>
+      <body className={styles.body}>
+      <header className={styles.header}>
+        <Image src={Logo} alt="logo" width={80}/>
         <nav className={styles.nav}>
           <ul>
-            <li> <a href="#top"> Inicio </a> </li>
-            <li> <a href="#top"> Nosotros </a> </li>
-            <li> <a href="#top"> Galería </a> </li>
-            <li> <a href="#top"> Horarios </a> </li>
-            <li> <a href="#top"> Tarifas </a> </li>
-            <li> <a href="#top"> Contacto </a> </li>
+            <li> <a href="#top" className={styles.a}> Inicio </a> </li>
+            <li> <a href="#top" className={styles.a}> Nosotros </a> </li>
+            <li> <a href="#top" className={styles.a}> Galería </a> </li>
+            <li> <a href="#top" className={styles.a}> Horarios </a> </li>
+            <li> <a href="#top" className={styles.a}> Tarifas </a> </li>
+            <li> <a href="#top" className={styles.a}> Contacto </a> </li>
           </ul>
         </nav>
-      <br/>
-    </header>
+        <br/>
+      </header>
 
       <main className={styles.main}>
         <div className={styles.part1}>
           <div>
-            SE TU MEJOR VERSIÓN
+            <b>SE TU MEJOR VERSIÓN</b>
           </div>
           <div>
-            G3 CROSSFIT
+            G3    CROSSFIT
           </div>
-          <button>
+          <br/>
+          <button className={styles.button}>
             INICIA HOY
           </button>        
         </div>
@@ -64,7 +66,9 @@ export default function Home() {
           <div>
             <b>Bienvenido a G3 Crossfit</b>
           </div>
-          <div style={{ borderBottom: '1px solid red' }}></div>
+          <br/>
+          <div style={{ borderBottom: '2px solid rgba(255, 0, 0, 0.5)', boxShadow: '0px 2px 4px rgba(255, 0, 0, 0.5)' }}></div>
+          <br/>
           <div>
           En nuestro box, nos enfocamos en un entrenamiento intenso y desafiante, 
           pero también en crear una comunidad que apoye y motive a sus miembros a 
@@ -76,7 +80,7 @@ export default function Home() {
         </div>
 
         <div className={styles.container2}>
-          <Image src={Img1} alt="inst2" width={300}/>
+          <Image src={Img1} alt="inst2" width={400} height={500}/>
         </div>
 
       </div>
@@ -175,7 +179,7 @@ export default function Home() {
       </footer>
 
       </main>
-
+      </body>
     </>
   )
 }
