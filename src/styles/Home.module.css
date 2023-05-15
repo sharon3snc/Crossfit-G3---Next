@@ -48,6 +48,8 @@
   justify-content: center;
   background-image: url(../images/Fondohome2.jpg);
   background-size: cover;
+  min-height: 100vh;
+  height: auto;
   min-height: 500px;
   width: 100vw;
   color:whitesmoke;
