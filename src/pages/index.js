@@ -32,153 +32,160 @@ export default function Home() {
       </Head>
       
       <body className={styles.body}>
-      <header className={styles.header}>
-        <Image src={Logo} alt="logo" width={80}/>
-        <nav className={styles.nav}>
-          <ul>
-            <li> <a href="#top" className={styles.a}> Inicio </a> </li>
-            <li> <a href="#top" className={styles.a}> Nosotros </a> </li>
-            <li> <a href="#top" className={styles.a}> Galería </a> </li>
-            <li> <a href="#top" className={styles.a}> Horarios </a> </li>
-            <li> <a href="#top" className={styles.a}> Tarifas </a> </li>
-            <li> <a href="#top" className={styles.a}> Contacto </a> </li>
-          </ul>
-        </nav>
-        <br/>
-      </header>
-
-      <main className={styles.main}>
-        <div className={styles.part1}>
-          <div>
-            <b>SE TU MEJOR VERSIÓN</b>
-          </div>
-          <div>
-            G3    CROSSFIT
-          </div>
+        <header className={styles.header}>
+          <Image src={Logo} alt="logo" width={80}/>
+          <nav className={styles.nav}>
+            <ul>
+              <li> <a href="#top" className={styles.a}> Inicio </a> </li>
+              <li> <a href="#top" className={styles.a}> Nosotros </a> </li>
+              <li> <a href="#top" className={styles.a}> Galería </a> </li>
+              <li> <a href="#top" className={styles.a}> Horarios </a> </li>
+              <li> <a href="#top" className={styles.a}> Tarifas </a> </li>
+              <li> <a href="#top" className={styles.a}> Contacto </a> </li>
+            </ul>
+          </nav>
           <br/>
-          <button className={styles.button}>
-            INICIA HOY
-          </button>        
+        </header>
+
+        <main className={styles.main}>
+          <div className={styles.part1}>
+            <div>
+              <b>SE TU MEJOR VERSIÓN</b>
+            </div>
+            <div>
+              G3    CROSSFIT
+            </div>
+            <br/>
+            <button className={styles.button}>
+              INICIA HOY
+            </button>        
+          </div>
+
+        <div className={styles.part2}>
+          <div className={styles.container2}>
+            <div className={styles.bienvenido}>
+              <b>Bienvenido a G3 Crossfit</b>
+            </div>
+            <br/>
+            <div style={{ borderBottom: '2px solid rgba(255, 0, 0, 0.5)', boxShadow: '0px 2px 4px rgba(255, 0, 0, 0.5)' }}></div>
+            <br/>
+            <div>
+            En nuestro box, nos enfocamos en un entrenamiento intenso y desafiante, 
+            pero también en crear una comunidad que apoye y motive a sus miembros a 
+            alcanzar sus objetivos de fitness. Nuestros entrenadores están altamente 
+            capacitados para guiarlo y ayudarlo a mejorar su técnica, prevenir lesiones 
+            y aumentar su fuerza y resistencia. Valoramos la seguridad y el progreso sostenible,
+            por lo que nos aseguramos de adaptar los entrenamientos a las necesidades y capacidades individuales de cada miembro. 
+            </div>
+          </div>
+
+          <div className={styles.container3}>
+            <Image src={Img1} alt="inst2" width={500} height={600}/>
+          </div>
+
         </div>
 
-      <div className={styles.part2}>
-        <div className={styles.container2}>
+        <div className={styles.part3}>
+          <div className= {styles.inst}>
+            <div className= {styles.rtb}>
+              <Image src={Icon1} alt="logo" width={100}/>
+              <div className={styles.rtb2}> <div>Atención</div> 
+                    <div>Personalizada</div> 
+
+              </div>
+            </div>
+            <div className= {styles.rtb}>
+              <Image src={Icon2} alt="logo" width={100}/>
+              <div className={styles.rtb2}> <div>Entrenamientos nuevos </div>
+                    <div>cada día </div>
+              </div>
+            </div>
+            <div className= {styles.rtb}>
+              <Image src={Icon3} alt="logo" width={100}/>
+              <div className={styles.rtb2}> <div>Soporte de </div> 
+                    <div>nutrición </div>
+              </div>
+            </div>
+          </div>
+          <div className= {styles.inst2}>
+            <div> CONOCE NUESTRAS </div>
+            <div style={{ borderBottom: '2px solid rgba(255, 0, 0, 0.5)', boxShadow: '0px 2px 4px rgba(255, 0, 0, 0.5)' }}> </div>
+            <div> Instalaciones </div>
+          </div>
+          <div className= {styles.inst}>
+            <Image src={Instalaciones2} alt="inst2" width={300}/>
+            <Image src={Instalaciones3} alt="inst3" width={300}/>
+            <Image src={Instalaciones4} alt="inst4" width={300}/>
+            <Image src={Instalaciones6} alt="inst6" width={300}/>
+            <Image src={Instalaciones7} alt="inst7" width={300}/>
+          </div>
+
+        </div>
+
+        <div className={styles.part4}>
+          <button>Conoce nuestros horarios</button>
+          <div>TARIFAS</div>
+          <div className={styles.tarifas}>
+            <div className={styles.card}>
+              <div>Crossfit ilimitado 1 mes</div>
+              <div>95€</div>
+              <div>Paga tu cuota cada mes</div>
+            </div>
+
+            <div className={styles.card}>
+              <div>Crossfit ilimitado 6 meses</div>
+              <div>535€</div>
+              <div>6% de descuento</div>
+            </div>
+
+            <div className={styles.card}>
+              <div>Crossfit ilimitado 12 meses</div>
+              <div>995€</div>
+              <div>12% de descuento</div>
+            </div>
+          </div>
+        </div>
+    
+        <div className={styles.part5}>
+          <div>MADRID</div>
           <div>
-            <b>Bienvenido a G3 Crossfit</b>
+            <div className={styles.datos}>
+              <Image src={Icon4} alt="logo" width={20}/>
+              <p> Calle Dos Amigos, 3 28015 MADRID</p>
+            </div>
+            <div className={styles.datos}>
+              <Image src={Icon5} alt="logo" width={20}/>
+              <p>644885452</p>
+            </div>
+            <div className={styles.datos}>
+              <Image src={Icon6} alt="logo" width={20}/>
+              <p>crossfitg3@gmail.com</p>
+            </div>
           </div>
-          <br/>
-          <div style={{ borderBottom: '2px solid rgba(255, 0, 0, 0.5)', boxShadow: '0px 2px 4px rgba(255, 0, 0, 0.5)' }}></div>
-          <br/>
+
+        </div>  
+        </main>
+
+        <footer className={styles.footer}>
+          <div className={styles.rrss}>        
+            <Image src={Icon7} alt="instagram" width={20}/>
+            <Image src={Icon8} alt="twitter" width={20}/>
+            <Image src={Icon9} alt="facebook" width={20}/>
+          </div>
+
           <div>
-          En nuestro box, nos enfocamos en un entrenamiento intenso y desafiante, 
-          pero también en crear una comunidad que apoye y motive a sus miembros a 
-          alcanzar sus objetivos de fitness. Nuestros entrenadores están altamente 
-          capacitados para guiarlo y ayudarlo a mejorar su técnica, prevenir lesiones 
-          y aumentar su fuerza y resistencia. Valoramos la seguridad y el progreso sostenible,
-          por lo que nos aseguramos de adaptar los entrenamientos a las necesidades y capacidades individuales de cada miembro. 
-          </div>
-        </div>
-
-        <div className={styles.container2}>
-          <Image src={Img1} alt="inst2" width={400} height={500}/>
-        </div>
-
-      </div>
-
-      <div className={styles.part3}>
-        <div className= {styles.inst}>
-          <div className= {styles.rtb}>
-            <Image src={Icon1} alt="logo" width={100}/>
-            <div> Atención Personalizada </div>
-          </div>
-          <div className= {styles.rtb}>
-            <Image src={Icon2} alt="logo" width={100}/>
-            <div> Entrenamientos nuevos cada día </div>
-          </div>
-          <div className= {styles.rtb}>
-            <Image src={Icon3} alt="logo" width={100}/>
-            <div> Soporte de nutrición </div>
-          </div>
-        </div>
-        <div className= {styles.inst2}>
-          <div> CONOCE NUESTRAS </div>
-          <div style={{ borderBottom: '1px solid red' }}></div>
-          <div> Instalaciones </div>
-        </div>
-        <div className= {styles.inst}>
-          <Image src={Instalaciones2} alt="inst2" width={300}/>
-          <Image src={Instalaciones3} alt="inst3" width={300}/>
-          <Image src={Instalaciones4} alt="inst4" width={300}/>
-          <Image src={Instalaciones6} alt="inst6" width={300}/>
-          <Image src={Instalaciones7} alt="inst7" width={300}/>
-        </div>
-
-      </div>
-
-      <div className={styles.part4}>
-        <button>Conoce nuestros horarios</button>
-        <div>TARIFAS</div>
-        <div className={styles.tarifas}>
-          <div className={styles.card}>
-            <div>Crossfit ilimitado 1 mes</div>
-            <div>95€</div>
-            <div>Paga tu cuota cada mes</div>
+            CROSSFIT G3 - TODOS LOS DERECHOS RESERVADOS
           </div>
 
-          <div className={styles.card}>
-            <div>Crossfit ilimitado 6 meses</div>
-            <div>535€</div>
-            <div>6% de descuento</div>
-          </div>
+          <nav className={styles.nav}>
+            <ul>
+              <li> <a href="#top"> Aviso Legal </a> </li>
+              <li> <a href="#top"> Política de Privacidad </a> </li>
+              <li> <a href="#top"> Política de Cookies </a> </li>
+            </ul>
+          </nav>
+        </footer>
 
-          <div className={styles.card}>
-            <div>Crossfit ilimitado 12 meses</div>
-            <div>995€</div>
-            <div>12% de descuento</div>
-          </div>
-        </div>
-      </div>
-  
-      <div className={styles.part5}>
-        <div>MADRID</div>
-        <div>
-          <div className={styles.datos}>
-            <Image src={Icon4} alt="logo" width={20}/>
-            <p> Calle Dos Amigos, 3 28015 MADRID</p>
-          </div>
-          <div className={styles.datos}>
-            <Image src={Icon5} alt="logo" width={20}/>
-            <p>644885452</p>
-          </div>
-          <div className={styles.datos}>
-            <Image src={Icon6} alt="logo" width={20}/>
-            <p>crossfitg3@gmail.com</p>
-          </div>
-        </div>
-
-      </div>  
-      
-      <footer className={styles.footer}>
-        <div className={styles.rrss}>        
-          <Image src={Icon7} alt="instagram" width={20}/>
-          <Image src={Icon8} alt="twitter" width={20}/>
-          <Image src={Icon9} alt="facebook" width={20}/>
-        </div>
-
-        <div>
-          CROSSFIT G3 - TODOS LOS DERECHOS RESERVADOS
-        </div>
-
-        <nav className={styles.nav}>
-          <ul>
-            <li> <a href="#top"> Aviso Legal </a> </li>
-            <li> <a href="#top"> Política de Privacidad </a> </li>
-            <li> <a href="#top"> Política de Cookies </a> </li>
-          </ul>
-        </nav>
-      </footer>
-
-      </main>
       </body>
     </>
   )
