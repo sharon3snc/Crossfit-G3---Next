@@ -123,23 +123,23 @@ export default function Home() {
         </div>
 
         <div className={styles.part4}>
-          <button>Conoce nuestros horarios</button>
-          <div>TARIFAS</div>
+          <button className= {styles.button}>Conoce nuestros horarios</button>
+          <div className={styles.bigfont}>TARIFAS</div>
           <div className={styles.tarifas}>
             <div className={styles.card}>
-              <div>Crossfit ilimitado 1 mes</div>
+              <div> <b>Crossfit ilimitado 1 mes</b></div>
               <div>95€</div>
               <div>Paga tu cuota cada mes</div>
             </div>
 
             <div className={styles.card}>
-              <div>Crossfit ilimitado 6 meses</div>
+              <div> <b>Crossfit ilimitado 6 meses</b></div>
               <div>535€</div>
               <div>6% de descuento</div>
             </div>
 
             <div className={styles.card}>
-              <div>Crossfit ilimitado 12 meses</div>
+              <div><b>Crossfit ilimitado 12 meses</b></div>
               <div>995€</div>
               <div>12% de descuento</div>
             </div>
