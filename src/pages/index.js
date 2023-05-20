@@ -8,7 +8,7 @@ import Instalaciones6 from '../images/Instalaciones6.jpg'
 import Instalaciones7 from '../images/Instalaciones7.jpg'
 import Img1 from '../images/55KG.jpg'
 import Icon1 from '../images/atpersonalizadared.png'
-import Icon2 from '../images/calendar-week.svg'
+import Icon2 from '../images/calendarinred.svg'
 import Icon3 from '../images/applered.png'
 import Icon4 from '../images/geo-alt-fill.svg'
 import Icon5 from '../images/telephone-fill.svg'
@@ -88,58 +88,72 @@ export default function Home() {
         <div className={styles.part3}>
           <div className= {styles.inst}>
             <div className= {styles.rtb}>
-              <Image src={Icon1} alt="logo" width={100}/>
+              <Image src={Icon1} alt="logo" width={80}/>
               <div className={styles.rtb2}> <div>Atención</div> 
                     <div>Personalizada</div> 
 
               </div>
             </div>
             <div className= {styles.rtb}>
-              <Image src={Icon2} alt="logo" width={100}/>
+              <Image src={Icon2} alt="logo" width={60}/>
               <div className={styles.rtb2}> <div>Entrenamientos nuevos </div>
                     <div>cada día </div>
               </div>
             </div>
             <div className= {styles.rtb}>
-              <Image src={Icon3} alt="logo" width={100}/>
+              <Image src={Icon3} alt="logo" width={80}/>
               <div className={styles.rtb2}> <div>Soporte de </div> 
                     <div>nutrición </div>
               </div>
             </div>
           </div>
           <div className= {styles.inst2}>
-            <div> CONOCE NUESTRAS </div>
-            <div style={{ borderBottom: '2px solid rgba(255, 0, 0, 0.5)', boxShadow: '0px 2px 4px rgba(255, 0, 0, 0.5)' }}> </div>
+            <div> <b>CONOCE NUESTRAS </b> </div>
+            <div style={{ borderBottom: '2px solid rgba(255, 0, 0, 0.5)', boxShadow: '0px 2px 4px rgba(255, 0, 0, 0.5)' }}>  </div>
             <div> Instalaciones </div>
           </div>
-          <div className= {styles.inst}>
-            <Image src={Instalaciones2} alt="inst2" width={300}/>
-            <Image src={Instalaciones3} alt="inst3" width={300}/>
-            <Image src={Instalaciones4} alt="inst4" width={300}/>
-            <Image src={Instalaciones6} alt="inst6" width={300}/>
-            <Image src={Instalaciones7} alt="inst7" width={300}/>
+
+          <div className={styles.carrousel}>
+            <div className={styles.arrowLeft}>&lt;</div>
+            <div className= {styles.inst}>
+              <Image src={Instalaciones2} alt="inst2" width={300}/>
+              <Image src={Instalaciones3} alt="inst3" width={300}/>
+              <Image src={Instalaciones4} alt="inst4" width={300}/>
+              <Image src={Instalaciones6} alt="inst6" width={300}/>
+              <Image src={Instalaciones7} alt="inst7" width={300}/>
+            </div>
+            <div className={styles.arrowRight}>&gt;</div>
           </div>
 
         </div>
 
         <div className={styles.part4}>
-          <button className= {styles.button}>Conoce nuestros horarios</button>
+          <button className= {styles.button2}>Conoce nuestros horarios</button>
           <div className={styles.bigfont}>TARIFAS</div>
           <div className={styles.tarifas}>
             <div className={styles.card}>
-              <div> <b>Crossfit ilimitado 1 mes</b></div>
+              <div className= {styles.ilimitado}>
+                <div> <b>Crossfit ilimitado</b></div>
+                <div> <b>1 mes</b></div>
+              </div>
               <div className= {styles.price}>95€</div>
               <div>Paga tu cuota cada mes</div>
             </div>
 
             <div className={styles.card}>
-              <div> <b>Crossfit ilimitado 6 meses</b></div>
+              <div className= {styles.ilimitado}>
+                <div> <b>Crossfit ilimitado</b></div>
+                <div> <b>6 meses</b></div>
+              </div>
               <div className= {styles.price}>535€</div>
               <div>6% de descuento</div>
             </div>
 
             <div className={styles.card}>
-              <div><b>Crossfit ilimitado 12 meses</b></div>
+              <div className= {styles.ilimitado}>
+                <div> <b>Crossfit ilimitado</b></div>
+                <div> <b>12 meses</b></div>
+              </div>
               <div className= {styles.price}>995€</div>
               <div>12% de descuento</div>
             </div>
