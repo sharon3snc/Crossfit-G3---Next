@@ -10,9 +10,9 @@ import Img1 from '../images/55KG.jpg'
 import Icon1 from '../images/atpersonalizadared.png'
 import Icon2 from '../images/calendarinred.svg'
 import Icon3 from '../images/applered.png'
-import Icon4 from '../images/geo-alt-fill.svg'
-import Icon5 from '../images/telephone-fill.svg'
-import Icon6 from '../images/envelope.svg'
+import Icon4 from '../images/geo-alt-fill-red.svg'
+import Icon5 from '../images/telephone-fill-red.svg'
+import Icon6 from '../images/envelope-red.svg'
 import Icon7 from '../images/instagram.svg'
 import Icon8 from '../images/facebook.svg'
 import Icon9 from '../images/twitter.svg'
@@ -161,8 +161,8 @@ export default function Home() {
         </div>
     
         <div className={styles.part5}>
-          <div>MADRID</div>
-          <div>
+          <div className= {styles.bienvenido}> <b>MADRID</b></div>
+          <div className= {styles.info}>
             <div className={styles.datos}>
               <Image src={Icon4} alt="logo" width={20}/>
               <p> Calle Dos Amigos, 3 28015 MADRID</p>
@@ -177,8 +177,7 @@ export default function Home() {
             </div>
           </div>
 
-        </div>  
-        </main>
+        </div>
 
         <footer className={styles.footer}>
           <div className={styles.rrss}>        
@@ -191,7 +190,7 @@ export default function Home() {
             CROSSFIT G3 - TODOS LOS DERECHOS RESERVADOS
           </div>
 
-          <nav className={styles.nav}>
+          <nav className={styles.nav2}>
             <ul>
               <li> <a href="#top"> Aviso Legal </a> </li>
               <li> <a href="#top"> Política de Privacidad </a> </li>
@@ -199,6 +198,8 @@ export default function Home() {
             </ul>
           </nav>
         </footer>
+
+        </main>
 
       </body>
     </>
