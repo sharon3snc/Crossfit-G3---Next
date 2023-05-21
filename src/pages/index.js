@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Logo from '../images/Logo.png'
+import Login from '../images/person-circle-red.svg'
 import Image from 'next/image'
 import Instalaciones2 from '../images/Instalaciones2.jpg'
 import Instalaciones3 from '../images/Instalaciones3.jpg'
@@ -33,7 +34,9 @@ export default function Home() {
       
       <body className={styles.body}>
         <header className={styles.header}>
-          <Image src={Logo} alt="logo" width={80}/>
+          <div style={{ backgroundColor: '#FF5656' }}>
+            <Image src={Logo} alt="logo" width={80}/>
+          </div>
           <nav className={styles.nav}>
             <ul>
               <li> <a href="#top" className={styles.a}> Inicio </a> </li>
@@ -44,6 +47,10 @@ export default function Home() {
               <li> <a href="#top" className={styles.a}> Contacto </a> </li>
             </ul>
           </nav>
+          <div className={styles.datos}>
+            <Image src={Login} alt="login" width={40}/>
+            <div style= {{color: '#FF5656'}}>Login</div>
+          </div>
           <br/>
         </header>
 
