@@ -20,7 +20,7 @@
   font-family: 'century gothic', sans-serif;
 }
 
-.nav ul, .nav2 ul {
+.nav ul {
   list-style-type: none;
   display: flex;
   flex-direction: row;
@@ -79,13 +79,13 @@
 }
 
 .part2{
-  min-height: 600px;
+  min-height: 500px;
   width: 100vw;
   display: flex;
   flex-direction: row;
   align-items: stretch;
   gap:20px;
-  padding-left: 80px;
+  padding: 30px 0px 30px 80px;
   margin:0px;
   background-color: black;
   color: whitesmoke;
@@ -95,7 +95,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 30px;
   padding-right: 30px;
   width: 900px;
   font-size: 20px;
@@ -105,16 +104,10 @@
   font-size: 32px;
 }
 
-.rtb{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 .part3 {
-  min-height: 600px;
+  min-height: 500px;
   width: 100vw;
-  width:100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,6 +115,29 @@
   gap:0px;
   background-color:rgb(218, 215, 215);
   padding: 30px;
+}
+
+.containerinst {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.icon {
+  display:flex;
+  flex-direction: row;
+  gap: 250px;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.rtb {
+  display:flex;
+  flex-direction: row;
+  gap: 20px;
+  font-size: 16px;
+  align-items: center;
 }
 
 .carrousel {
@@ -134,12 +150,6 @@
   display: flex;
   transition: transform 0.5s;
   gap: 10px;
-  /*
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  */
-  
 }
 
 .inst Image {
@@ -168,20 +178,13 @@
   transform: scale(1.1);
 }
 
-.rtb {
-  display:flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 300px;
-  font-size: 20px;
-  align-items: center;
-}
+
 
 .rtb2 {
   display:flex;
   flex-direction: column;
   width: 300px;
-  font-size: 20px;
+  font-size: 16px;
   align-items: center;
   justify-content: flex-start;
   gap:0px;
@@ -194,6 +197,7 @@
   align-items: center;
   font-size: 40px;
   color:rgb(192, 65, 65);
+  gap:0px;
 }
 
 .part4 {
@@ -205,9 +209,10 @@
   background-size: cover;
   min-height: 100vh;
   height: auto;
-  min-height: 600px;
+  min-height: 500px;
   width: 100vw;
   color:black;
+  padding: 30px;
 }
 
 .button2{
@@ -279,10 +284,10 @@
   flex-direction: column;
   align-items: flex-start;
   gap:20px;
-  min-height: 300px;
+  min-height: 350px;
   width: 100vw;
-  padding-top: 30px;
-  padding-left: 80px;
+  padding-top: 80px;
+  padding-left: 200px;
   background-color: black;
   color: whitesmoke;
 }
@@ -306,9 +311,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  gap:20px;
+  min-height: 100px;
+  width: 100vw;
+  gap:10px;
   padding:20px;
+  background-color: rgb(218, 215, 215);
+  font-size: 14px;
+
 }
 
 
@@ -317,10 +326,24 @@
   flex-direction: row;
   align-items:center;
   justify-content: center;
-  gap:20px;
-  padding:0px;
+  gap:80px;
+  padding: 10px;
 }
 
+.nav2 ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:20px;
+  padding:0px;
+  margin: 0px;
+}
+
+.nav2 ul li {
+  color:black;
+  text-decoration: none;
+}
 
 /* Enable hover only on non-touch devices 
 @media (hover: hover) and (pointer: fine) {

@@ -13,9 +13,9 @@ import Icon3 from '../images/applered.png'
 import Icon4 from '../images/geo-alt-fill-red.svg'
 import Icon5 from '../images/telephone-fill-red.svg'
 import Icon6 from '../images/envelope-red.svg'
-import Icon7 from '../images/instagram.svg'
-import Icon8 from '../images/facebook.svg'
-import Icon9 from '../images/twitter.svg'
+import Icon7 from '../images/instagram-red.svg'
+import Icon8 from '../images/facebook-red.svg'
+import Icon9 from '../images/twitter-red.svg'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 
@@ -86,30 +86,28 @@ export default function Home() {
         </div>
 
         <div className={styles.part3}>
-          <div className= {styles.inst}>
+          <div className= {styles.containerinst}>
+            <div className= {styles.icon}>
+              <Image src={Icon1} alt="logo" width={70}/>
+              <Image src={Icon2} alt="logo" width={50}/>
+              <Image src={Icon3} alt="logo" width={70}/>
+            </div>
             <div className= {styles.rtb}>
-              <Image src={Icon1} alt="logo" width={80}/>
               <div className={styles.rtb2}> <div>Atención</div> 
                     <div>Personalizada</div> 
-
               </div>
-            </div>
-            <div className= {styles.rtb}>
-              <Image src={Icon2} alt="logo" width={60}/>
-              <div className={styles.rtb2}> <div>Entrenamientos nuevos </div>
-                    <div>cada día </div>
+              <div className={styles.rtb2}> 
+                <div>Entrenamientos nuevos </div>
+                <div>cada día </div>
               </div>
-            </div>
-            <div className= {styles.rtb}>
-              <Image src={Icon3} alt="logo" width={80}/>
-              <div className={styles.rtb2}> <div>Soporte de </div> 
-                    <div>nutrición </div>
+              <div className={styles.rtb2}> 
+                <div>Soporte de </div> 
+                <div>nutrición </div>
               </div>
             </div>
           </div>
           <div className= {styles.inst2}>
             <div> <b>CONOCE NUESTRAS </b> </div>
-            <div style={{ borderBottom: '2px solid rgba(255, 0, 0, 0.5)', boxShadow: '0px 2px 4px rgba(255, 0, 0, 0.5)' }}>  </div>
             <div> Instalaciones </div>
           </div>
 
@@ -124,8 +122,8 @@ export default function Home() {
             </div>
             <div className={styles.arrowRight}>&gt;</div>
           </div>
-
         </div>
+
 
         <div className={styles.part4}>
           <button className= {styles.button2}>Conoce nuestros horarios</button>
@@ -165,7 +163,7 @@ export default function Home() {
           <div className= {styles.info}>
             <div className={styles.datos}>
               <Image src={Icon4} alt="logo" width={20}/>
-              <p> Calle Dos Amigos, 3 28015 MADRID</p>
+              <p> Calle Dos Amigos 3, 28015 Madrid</p>
             </div>
             <div className={styles.datos}>
               <Image src={Icon5} alt="logo" width={20}/>
@@ -179,11 +177,11 @@ export default function Home() {
 
         </div>
 
-        <footer className={styles.footer}>
+        <div className={styles.footer}>
           <div className={styles.rrss}>        
-            <Image src={Icon7} alt="instagram" width={20}/>
-            <Image src={Icon8} alt="twitter" width={20}/>
-            <Image src={Icon9} alt="facebook" width={20}/>
+            <Image src={Icon7} alt="instagram" width={30}/>
+            <Image src={Icon8} alt="twitter" width={30}/>
+            <Image src={Icon9} alt="facebook" width={30}/>
           </div>
 
           <div>
@@ -197,7 +195,7 @@ export default function Home() {
               <li> <a href="#top"> Política de Cookies </a> </li>
             </ul>
           </nav>
-        </footer>
+        </div>
 
         </main>
 
