@@ -164,11 +164,13 @@
 .userInfoContainer{
     display: flex;
     flex-direction: column;
+    gap: 30px;
     margin-left: 50px;
     background-color: #3c4042;
     width: 80%;
     padding: 30px;
-    max-height: 75%;
+    height: fit-content;
+    max-height: 80%;
 
 }
 
@@ -177,7 +179,7 @@
     font-size: 30px;
     font-weight: bold;
     margin-top: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .userInfoTitle{
@@ -195,4 +197,27 @@
 .horarioContainer{
     height: 100%;
     overflow: auto;
+}
+
+.clientInfoContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow: scroll;
+    max-height: 100%;
+}
+
+
+.clientInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    background-color: #e7e7e7;
+    padding: 10px;
+    border-radius: 5px;
+    color: #191919;
+    padding-right: 30px;
+    padding-left: 10px;
 }

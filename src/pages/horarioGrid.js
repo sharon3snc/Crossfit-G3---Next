@@ -10,34 +10,34 @@ const HorarioGrid = () => {
     const clasesCrossfit = {
         Lunes: {
             '7:00': 'Crossfit',
-            '12:00': 'Crossfit-Strenght',
+            '12:00': 'Strenght',
             '19:00': 'Crossfit',
           },
           Martes: {
-            '8:00': 'Crossfit-Strenght',
+            '8:00': 'Strenght',
             '10:00': 'Crossfit',
             '18:00': 'Crossfit',
             '20:00': 'Crossfit',
           },
           Miércoles: {
-            '7:00': 'Crossfit-Strenght',
+            '7:00': 'Strenght',
             '12:00': 'Crossfit',
-            '19:00': 'Crossfit-Strenght',
+            '19:00': 'Strenght',
           },
           Jueves: {
             '8:00': 'Crossfit',
-            '10:00': 'Crossfit-Strenght',
+            '10:00': 'Strenght',
             '18:00': 'Crossfit',
-            '20:00': 'Crossfit-Strenght',
+            '20:00': 'Strenght',
           },
           Viernes: {
             '7:00': 'Crossfit',
-            '12:00': 'Crossfit-Strenght',
+            '12:00': 'Strenght',
             '19:00': 'Crossfit',
           },
           Sábado: {
             '10:00': 'Crossfit',
-            '11:00': 'Crossfit-Strenght',
+            '11:00': 'Strenght',
           },
         };
     
@@ -70,7 +70,7 @@ const HorarioGrid = () => {
                     <div className={styles.modalContent}>
                         <span className={styles.close} onClick={() => setModalVisible(false)}>&times;
                         </span>
-                        <p>Has seleccionado la clase: {selectedClass}</p>
+                        <p >Has seleccionado la clase: {selectedClass}</p>
                     </div>
                 </div> 
             )}
