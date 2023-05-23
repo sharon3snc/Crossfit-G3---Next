@@ -1,11 +1,12 @@
+
 .grid {
   display: grid;
   grid-template-columns: 50px repeat(6, 1fr);
   grid-template-rows: repeat(16, 1fr);
   gap: 1px;
   background-color: rgb(145,145,145);
-  width:70%;
-  height:80%;
+  width:90%;
+  height:100%;
   margin: 30px;
 }
 

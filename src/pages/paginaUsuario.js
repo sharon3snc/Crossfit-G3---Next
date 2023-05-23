@@ -5,33 +5,105 @@ import Aros from '../images/aros.jpg'
 import Pesas from '../images/55kg.jpg'
 import Barra from '../images/barra.jpg'
 import Envelope from '../images/envelope.svg'
+import PersonIcon from '../images/person-circle-red.svg'
 import styles2 from '@/styles/PaginaUsuario.module.css'
 import { useState } from 'react'
+import HorarioPage from './horarioGrid'
 
 export default function CrearUsuarioInfo(){
-    const initialFormData = {
-        email: '',
+    const userData = {
+        client_id: '1',
+        email: 'juanperez@gmail.com',
         contrasena: '',
-    }
-    const [formData, setFormData] = useState({
-        email: '',
-        contrasena: ''
-    });
-
-    const handleEvent = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        name: 'Juan',
+        surname: 'Perez',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-        setFormData(initialFormData)
+    const [activeTab, setActiveTab] = useState('Inicio'); // State to keep track of the active tab
+
+    // Define a function to handle tab click
+    const handleTabClick = (tabName) => {
+      setActiveTab(tabName); // Set the clicked tab as the active tab
+    };
+
+    // Render different content based on the active tab
+  const renderContent = () => {
+    if (activeTab === 'Inicio') {
+      return (
+        <div className={styles2.userInfoContainer}>
+             <p className={styles2.userInfoPageTitle}>Información Personal</p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Nombre:</span>
+                 <span className={styles2.userInfoData}> {userData.name}</span>
+             </p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Apellidos:</span>
+                 <span className={styles2.userInfoData}> {userData.surname}</span>
+             </p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Email:</span>
+                 <span className={styles2.userInfoData}> {userData.email}</span>
+             </p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Fecha de Nacimiento:</span>
+                 <span className={styles2.userInfoData}> {userData.birthdate}</span>
+             </p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Fecha de Inscripción:</span>
+                 <span className={styles2.userInfoData}> {userData.inscription_date}</span>
+             </p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Teléfono:</span>
+                 <span className={styles2.userInfoData}> {userData.phone}</span>
+             </p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Contacto de Emergencia:</span>
+                 <span className={styles2.userInfoData}> {userData.emergency_contact}</span>
+             </p>
+             <p>
+                 <span className={styles2.userInfoTitle}>Teléfono de Emergencia:</span>
+                 <span className={styles2.userInfoData}> {userData.emergency_phone}</span>
+             </p>
+      </div>
+      );
+    } else if (activeTab === 'Reservas') {
+      return (
+        <div className={styles2.userInfoContainer}>
+            <p className={styles2.userInfoPageTitle}>Información de Reservas</p>
+            <p>
+                <span className={styles2.userInfoTitle}>Tipo de tarifa:</span>
+                <span className={styles2.userInfoData}> {userData.rate_id}</span>
+            </p>
+            <p>
+                <span className={styles2.userInfoTitle}>Clases disponibles:</span>
+                <span className={styles2.userInfoData}> {userData.available_classes}</span>
+            </p>
+      </div>
+      );
+    } else if (activeTab === 'Horarios') {
+      return (
+        <div className={styles2.userInfoContainer}>
+            <p className={styles2.userInfoPageTitle}>Información de Horarios</p>
+            <div className={styles2.horarioContainer}>
+                <HorarioPage className={styles2.horario}/>
+            </div>
+        </div>
+      );
     }
-    
-    const passwordMatch = formData.contrasena === formData.contrasena2;
+    // Add more conditions for other tabs if needed
+  };
+
+  const UserInfomation = `
+
+  `
+
 
     return (
         <>
@@ -45,6 +117,33 @@ export default function CrearUsuarioInfo(){
             <div className={styles2.backgroundContainer}>
                 <Image src={Barra} alt="manos" className={styles2.imagenFondo} />
                 <div className={styles2.backgroundCanvas}>
+                    <div className={styles2.userPageHeader}>
+                        <p 
+                        className={styles2.userPageHeaderItem}
+                        onClick={() => handleTabClick('Inicio')}
+                        >
+                            Inicio
+                        </p>
+                        <p 
+                        className={styles2.userPageHeaderItem}
+                        onClick={() => handleTabClick('Reservas')}
+                        >
+                            Reservas
+                        </p>
+                        <p 
+                        className={styles2.userPageHeaderItem}
+                        onClick={() => handleTabClick('Horarios')}
+                        >
+                            Horarios
+                        </p>
+                        <p className={styles2.userPageHeaderUsername}>
+                            <span>{userData.name} {userData.surname}</span>
+                            <span><Image src={PersonIcon}/></span>
+                        </p>
+                    </div>
+                    <div className={styles2.userPageBody}>
+                        {renderContent()}
+                    </div>
                 </div>
             </div>
 

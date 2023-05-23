@@ -1,6 +1,9 @@
 .backgroundContainer{
     display: flex;
     flex-direction: row;
+    margin: 0px;
+    top: 0px;
+    left: 0px;
 }
 
 .imagenFondo {
@@ -115,4 +118,81 @@
     font-size: 20px;
     cursor: pointer;
     width: fit-content;
+}
+
+.userPageHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 5%;
+    width: 90%;
+}
+
+.userPageHeaderItem{
+    color: #e7e7e7;
+    margin: 20px;
+    font-size: 25px;
+}
+
+.userPageHeaderItem:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.userPageHeaderUsername{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: #d44f4f;
+    margin: 20px;
+    font-size: 25px;
+}
+
+.userPageHeaderUsername:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.userPageBody{
+    width: 100%;
+    height: 100%;
+}
+
+.userInfoContainer{
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    background-color: #3c4042;
+    width: 80%;
+    padding: 30px;
+    max-height: 75%;
+
+}
+
+.userInfoPageTitle{
+    color: #e7e7e7;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.userInfoTitle{
+    color: #e7e7e7;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.userInfoData{
+    color: #e7e7e7;
+    font-size: 20px;
+}
+
+.horarioContainer{
+    height: 100%;
+    overflow: auto;
 }

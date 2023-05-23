@@ -63,18 +63,18 @@ const HorarioGrid = () => {
                     > {clasesCrossfit[dia] && clasesCrossfit[dia][hora] ? clasesCrossfit[dia][hora] : ''} </div>
                 ))}
             </>
-        ))}
+            ))}
 
-        {modalVisible && (
-            <div className={styles.modal}>
-                <div className={styles.modalContent}>
-                    <span className={styles.close} onClick={() => setModalVisible(false)}>&times;
-                    </span>
-                    <p>Has seleccionado la clase: {selectedClass}</p>
-                </div>
-            </div> 
-        )}
-    </div>
+            {modalVisible && (
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <span className={styles.close} onClick={() => setModalVisible(false)}>&times;
+                        </span>
+                        <p>Has seleccionado la clase: {selectedClass}</p>
+                    </div>
+                </div> 
+            )}
+        </div>
     );
 };
 
