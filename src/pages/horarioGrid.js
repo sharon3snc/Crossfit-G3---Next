@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
 import styles from "../styles/HorarioGrid.module.css"
+import Link from 'next/link'
+import Image from 'next/image'
+import Logo from '../images/Logo.png'
+import Login from '../images/person-circle-red.svg'
 
 const HorarioGrid = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -47,6 +51,31 @@ const HorarioGrid = () => {
     };
 
     return (
+        <div className= {styles.horario}>
+
+        <header className={styles.header}>
+          <div style={{ backgroundColor: '#FF5656' }}>
+            <Image src={Logo} alt="logo" width={80}/>
+          </div>
+          <nav className={styles.nav}>
+            <ul>
+              <li> <a href="#top" className={styles.a}> Inicio </a> </li>
+              <li> <Link href="#nosotros" className={styles.a}> Nosotros </Link> </li>
+              <li> <Link href="#galeria" className={styles.a}> Galería </Link> </li>
+              <li> <Link href="/horarioGrid" className={styles.a}> Horarios </Link> </li>
+              <li> <Link href="#tarifas" className={styles.a}> Tarifas </Link> </li>
+              <li> <Link href="#contacto" className={styles.a}> Contacto </Link> </li>
+            </ul>
+          </nav>
+          <Link href="/login">
+          <div className={styles.datos}>
+            <Image src={Login} alt="login" width={40}/>
+            <div style= {{color: '#FF5656'}}>Login</div>
+          </div>
+          </Link>
+          <br/>
+        </header>
+
         <div className={styles.grid}>
             <div className={styles.empty}></div>
             {dias.map((dia) => (
@@ -70,10 +99,12 @@ const HorarioGrid = () => {
                     <div className={styles.modalContent}>
                         <span className={styles.close} onClick={() => setModalVisible(false)}>&times;
                         </span>
-                        <p >Has seleccionado la clase: {selectedClass}</p>
+                        <p >Has seleccionado la clase: </p>
+                        <p className={styles.modalclase}>{selectedClass}</p>
                     </div>
                 </div> 
             )}
+        </div>
         </div>
     );
 };

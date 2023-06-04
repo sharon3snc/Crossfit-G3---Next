@@ -19,6 +19,7 @@ import Icon8 from '../images/facebook-red.svg'
 import Icon9 from '../images/twitter-red.svg'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -40,17 +41,19 @@ export default function Home() {
           <nav className={styles.nav}>
             <ul>
               <li> <a href="#top" className={styles.a}> Inicio </a> </li>
-              <li> <a href="#top" className={styles.a}> Nosotros </a> </li>
-              <li> <a href="#top" className={styles.a}> Galería </a> </li>
-              <li> <a href="#top" className={styles.a}> Horarios </a> </li>
-              <li> <a href="#top" className={styles.a}> Tarifas </a> </li>
-              <li> <a href="#top" className={styles.a}> Contacto </a> </li>
+              <li> <Link href="#nosotros" className={styles.a}> Nosotros </Link> </li>
+              <li> <Link href="#galeria" className={styles.a}> Galería </Link> </li>
+              <li> <Link href="/horarioGrid" className={styles.a}> Horarios </Link> </li>
+              <li> <Link href="#tarifas" className={styles.a}> Tarifas </Link> </li>
+              <li> <Link href="#contacto" className={styles.a}> Contacto </Link> </li>
             </ul>
           </nav>
+          <Link href="/login">
           <div className={styles.datos}>
             <Image src={Login} alt="login" width={40}/>
             <div style= {{color: '#FF5656'}}>Login</div>
           </div>
+          </Link>
           <br/>
         </header>
 
@@ -68,7 +71,7 @@ export default function Home() {
             </button>        
           </div>
 
-        <div className={styles.part2}>
+        <div className={styles.part2} id="nosotros">
           <div className={styles.container2}>
             <div className={styles.bienvenido}>
               <b>Bienvenido a G3 Crossfit</b>
@@ -92,7 +95,7 @@ export default function Home() {
 
         </div>
 
-        <div className={styles.part3}>
+        <div className={styles.part3} id="galeria">
           <div className= {styles.containerinst}>
             <div className= {styles.icon}>
               <Image src={Icon1} alt="logo" width={70}/>
@@ -132,7 +135,7 @@ export default function Home() {
         </div>
 
 
-        <div className={styles.part4}>
+        <div className={styles.part4} id="tarifas">
           <button className= {styles.button2}>Conoce nuestros horarios</button>
           <div className={styles.bigfont}>TARIFAS</div>
           <div className={styles.tarifas}>
@@ -165,7 +168,7 @@ export default function Home() {
           </div>
         </div>
     
-        <div className={styles.part5}>
+        <div className={styles.part5} id="contacto">
           <div className= {styles.bienvenido}> <b>MADRID</b></div>
           <div className= {styles.info}>
             <div className={styles.datos}>

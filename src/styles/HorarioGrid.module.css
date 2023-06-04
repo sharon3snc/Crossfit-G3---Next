@@ -1,3 +1,41 @@
+.horario{
+  background-color: black;
+  width:100vW;
+  height: 100vh;
+  font-family: 'century gothic', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 20px;
+  gap: 40px;
+}
+
+.a {
+  color:whitesmoke;
+  text-decoration:none;
+}
+
+.header {
+  padding-left: 20px;
+  color:whitesmoke;
+  height:fit-content;
+  position:fixed;
+  top:0;
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 70px;
+  background-color: black;
+  z-index: 100;
+}
 
 .grid {
   display: grid;
@@ -5,9 +43,7 @@
   grid-template-rows: repeat(16, 1fr);
   gap: 1px;
   background-color: rgb(145,145,145);
-  width:100%;
-  height:100%;
-  margin: 0px;
+  margin: 80px 20px 20px 20px;
 }
 
 .dia,
@@ -32,13 +68,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
 
 .Crossfit {
-  background-color: rgb(234, 157, 148);
+  background-color: rgb(255,86,86);
   color: white;
 }
 
@@ -50,11 +86,25 @@
 .modal{
   position: fixed; 
   z-index: 1; 
-  left: 0;
-  top: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 20%;
   height: 20%;
-  background-color: rgba(0,0,0,0.4);
+  color: #fff;
+  background-color: rgba(0,0,0,1);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.modalclase {
+  font-weight: bold;
 }
 
 .close {
