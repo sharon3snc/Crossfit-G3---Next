@@ -9,12 +9,15 @@ import PersonIcon from '../images/person-circle-red.svg'
 import styles2 from '@/styles/PaginaUsuario.module.css'
 import { useState } from 'react'
 import HorarioPage from './horarioGrid'
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-export default function CrearUsuarioInfo(){
-    const userData = {
+
+const usersData = [
+    {
         client_id: '1',
         email: 'juanperez@gmail.com',
-        contrasena: '',
+        password: '12345',
         name: 'Juan',
         surname: 'Perez',
         birthdate: '1999-01-01',
@@ -24,16 +27,74 @@ export default function CrearUsuarioInfo(){
         emergency_contact: 'Maria',
         rate_id: '1',
         available_classes: '12'
+    },
+    {
+        client_id: '2',
+        email: 'josehurtado@gmail.com',
+        password: '54321',
+        name: 'Jose',
+        surname: 'Hurtado',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
+    },
+    {
+        client_id: '3',
+        email: 'albalopez@gmail.com',
+        password: 'abcdef',
+        name: 'Alba',
+        surname: 'Lopez',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
+    },
+    {
+        client_id: '4',
+        email: 'raquelalvarez@gmail.com',
+        password: 'fedcba',
+        name: 'Raquel',
+        surname: 'Alvarez',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
     }
+]
 
-    const [activeTab, setActiveTab] = useState('Inicio'); // State to keep track of the active tab
+export default function CrearUsuarioInfo(){
+    const router = useRouter();
+    const { client_id } = router.query;
+    
+    const userData = usersData.find(user => user.client_id === client_id) || {};
+    const [activeTab, setActiveTab] = useState('Inicio'); 
 
-    // Define a function to handle tab click
-    const handleTabClick = (tabName) => {
-      setActiveTab(tabName); // Set the clicked tab as the active tab
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const toggleDropdown = () => {
+      setShowDropdown(!showDropdown);
     };
 
-    // Render different content based on the active tab
+    const handleTabClick = (tabName) => {
+      setActiveTab(tabName);
+    };
+
+    const handleLogout = () => {
+        // Perform logout logic here
+        // Redirect to the index page or perform any other necessary actions
+    };
+
+
   const renderContent = () => {
     if (activeTab === 'Inicio') {
       return (
@@ -97,7 +158,6 @@ export default function CrearUsuarioInfo(){
         </div>
       );
     }
-    // Add more conditions for other tabs if needed
   };
 
   const UserInfomation = `
@@ -136,10 +196,23 @@ export default function CrearUsuarioInfo(){
                         >
                             Horarios
                         </p>
-                        <p className={styles2.userPageHeaderUsername}>
+                        <p 
+                        className={styles2.userPageHeaderUsername}
+                        onClick={toggleDropdown}
+                        >
                             <span>{userData.name} {userData.surname}</span>
                             <span><Image src={PersonIcon}/></span>
                         </p>
+                        {showDropdown && (
+                            <div className={styles2.userPageHeaderItem}>
+                                <Link href="/">
+                                <span onClick={handleLogout} className={styles2.logoutLink}>
+                                    Logout
+                                </span>
+                                </Link>
+                                {/* Place your logout button or additional content here */}
+                            </div>
+                        )}
                     </div>
                     <div className={styles2.userPageBody}>
                         {renderContent()}

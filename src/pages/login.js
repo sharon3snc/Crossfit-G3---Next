@@ -5,15 +5,78 @@ import Aros from '../images/aros.jpg'
 import Envelope from '../images/envelope.svg'
 import styles2 from '@/styles/Login.module.css'
 import { useState } from 'react'
+import { useRouter } from 'next/router';
 
-export default function CrearUsuarioInfo(){
-    const initialFormData = {
-        email: '',
-        contrasena: '',
+const usersData = [
+    {
+        client_id: '1',
+        email: 'juanperez@gmail.com',
+        password: '12345',
+        name: 'Juan',
+        surname: 'Perez',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
+    },
+    {
+        client_id: '2',
+        email: 'josehurtado@gmail.com',
+        password: '54321',
+        name: 'Jose',
+        surname: 'Hurtado',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
+    },
+    {
+        client_id: '3',
+        email: 'albalopez@gmail.com',
+        password: 'abcdef',
+        name: 'Alba',
+        surname: 'Lopez',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
+    },
+    {
+        client_id: '4',
+        email: 'raquelalvarez@gmail.com',
+        password: 'fedcba',
+        name: 'Raquel',
+        surname: 'Alvarez',
+        birthdate: '1999-01-01',
+        phone: '123456789',
+        inscription_date: '2021-01-01',
+        emergency_phone: '987654321',
+        emergency_contact: 'Maria',
+        rate_id: '1',
+        available_classes: '12'
     }
+]
+
+const initialFormData = {
+    email: '',
+    password: '',
+}
+
+export default function loginInfo(){
+    const router = useRouter();
+
     const [formData, setFormData] = useState({
         email: '',
-        contrasena: ''
+        password: ''
     });
 
     const handleEvent = (e) => {
@@ -25,11 +88,28 @@ export default function CrearUsuarioInfo(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        const matchedUser = usersData.find(
+            (user) =>
+            user.email === formData.email && user.password === formData.password
+        );
+    
+        if (matchedUser) {
+            console.log('Login correcto');
+            console.log(matchedUser);
+            router.push(`/paginaUsuario?client_id=${matchedUser.client_id}`);
+        } else {
+            console.log('El usuario o la contraseña son incorrectos');
+            alert('El usuario o la contraseña son incorrectos');
+        }
+    
         setFormData(initialFormData)
     }
+
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    const isPasswordValid = formData.password.trim() !== '';
+  
+    const isSubmitDisabled = !isEmailValid || !isPasswordValid;
     
-    const passwordMatch = formData.contrasena === formData.contrasena2;
 
     return (
         <>
@@ -56,10 +136,10 @@ export default function CrearUsuarioInfo(){
                             />
                             <input
                                 className={styles2.formInput}
-                                name="contrasena"
+                                name="password"
                                 type="password"
                                 placeholder='Contraseña'
-                                value={formData.contrasena}
+                                value={formData.password}
                                 onChange={handleEvent}
                             />
                             <br/>
@@ -67,8 +147,11 @@ export default function CrearUsuarioInfo(){
                             <br/>
                             <br/>
                             <button 
-                                className={styles2.redRoundButton}
+                                className={`${
+                                    isSubmitDisabled ? styles2.disabledRoundButton : styles2.redRoundButton
+                                  }`}
                                 type="submit"
+                                disabled={isSubmitDisabled}
                             >Iniciar Sesión
                             </button>
                         </form>
