@@ -8,7 +8,7 @@ import Envelope from '../images/envelope.svg'
 import PersonIcon from '../images/person-circle-red.svg'
 import styles2 from '@/styles/PaginaUsuario.module.css'
 import { useState } from 'react'
-import HorarioPage from './horarioGrid'
+import HorarioPage from './horarioGrid2'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -45,7 +45,7 @@ const usersData = [
     {
         client_id: '3',
         email: 'albalopez@gmail.com',
-        password: 'abcdef',
+        password: 'qwerty',
         name: 'Alba',
         surname: 'Lopez',
         birthdate: '1999-01-01',
@@ -59,7 +59,7 @@ const usersData = [
     {
         client_id: '4',
         email: 'raquelalvarez@gmail.com',
-        password: 'fedcba',
+        password: 'ytrewq',
         name: 'Raquel',
         surname: 'Alvarez',
         birthdate: '1999-01-01',
@@ -90,8 +90,7 @@ export default function CrearUsuarioInfo(){
     };
 
     const handleLogout = () => {
-        // Perform logout logic here
-        // Redirect to the index page or perform any other necessary actions
+        // para implementar cuando se haga logout
     };
 
 
@@ -160,11 +159,6 @@ export default function CrearUsuarioInfo(){
     }
   };
 
-  const UserInfomation = `
-
-  `
-
-
     return (
         <>
             <Head>
@@ -210,7 +204,6 @@ export default function CrearUsuarioInfo(){
                                     Logout
                                 </span>
                                 </Link>
-                                {/* Place your logout button or additional content here */}
                             </div>
                         )}
                     </div>

@@ -1,0 +1,123 @@
+.horario{
+    background-color: black;
+    width:100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    font-family: 'century gothic', sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nav ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 20px;
+    gap: 40px;
+  }
+  
+  .a {
+    color:whitesmoke;
+    text-decoration:none;
+  }
+  
+  .header {
+    padding-left: 20px;
+    color:whitesmoke;
+    height:fit-content;
+    position:fixed;
+    top:0;
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 70px;
+    background-color: black;
+    z-index: 100;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: 50px repeat(6, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    gap: 1px;
+    background-color: rgb(145,145,145);
+  }
+  
+  .dia,
+  .hora {
+    background-color: rgb(145,145,145);
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .empty {
+    background-color: rgb(145,145,145);
+  }
+  
+  .celda {
+    background-color: rgb(145,145,145);
+    border: 1px solid #ddd;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .Crossfit {
+    background-color: rgb(255,86,86);
+    color: white;
+  }
+  
+  .Strenght {
+    background-color: #f67043;
+    color: white;
+  }
+  
+  .modal{
+    position: fixed; 
+    z-index: 1; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    height: 20%;
+    color: #fff;
+    background-color: rgba(0,0,0,1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .modalclase {
+    font-weight: bold;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

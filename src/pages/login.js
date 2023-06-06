@@ -39,7 +39,7 @@ const usersData = [
     {
         client_id: '3',
         email: 'albalopez@gmail.com',
-        password: 'abcdef',
+        password: 'qwerty',
         name: 'Alba',
         surname: 'Lopez',
         birthdate: '1999-01-01',
@@ -53,7 +53,7 @@ const usersData = [
     {
         client_id: '4',
         email: 'raquelalvarez@gmail.com',
-        password: 'fedcba',
+        password: 'ytrewq',
         name: 'Raquel',
         surname: 'Alvarez',
         birthdate: '1999-01-01',
@@ -66,8 +66,48 @@ const usersData = [
     }
 ]
 
+const employeesData = [
+    {
+        employee_id: '1',
+        password: '12345',
+        name: 'Jose',
+        surname: 'Rodriguez',
+        birthdate: '1999-01-01',
+        email: 'joserodriguez@gmail.com',
+        phone: '123456789'
+    },
+    {
+        employee_id: '2',
+        password: '54321',
+        name: 'Maria',
+        surname: 'Garcia',
+        birthdate: '1999-01-01',
+        email: 'mariagarcia@hotmail.com',
+        phone: '123456789'
+    },
+    {
+        employee_id: '3',
+        password: 'qwerty',
+        name: 'Rocio',
+        surname: 'Jimenez',
+        birthdate: '1999-01-01',
+        email: 'rociojimenez@yahoo.com',
+        phone: '123456789'
+    },
+    {
+        employee_id: '4',
+        password: 'ytrewq',
+        name: 'Antonio',
+        surname: 'Gomez',
+        birthdate: '1999-01-01',
+        email: 'antoniogomez@gmail.com',
+        phone: '123456789'
+    }
+]
+
+
 const initialFormData = {
-    email: '',
+    user: '',
     password: '',
 }
 
@@ -75,7 +115,7 @@ export default function loginInfo(){
     const router = useRouter();
 
     const [formData, setFormData] = useState({
-        email: '',
+        user: '',
         password: ''
     });
 
@@ -88,11 +128,32 @@ export default function loginInfo(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const matchedUser = usersData.find(
-            (user) =>
-            user.email === formData.email && user.password === formData.password
-        );
-    
+        let matchedUser = false
+        let clientUser = false
+        if(formData.user[0]==='R'){
+            // accedemos a la pagina de empleado
+            matchedUser = employeesData.find(
+                (user) =>
+                user.employee_id === formData.user.substring(1) && user.password === formData.password
+            );
+            if(matchedUser){
+                router.push(`/paginaMonitor?employee_id=${matchedUser.employee_id}`);
+            }
+        }else{
+            matchedUser = usersData.find(
+                (user) =>
+                user.client_id === formData.user && user.password === formData.password
+            );
+            if(matchedUser){
+                router.push(`/paginaUsuario?client_id=${matchedUser.client_id}`);
+            }
+        }
+
+        if(!matchedUser){
+            alert('El usuario o la contraseña son incorrectos');
+        }
+
+        /*
         if (matchedUser) {
             console.log('Login correcto');
             console.log(matchedUser);
@@ -101,14 +162,15 @@ export default function loginInfo(){
             console.log('El usuario o la contraseña son incorrectos');
             alert('El usuario o la contraseña son incorrectos');
         }
-    
+        */
+
         setFormData(initialFormData)
     }
 
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    const isUserValid = formData.user.trim() !== '';
     const isPasswordValid = formData.password.trim() !== '';
   
-    const isSubmitDisabled = !isEmailValid || !isPasswordValid;
+    const isSubmitDisabled = !isUserValid || !isPasswordValid;
     
 
     return (
@@ -128,10 +190,10 @@ export default function loginInfo(){
                         <form className={styles2.formContainer} onSubmit={handleSubmit}>
                             <input 
                                 className={styles2.formInput}
-                                name="email"
+                                name="user"
                                 type="text"
-                                placeholder='Email'
-                                value={formData.email}
+                                placeholder='Codigo de Usuario'
+                                value={formData.user}
                                 onChange={handleEvent}
                             />
                             <input

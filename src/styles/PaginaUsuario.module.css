@@ -164,8 +164,8 @@
 .userInfoContainer{
     display: flex;
     flex-direction: column;
-    gap: 30px;
     margin-left: 50px;
+    gap: 30px;
     background-color: #3c4042;
     width: 80%;
     padding: 30px;
@@ -220,4 +220,17 @@
     color: #191919;
     padding-right: 30px;
     padding-left: 10px;
+}
+
+.redRoundButton{
+    background-color: rgb(212,79,79);
+    border: none;
+    border-radius: 9999px;
+    padding: 20px;
+    margin: 10px;
+    margin-bottom: 30px;
+    color: rgb(231,231,231);
+    font-size: 20px;
+    cursor: pointer;
+    width: fit-content;
 }
