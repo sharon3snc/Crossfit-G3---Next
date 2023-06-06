@@ -112,8 +112,10 @@ const initialFormData = {
 }
 
 export default function loginInfo(){
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter();
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [formData, setFormData] = useState({
         user: '',
         password: ''

@@ -356,7 +356,7 @@ export default function CrearUsuarioInfo(){
                         className={styles2.userPageHeaderItem}
                         onClick={() => handleTabClick('Inicio')}
                         >
-                            Inicio
+                            Perfil
                         </p>
                         <p 
                         className={styles2.userPageHeaderItem}

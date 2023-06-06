@@ -1,6 +1,8 @@
+
 .backgroundContainer{
     display: flex;
     flex-direction: row;
+    font-family: 'century gothic', sans-serif;
 }
 
 .imagenFondo {
