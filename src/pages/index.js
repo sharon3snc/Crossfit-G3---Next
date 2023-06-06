@@ -90,7 +90,7 @@ export default function Home() {
           </div>
 
           <div className={styles.container3}>
-            <Image src={Img1} alt="inst2" width={500} height={600}/>
+            <Image src={Img1} alt="inst2" style={{ width:'40vw', height:'100vh' , objectFit:'contain', objectPosition:'center'}} />
           </div>
 
         </div>
