@@ -1,7 +1,9 @@
 import Head from 'next/head'
+import React, { useState} from 'react'
 import Logo from '../images/Logo.png'
 import Login from '../images/person-circle-red.svg'
 import Image from 'next/image'
+import Slider from "react-slick";
 import Instalaciones2 from '../images/Instalaciones2.jpg'
 import Instalaciones3 from '../images/Instalaciones3.jpg'
 import Instalaciones4 from '../images/Instalaciones4.jpg'
@@ -24,6 +26,23 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openContact = () => {
+    setModalVisible(true);
+  }
+
+  /* para el carrusel, todavia no funciona
+  const settings= {
+    dots: true,
+    arrows: true,
+    infinite: true,
+    speed:500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  }
+*/
+
   return (
     <>
       <Head>
@@ -66,9 +85,30 @@ export default function Home() {
               G3    CROSSFIT
             </div>
             <br/>
-            <button className={styles.button}>
+            <button className={styles.button} onClick={()=> openContact()}>
               INICIA HOY
-            </button>        
+            </button>
+            <div>
+            {modalVisible && (
+                <div className={styles.modal2}>
+                    <div className={styles.modalContent2}>
+                        
+                        <form className={styles.form}>
+                          <input className= {styles.input} type="text" name="nombre" placeholder="Nombre" />
+                          <input className= {styles.input} type="email" name="email" placeholder="Correo electrónico" />
+                          <input className= {styles.input} type="phone" name="phone" placeholder="Teléfono" />
+                          <div className= {styles.twobuttons}>
+                          <button className={styles.modalbutton} type="submit">Enviar</button>
+                          <button className={styles.modalbutton2} onClick={() => setModalVisible(false)}>
+                          &times;
+                          Cancelar </button>
+                          </div>
+                        </form>
+                        
+                    </div>
+                </div> 
+            )}
+            </div>        
           </div>
 
         <div className={styles.part2} id="nosotros">
