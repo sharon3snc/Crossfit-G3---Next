@@ -3,6 +3,7 @@ import React, { useState} from 'react'
 import Logo from '../images/Logo.png'
 import Login from '../images/person-circle-red.svg'
 import Image from 'next/image'
+import Slider from "react-slick";
 import Instalaciones2 from '../images/Instalaciones2.jpg'
 import Instalaciones3 from '../images/Instalaciones3.jpg'
 import Instalaciones4 from '../images/Instalaciones4.jpg'
@@ -30,6 +31,17 @@ export default function Home() {
   const openContact = () => {
     setModalVisible(true);
   }
+
+  /* para el carrusel, todavia no funciona
+  const settings= {
+    dots: true,
+    arrows: true,
+    infinite: true,
+    speed:500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  }
+*/
 
   return (
     <>
