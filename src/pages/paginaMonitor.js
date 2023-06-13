@@ -12,6 +12,7 @@ import { useState } from 'react'
 import HorarioPage from './horarioGrid2'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { render } from 'react-dom'
 
 
 // Datos de todos los empleados.
@@ -20,6 +21,7 @@ const employeesData = [
     {
         employee_id: '1',
         password: '12345',
+        userAdmin: true,
         name: 'Jose',
         surname: 'Rodriguez',
         birthdate: '1999-01-01',
@@ -29,6 +31,7 @@ const employeesData = [
     {
         employee_id: '2',
         password: '54321',
+        userAdmin: false,
         name: 'Maria',
         surname: 'Garcia',
         birthdate: '1999-01-01',
@@ -38,6 +41,7 @@ const employeesData = [
     {
         employee_id: '3',
         password: 'qwerty',
+        userAdmin: false,
         name: 'Rocio',
         surname: 'Jimenez',
         birthdate: '1999-01-01',
@@ -47,6 +51,7 @@ const employeesData = [
     {
         employee_id: '4',
         password: 'ytrewq',
+        userAdmin: false,
         name: 'Antonio',
         surname: 'Gomez',
         birthdate: '1999-01-01',
@@ -248,6 +253,49 @@ export default function CrearUsuarioInfo(){
         // Aqui se pondrá la lógica de fin de sesion
     };
 
+    //asadfasdasdasd
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState(null);
+    const [deleteItemType, setDeleteItemType] = useState(null);
+  
+    const deleteUser = (userId) => {
+      setDeleteItemId(userId);
+      setDeleteItemType('cliente');
+      setDeleteModalOpen(true);
+    };
+  
+    const deleteEmployee = (employeeId) => {
+      setDeleteItemId(employeeId);
+      setDeleteItemType('monitor');
+      setDeleteModalOpen(true);
+    };
+  
+    const confirmDeletion = () => {
+      if (deleteItemType === 'cliente') {
+        // Implement your logic to delete the user with the deleteItemId
+        // This could involve making an API call or updating the state
+        // Once the user is deleted, you can perform any necessary actions
+        alert(`Cliente con ID ${deleteItemId} eliminado.`);
+      } else if (deleteItemType === 'monitor') {
+        // Implement your logic to delete the employee with the deleteItemId
+        // This could involve making an API call or updating the state
+        // Once the employee is deleted, you can perform any necessary actions
+        alert(`Monitor con usuario R${deleteItemId} eliminado.`);
+      }
+  
+      setDeleteItemId(null);
+      setDeleteItemType(null);
+      setDeleteModalOpen(false);
+    };
+  
+    const cancelDeletion = () => {
+      setDeleteItemId(null);
+      setDeleteItemType(null);
+      setDeleteModalOpen(false);
+    };
+
+    // aasdeasdasd
+
   // Función para renderizar el contenido de la página en función del tab activo
   const renderContent = () => {
     if (activeTab === 'Inicio') {
@@ -256,7 +304,7 @@ export default function CrearUsuarioInfo(){
              <p className={styles2.userInfoPageTitle}>Información Personal</p>
              <p>
                     <span className={styles2.userInfoTitle}>Usuario Empleado:</span>
-                    <span className={styles2.userInfoData}> {userData.employee_id}</span>
+                    <span className={styles2.userInfoData}> R{userData.employee_id}</span>
              </p>
              <p>
                  <span className={styles2.userInfoTitle}>Nombre:</span>
@@ -287,14 +335,12 @@ export default function CrearUsuarioInfo(){
             <p className={styles2.userInfoPageTitle}>Información de Clientes</p>
             <div className={styles2.clientInfoContainer}>
                 {clientsData.map((client) => (
-                    <div key='client.client_id' className={styles2.clientInfo}>
+                    <div key={client.client_id} className={styles2.clientInfo}>
                         <p>
                             <p>
-                                <span>Nombre:</span>
                                 <span> {client.name}</span>
                             </p>
                             <p>
-                                <span>Apellidos:</span>
                                 <span> {client.surname}</span>
                             </p>
                         </p>
@@ -316,6 +362,16 @@ export default function CrearUsuarioInfo(){
                                 <span> {client.available_classes}</span>
                             </p>
                         </p>
+                        {userData.userAdmin && ( // Conditionally render the "Monitores" tab
+                            <div>
+                              <p>
+                                    <button onClick={() => deleteUser(client.client_id)}>Borrar</button>
+                              </p>
+                              <p>
+                                    <button>Editar</button>
+                              </p>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
@@ -325,6 +381,15 @@ export default function CrearUsuarioInfo(){
             >
                 Añadir Cliente
             </button>
+            {deleteModalOpen && (
+                <div className={styles2.modal}>
+                    <p>Estas seguro que deseas eliminar este {deleteItemType}?</p>
+                    <div>
+                    <button onClick={confirmDeletion}>Confirmar</button>
+                    <button onClick={cancelDeletion}>Cancelar</button>
+                    </div>
+                </div>
+            )}
       </div>
       );
     } else if (activeTab === 'Horarios') {
@@ -336,6 +401,57 @@ export default function CrearUsuarioInfo(){
             </div>
         </div>
       )
+    } else if (activeTab === 'Monitores'){
+        return (
+            <div className={styles2.userInfoContainer}>
+                <p className={styles2.userInfoPageTitle}>Información de Monitores</p>
+                <div className={styles2.employeeInfoContainer}>
+                    {employeesData.map((employee) => (
+                        <div key={employee.employee_id} className={styles2.clientInfo}>
+                            <p>
+                                <p>
+                                    <span> {employee.name}</span>
+                                </p>
+                                <p>
+                                    <span> {employee.surname}</span>
+                                </p>
+                            </p>
+                            <p>
+                                <p>
+                                    <span> {employee.email}</span>
+                                </p>
+                                <p>
+                                    <span> {employee.phone}</span>
+                                </p>
+                            </p>
+                            <p>
+                              <p>
+                                    {employee_id!==employee.employee_id &&( <button onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
+                              </p>
+                              <p>
+                                    <button>Editar</button>
+                              </p>
+                            </p>
+                        </div>
+                    ))}
+                </div>
+                <button 
+                    className={styles2.redRoundButton}
+                    onClick={() => router.push(`/crearUsuarioInfo`)}
+                >
+                    Añadir Monitor
+                </button>
+                {deleteModalOpen && (
+                    <div className={styles2.modal}>
+                        <p>Estas seguro que deseas eliminar este {deleteItemType}?</p>
+                        <div>
+                        <button onClick={confirmDeletion}>Confirmar</button>
+                        <button onClick={cancelDeletion}>Cancelar</button>
+                        </div>
+                    </div>
+                )}
+          </div>
+        );
     }
   };
 
@@ -370,6 +486,14 @@ export default function CrearUsuarioInfo(){
                         >
                             Clientes
                         </p>
+                        {userData.userAdmin && ( // Conditionally render the "Monitores" tab
+                              <p
+                                className={styles2.userPageHeaderItem}
+                                onClick={() => handleTabClick('Monitores')}
+                              >
+                                Monitores
+                              </p>
+                        )}
                         <p 
                         className={styles2.userPageHeaderUsername}
                         onClick={toggleDropdown}
