@@ -57,6 +57,11 @@
     justify-content: center;
     align-items: center;
   }
+
+  .celdaConfirmada {
+  background-color: black;
+  
+}
   
   .empty {
     background-color: rgb(145,145,145);
@@ -97,6 +102,13 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-family: 'century gothic', sans-serif;
+  }
+
+  .modalContent {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .modal p {
@@ -108,11 +120,28 @@
     font-weight: bold;
   }
   
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+
+  .botonesmodal {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+  }
+
+  .confirmar, .cancelar {
+    background-color: rgb(212,79,79);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    color: rgb(231,231,231);
+    font-size: 16px;
+    cursor: pointer;
+    width: fit-content;
+    font-family: 'century gothic', sans-serif;
+  }
+
+  .confirmar {
+    background-color: rgb(3, 96, 42);
   }
   
   .close:hover,

@@ -101,6 +101,8 @@ const HorarioGrid = () => {
                         </span>
                         <p >Has seleccionado la clase: </p>
                         <p className={styles.modalclase}>{selectedClass}</p>
+                        <button>Confirmar</button>
+                        <button>Cancelar</button>
                     </div>
                 </div> 
             )}

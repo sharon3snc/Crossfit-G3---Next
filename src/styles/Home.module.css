@@ -169,6 +169,13 @@
   font-size: 16px;
 }
 
+.container3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
 .bienvenido {
   font-size: 32px;
