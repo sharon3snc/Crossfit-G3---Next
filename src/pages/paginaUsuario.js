@@ -11,9 +11,12 @@ import { useState } from 'react'
 import HorarioPage from './horarioGrid2'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 
-const usersData = [
+
+const info = [
     {
         client_id: '1',
         email: 'juanperez@gmail.com',
@@ -72,14 +75,36 @@ const usersData = [
     }
 ]
 
+let usersData = [];
+
+
+  
 export default function CrearUsuarioInfo(){
     const router = useRouter();
     const { client_id } = router.query;
-    
-    const userData = usersData.find(user => user.client_id === client_id) || {};
+    const [usersData, setUsersData] = useState([]);
+    const [userData, setUserData] = useState({});
+
+    // const userData = usersData.find(user => user.client_id === client_id) || {};
     const [activeTab, setActiveTab] = useState('Inicio'); 
 
     const [showDropdown, setShowDropdown] = useState(false);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const response = await axios.get('http://127.0.0.1:8000/clients');
+            setUsersData(response.data.clients); // Assign the 'clients' array to usersData
+            const userD = response.data.clients.find(
+                (user) => user.client_id === parseInt(client_id)
+            );
+            setUserData(userD || {});
+          } catch (error) {
+          }
+        };
+    
+        fetchUserData();
+      }, [client_id]);
 
     const toggleDropdown = () => {
       setShowDropdown(!showDropdown);
