@@ -13,7 +13,8 @@ import HorarioPage from './horarioGrid2'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { render } from 'react-dom'
-
+import axios from 'axios';
+import { useEffect } from 'react';
 
 // Datos de todos los empleados.
 // Este array será sustituido por una llamada a la API
@@ -236,7 +237,55 @@ const clientsData = [
 export default function CrearUsuarioInfo(){
     const router = useRouter();
     const { employee_id } = router.query;
-    const userData = employeesData.find(user => user.employee_id === employee_id) || {};
+    const [userData, setUserData] = useState({});
+    const [employeesData, setEmployeesData] = useState([]);
+    const [clientsData, setClientsData] = useState([]);
+    //const userData = employeesData.find(user => user.employee_id === employee_id) || {};
+    
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const response = await axios.get(`http://127.0.0.1:8000/employees/${employee_id}`);
+            setUserData(response.data.employee); // Assign the 'clients' array to usersData
+            // const userD = response.data.clients.find(
+            //     (user) => user.client_id === parseInt(client_id)
+            // );
+            // setUserData(userD || {});
+          } catch (error) {
+          }
+        };
+
+        const fetchClientsData = async () => {
+            try {
+              const response = await axios.get(`http://127.0.0.1:8000/clients`);
+              setClientsData(response.data.clients); // Assign the 'clients' array to usersData
+              // const userD = response.data.clients.find(
+              //     (user) => user.client_id === parseInt(client_id)
+              // );
+              // setUserData(userD || {});
+            } catch (error) {
+            }
+        };
+    
+        const fetchEmployeesData = async () => {
+            try {
+              const response = await axios.get(`http://127.0.0.1:8000/employees`);
+              setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+              // const userD = response.data.clients.find(
+              //     (user) => user.client_id === parseInt(client_id)
+              // );
+              // setUserData(userD || {});
+            } catch (error) {
+            }
+        };
+    
+        fetchUserData();
+        fetchClientsData();
+        fetchEmployeesData();
+    }, [employee_id]);
+
+
+
 
     // useState para el tab activo
     const [activeTab, setActiveTab] = useState('Inicio');
@@ -270,12 +319,14 @@ export default function CrearUsuarioInfo(){
       setDeleteModalOpen(true);
     };
   
-    const confirmDeletion = () => {
+    const confirmDeletion = async() => {
       if (deleteItemType === 'cliente') {
         // Implement your logic to delete the user with the deleteItemId
         // This could involve making an API call or updating the state
         // Once the user is deleted, you can perform any necessary actions
+        const response = await axios.delete(`http://localhost:8000/clients/${deleteItemId}`);
         alert(`Cliente con ID ${deleteItemId} eliminado.`);
+        window.location.reload();
       } else if (deleteItemType === 'monitor') {
         // Implement your logic to delete the employee with the deleteItemId
         // This could involve making an API call or updating the state
@@ -338,10 +389,10 @@ export default function CrearUsuarioInfo(){
                     <div key={client.client_id} className={styles2.clientInfo}>
                         <p>
                             <p>
-                                <span> {client.name}</span>
+                                <span> {client.client_id}</span>
                             </p>
                             <p>
-                                <span> {client.surname}</span>
+                                <span>{client.name} {client.surname}</span>
                             </p>
                         </p>
                         <p>
@@ -362,7 +413,7 @@ export default function CrearUsuarioInfo(){
                                 <span> {client.available_classes}</span>
                             </p>
                         </p>
-                        {userData.userAdmin && ( // Conditionally render the "Monitores" tab
+                        {userData.user_admin && ( // Conditionally render the "Monitores" tab
                             <div>
                               <p>
                                     <button onClick={() => deleteUser(client.client_id)}>Borrar</button>
@@ -377,7 +428,7 @@ export default function CrearUsuarioInfo(){
             </div>
             <button 
                 className={styles2.redRoundButton}
-                onClick={() => router.push(`/crearUsuarioInfo`)}
+                onClick={() => router.push(`/crearUsuarioInfo?employee_id=${employee_id}`)}
             >
                 Añadir Cliente
             </button>
@@ -426,7 +477,7 @@ export default function CrearUsuarioInfo(){
                             </p>
                             <p>
                               <p>
-                                    {employee_id!==employee.employee_id &&( <button onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
+                                    {parseInt(employee_id)!==employee.employee_id &&( <button onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
                               </p>
                               <p>
                                     <button>Editar</button>
@@ -437,7 +488,7 @@ export default function CrearUsuarioInfo(){
                 </div>
                 <button 
                     className={styles2.redRoundButton}
-                    onClick={() => router.push(`/crearUsuarioInfo`)}
+                    onClick={() => router.push(`/crearMonitorInfo?employee_id=${employee_id}`)}
                 >
                     Añadir Monitor
                 </button>
@@ -486,7 +537,7 @@ export default function CrearUsuarioInfo(){
                         >
                             Clientes
                         </p>
-                        {userData.userAdmin && ( // Conditionally render the "Monitores" tab
+                        {userData.user_admin && ( // Conditionally render the "Monitores" tab
                               <p
                                 className={styles2.userPageHeaderItem}
                                 onClick={() => handleTabClick('Monitores')}

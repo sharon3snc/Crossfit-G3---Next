@@ -14,67 +14,6 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useEffect } from 'react';
 
-
-
-const info = [
-    {
-        client_id: '1',
-        email: 'juanperez@gmail.com',
-        password: '12345',
-        name: 'Juan',
-        surname: 'Perez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '2',
-        email: 'josehurtado@gmail.com',
-        password: '54321',
-        name: 'Jose',
-        surname: 'Hurtado',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '3',
-        email: 'albalopez@gmail.com',
-        password: 'qwerty',
-        name: 'Alba',
-        surname: 'Lopez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '4',
-        email: 'raquelalvarez@gmail.com',
-        password: 'ytrewq',
-        name: 'Raquel',
-        surname: 'Alvarez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    }
-]
-
 let usersData = [];
 
 
@@ -82,10 +21,8 @@ let usersData = [];
 export default function CrearUsuarioInfo(){
     const router = useRouter();
     const { client_id } = router.query;
-    const [usersData, setUsersData] = useState([]);
     const [userData, setUserData] = useState({});
 
-    // const userData = usersData.find(user => user.client_id === client_id) || {};
     const [activeTab, setActiveTab] = useState('Inicio'); 
 
     const [showDropdown, setShowDropdown] = useState(false);
@@ -93,18 +30,18 @@ export default function CrearUsuarioInfo(){
     useEffect(() => {
         const fetchUserData = async () => {
           try {
-            const response = await axios.get('http://127.0.0.1:8000/clients');
-            setUsersData(response.data.clients); // Assign the 'clients' array to usersData
-            const userD = response.data.clients.find(
-                (user) => user.client_id === parseInt(client_id)
-            );
-            setUserData(userD || {});
+            const response = await axios.get(`http://127.0.0.1:8000/clients/${client_id}`);
+            setUserData(response.data.client); // Assign the 'clients' array to usersData
+            // const userD = response.data.clients.find(
+            //     (user) => user.client_id === parseInt(client_id)
+            // );
+            // setUserData(userD || {});
           } catch (error) {
           }
         };
     
         fetchUserData();
-      }, [client_id]);
+    }, [client_id]);
 
     const toggleDropdown = () => {
       setShowDropdown(!showDropdown);
