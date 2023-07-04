@@ -201,6 +201,32 @@ def delete_client(client_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# ---------- Función para verificar el cliente en login ---------- #
+@app.post("/clients/check")
+async def check_client(request_data: dict):
+    try:
+        client_id = request_data.get("client_id")
+        password = request_data.get("password")
+
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "SELECT COUNT(*) FROM clients WHERE client_id = %s AND password = %s"
+        cursor.execute(query, (client_id, password))
+        result = cursor.fetchone()
+
+        cursor.close()
+        db.close()
+
+        if result[0] > 0:
+            return {"exists": True}
+        else:
+            return {"exists": False}
+
+    except Exception as e:
+        traceback.print_exc()
+        return {"error": str(e)}
+
 
 # ---------- Función para obtener todos los empleados ---------- #
 @app.get("/employees")
@@ -265,6 +291,32 @@ def get_employee(employee_id: int):
         db.close()
 
         return {"employee": employee}
+
+    except Exception as e:
+        traceback.print_exc()
+        return {"error": str(e)}
+    
+# ---------- Función para verificar el empleado en login ---------- #
+@app.post("/employees/check")
+async def check_employee(request_data: dict):
+    try:
+        employee_id = request_data.get("employee_id")
+        password = request_data.get("password")
+
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "SELECT COUNT(*) FROM employees WHERE employee_id = %s AND password = %s"
+        cursor.execute(query, (employee_id, password))
+        result = cursor.fetchone()
+
+        cursor.close()
+        db.close()
+
+        if result[0] > 0:
+            return {"exists": True}
+        else:
+            return {"exists": False}
 
     except Exception as e:
         traceback.print_exc()

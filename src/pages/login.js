@@ -6,6 +6,7 @@ import Envelope from '../images/envelope.svg'
 import styles2 from '@/styles/Login.module.css'
 import { useState } from 'react'
 import { useRouter } from 'next/router';
+import axios from 'axios'
 
 const usersData = [
     {
@@ -128,30 +129,54 @@ export default function loginInfo(){
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let matchedUser = false
         let clientUser = false
+        let exists = false
+        console.log("SUBMIT")
         if(formData.user[0]==='R'){
-            // accedemos a la pagina de empleado
-            matchedUser = employeesData.find(
-                (user) =>
-                user.employee_id === formData.user.substring(1) && user.password === formData.password
-            );
-            if(matchedUser){
-                router.push(`/paginaMonitor?employee_id=${matchedUser.employee_id}`);
-            }
+            const user_id = formData.user.slice(1);
+            try {
+                const response = await axios.post('http://localhost:8000/employees/check', {
+                  employee_id: parseInt(user_id),
+                  password: formData.password,
+                })
+                console.log(user_id)
+                exists = response.data.exists
+                console.log(exists)
+          
+                if (exists) {
+                  router.push(`/paginaMonitor?employee_id=${user_id}`)
+                } else {
+                  alert('El usuario o la contraseña son incorrectos')
+                }
+              } catch (error) {
+                console.log('Error:', error)
+                alert('Ocurrió un error durante el inicio de sesión')
+              }
         }else{
-            matchedUser = usersData.find(
-                (user) =>
-                user.client_id === formData.user && user.password === formData.password
-            );
-            if(matchedUser){
-                router.push(`/paginaUsuario?client_id=${matchedUser.client_id}`);
-            }
+            try {
+                const response = await axios.post('http://localhost:8000/clients/check', {
+                  client_id: parseInt(formData.user),
+                  password: formData.password,
+                })
+          
+                exists = response.data.exists
+          
+                if (exists) {
+                  router.push(`/paginaUsuario?client_id=${formData.user}`)
+                } else {
+                  alert('El usuario o la contraseña son incorrectos')
+                }
+              } catch (error) {
+                console.log('Error:', error)
+                alert('Ocurrió un error durante el inicio de sesión')
+              }
         }
 
-        if(!matchedUser){
+
+        if(!exists){
             alert('El usuario o la contraseña son incorrectos');
         }
 
