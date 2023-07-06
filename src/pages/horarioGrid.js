@@ -6,8 +6,6 @@ import Logo from '../images/Logo.png'
 import Login from '../images/person-circle-red.svg'
 
 const HorarioGrid = () => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedClass, setSelectedClass] = useState('');
 
     const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const horas = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
@@ -45,10 +43,6 @@ const HorarioGrid = () => {
           },
         };
     
-    const handleCellClick = (dia, hora, clase) => {
-        setSelectedClass(clase);
-        setModalVisible(true);
-    };
 
     return (
         <div className= {styles.horario}>
@@ -88,24 +82,11 @@ const HorarioGrid = () => {
                     <div
                         key={`${hora}-${dia}`}
                         className={`${styles.celda} ${clasesCrossfit[dia] && clasesCrossfit[dia][hora] ? styles[clasesCrossfit[dia][hora]] : ''}`}
-                        onClick={() => handleCellClick (dia, hora, clasesCrossfit[dia][hora])}
                     > {clasesCrossfit[dia] && clasesCrossfit[dia][hora] ? clasesCrossfit[dia][hora] : ''} </div>
                 ))}
             </>
             ))}
 
-            {modalVisible && (
-                <div className={styles.modal}>
-                    <div className={styles.modalContent}>
-                        <span className={styles.close} onClick={() => setModalVisible(false)}>&times;
-                        </span>
-                        <p >Has seleccionado la clase: </p>
-                        <p className={styles.modalclase}>{selectedClass}</p>
-                        <button>Confirmar</button>
-                        <button>Cancelar</button>
-                    </div>
-                </div> 
-            )}
         </div>
         </div>
     );

@@ -3,7 +3,6 @@ import React, { useState} from 'react'
 import Logo from '../images/Logo.png'
 import Login from '../images/person-circle-red.svg'
 import Image from 'next/image'
-import Slider from "react-slick";
 import Instalaciones2 from '../images/Instalaciones2.jpg'
 import Instalaciones3 from '../images/Instalaciones3.jpg'
 import Instalaciones4 from '../images/Instalaciones4.jpg'
@@ -32,16 +31,6 @@ export default function Home() {
     setModalVisible(true);
   }
 
-  /* para el carrusel, todavia no funciona
-  const settings= {
-    dots: true,
-    arrows: true,
-    infinite: true,
-    speed:500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  }
-*/
 
   return (
     <>
@@ -61,7 +50,7 @@ export default function Home() {
             <ul>
               <li> <a href="#top" className={styles.a}> Inicio </a> </li>
               <li> <Link href="#nosotros" className={styles.a}> Nosotros </Link> </li>
-              <li> <Link href="#galeria" className={styles.a}> Galería </Link> </li>
+              <li> <Link href="#galeria" className={styles.a}> Instalaciones </Link> </li>
               <li> <Link href="/horarioGrid" className={styles.a}> Horarios </Link> </li>
               <li> <Link href="#tarifas" className={styles.a}> Tarifas </Link> </li>
               <li> <Link href="#contacto" className={styles.a}> Contacto </Link> </li>
@@ -162,7 +151,6 @@ export default function Home() {
           </div>
 
           <div className={styles.carrousel}>
-            <div className={styles.arrowLeft}>&lt;</div>
             <div className= {styles.inst}>
               <Image src={Instalaciones2} alt="inst2" width={300}/>
               <Image src={Instalaciones3} alt="inst3" width={300}/>
@@ -170,13 +158,16 @@ export default function Home() {
               <Image src={Instalaciones6} alt="inst6" width={300}/>
               <Image src={Instalaciones7} alt="inst7" width={300}/>
             </div>
-            <div className={styles.arrowRight}>&gt;</div>
           </div>
         </div>
 
 
         <div className={styles.part4} id="tarifas">
-          <button className= {styles.button2}>Conoce nuestros horarios</button>
+          <button className= {styles.button2}>
+            <Link href="/horarioGrid" >
+              Conoce nuestros horarios
+            </Link>
+          </button>
           <div className={styles.bigfont}>TARIFAS</div>
           <div className={styles.tarifas}>
             <div className={styles.card}>
@@ -220,8 +211,10 @@ export default function Home() {
               <p>644885452</p>
             </div>
             <div className={styles.datos}>
-              <Image src={Icon6} alt="logo" width={20}/>
-              <p>crossfitg3@gmail.com</p>
+                <Image src={Icon6} alt="logo" width={20}/>
+              <a href="mailto:crossfitg3@gmail.com">
+                <p>crossfitg3@gmail.com</p>
+              </a>
             </div>
           </div>
 

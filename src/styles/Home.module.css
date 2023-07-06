@@ -235,28 +235,6 @@
   height:auto; 
 }
 
-.arrowLeft,
-.arrowRight {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  font-size: 24px;
-  padding: 8px;
-  cursor: pointer;
-}
-
-.arrowLeft {
-  margin-left: 8px;
-}
-
-.arrowRight {
-  margin-right: 8px;
-}
-
-.carrousel Image:hover {
-  transform: scale(1.1);
-}
-
-
 
 .rtb2 {
   display:flex;
