@@ -57,18 +57,12 @@
     justify-content: center;
     align-items: center;
   }
-
-  .celdaConfirmada {
-  background-color: black;
-  
-}
   
   .empty {
     background-color: rgb(145,145,145);
   }
   
   .celda {
-    background-color: rgb(145,145,145);
     border: 1px solid #ddd;
     padding: 8px;
     display: flex;
@@ -87,6 +81,10 @@
   .Strenght {
     background-color: #f67043;
     color: white;
+  }
+  
+  .celdaConfirmada {
+    background-color: green;
   }
   
   .modal{

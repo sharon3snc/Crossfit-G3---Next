@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styles from "../styles/HorarioGrid2.module.css"
-import Link from 'next/link'
-import Image from 'next/image'
-import Logo from '../images/Logo.png'
-import Login from '../images/person-circle-red.svg'
+
 
 const HorarioGrid = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -11,7 +8,6 @@ const HorarioGrid = () => {
     const [claseConfirmada, setClaseConfirmada] = useState(false);
     const [selectedDay, setSelectedDay] = useState('');
     const [selectedHour, setSelectedHour] = useState('');
-    const [celdaConfirmada, setCeldaConfirmada] = useState({ dia: '', hora: '' });
 
     const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const horas = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
@@ -54,14 +50,19 @@ const HorarioGrid = () => {
         setSelectedDay(dia);
         setSelectedHour(hora);
         setModalVisible(true);
+        setClaseConfirmada(false);
     };
 
     const handleConfirmar= () => {
         setClaseConfirmada(true);
-        setCeldaConfirmada({ dia: selectedDay, hora: selectedHour });
+        setModalVisible(false);
     };
 
-
+    const handleCancelar = () => {
+        setModalVisible(false);
+        setClaseConfirmada(false);
+    };
+    
     return (
         <div className= {styles.horario}>
             <div className={styles.grid}>
@@ -77,8 +78,8 @@ const HorarioGrid = () => {
                         {hora}
                         </div>
                         {dias.map((dia) => {
-                        const isCeldaConfirmada = celdaConfirmada.dia === dia && celdaConfirmada.hora === hora;
                         const celdaId = `${hora}-${dia}`;
+                        const isCeldaConfirmada = claseConfirmada && dia === selectedDay && hora === selectedHour;
                         return (
                             <div
                             key={celdaId}
@@ -112,14 +113,14 @@ const HorarioGrid = () => {
                                 ) : (
                                 <>
                                 <button className={styles.confirmar} onClick={handleConfirmar}>Confirmar</button>
-                                <button className={styles.cancelar} onClick={() => setModalVisible(false)}>Cancelar</button>
-                                
+                                <button className={styles.cancelar} onClick={handleCancelar}>Cancelar</button>
                                 </>
                             )}
                         </div>
                     </div>
                 </div>
-                )}
+                )}  
+
             </div>
         </div>
     );
