@@ -321,3 +321,79 @@ async def check_employee(request_data: dict):
     except Exception as e:
         traceback.print_exc()
         return {"error": str(e)}
+
+
+# ---------- CRUD Clases---------- #
+class Clase (BaseModel):
+    id_clase: int
+    fecha: str
+    dia: str
+    hora: str
+    duracion: int
+    coach: str
+    nombre_clase: str
+    num_plazas: int
+    alumnos: list
+
+clases = []
+
+async def get_clases():
+    db = make_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT dia, hora, nombre_clase FROM clases")
+    result = cursor.fetchall()
+
+    clases = {}
+    for row in result:
+        dia, hora, nombre_clase = row
+        if dia not in clases:
+            clases[dia] = {}
+        clases[dia][hora] = nombre_clase
+
+    return clases
+
+@app.get("/clases/{dia}/{hora}")
+async def get_clase(dia: str, hora: str):
+    db = make_connection()
+    cursor = db.cursor()
+    cursor.execute("SELECT nombre_clase FROM clases WHERE dia = %s AND hora = %s", (dia, hora))
+    result = cursor.fetchone()
+
+    if result:
+        nombre_clase = result[0]
+        return {"dia": dia, "hora": hora, "nombre_clase": nombre_clase}
+    else:
+        return {"error": "Clase no encontrada"}
+
+@app.post("/clases/{dia}/{hora}")
+async def create_clase(dia: str, hora: str, clase: Clase):
+    db = make_connection()
+    cursor = db.cursor()
+    cursor.execute("INSERT INTO clases (dia, hora, nombre_clase) VALUES (%s, %s, %s)", (dia, hora, clase.nombre_clase))
+    db.commit()
+
+    return {"message": "Clase creada exitosamente"}
+
+@app.put("/clases/{dia}/{hora}")
+async def update_clase(dia: str, hora: str, clase: Clase):
+    db = make_connection()
+    cursor = db.cursor()
+    cursor.execute("UPDATE clases SET nombre_clase = %s WHERE dia = %s AND hora = %s", (clase.nombre_clase, dia, hora))
+    db.commit()
+
+    if cursor.rowcount > 0:
+        return {"message": "Clase actualizada exitosamente"}
+    else:
+        return {"error": "Clase no encontrada"}
+    
+@app.delete("/clases/{dia}/{hora}")
+async def delete_clase(dia: str, hora: str):
+    db = make_connection()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM clases WHERE dia = %s AND hora = %s", (dia, hora))
+    db.commit()
+
+    if cursor.rowcount > 0:
+        return {"message": "Clase eliminada exitosamente"}
+    else:
+        return {"error": "Clase no encontrada"}
