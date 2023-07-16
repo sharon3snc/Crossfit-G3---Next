@@ -18,9 +18,7 @@
     "react-dom": "18.2.0",
     "react-router-dom": "^6.11.2",
     "react-slick": "^0.29.0",
-    "reactstrap": "^9.2.0",
-    "slick-carousel": "^1.8.1",
-    "swiper": "^10.0.3"
+    "reactstrap": "^9.2.0"
   },
   "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
   "main": "next.config.js",
