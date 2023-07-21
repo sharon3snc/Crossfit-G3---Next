@@ -7,36 +7,41 @@ import { useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+/*
+CREATE TABLE employees (
+  employee_id INT AUTO_INCREMENT PRIMARY KEY,
+  password VARCHAR(255) NOT NULL,
+  user_admin BOOLEAN NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  surname VARCHAR(255) NOT NULL,
+  birthdate DATE NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(255) NOT NULL
+);
+*/
+
 export default function CrearMonitorInfo(){
     const router = useRouter();
     const { employee_id } = router.query;
     const initialFormData = {
+        user_admin: false,
         name: '',
         surname: '',
-        email: '',
         birthdate: '',
-        inscription_date: '',
+        email: '',
         phone: '',
-        emergency_contact: '',
-        emergency_phone: '',
-        rate_id: '',
         password: '',
-        password2: '',
-        available_classes: 10
+        password2: ''
     }
     const [formData, setFormData] = useState({
+        user_admin: false,
         name: '',
         surname: '',
-        email: '',
         birthdate: '',
-        inscription_date: '',
+        email: '',
         phone: '',
-        emergency_contact: '',
-        emergency_phone: '',
-        rate_id: '',
         password: '',
-        password2: '',
-        available_classes: 10
+        password2: ''
     });
 
     const handleEvent = (e) => {
@@ -52,7 +57,7 @@ export default function CrearMonitorInfo(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/clients', formData);
+            const response = await axios.post('http://localhost:8000/employees', formData);
             console.log(response.data); // Assuming the API returns the created client data
             setFormData(initialFormData);
           } catch (error) {
@@ -133,35 +138,16 @@ export default function CrearMonitorInfo(){
                                     onChange={handleEvent}
                                     required 
                                 />
-
-                                <input 
-                                    className={styles2.formInput} 
-                                    name='emergency_contact'
-                                    type="text" 
-                                    placeholder='Contacto de Emergencia' 
-                                    value={formData.emergency_contact}
-                                    onChange={handleEvent}
-                                    required 
-                                />
-
-                                <input 
-                                    className={styles2.formInput} 
-                                    name='emergency_phone'
-                                    type="text" 
-                                    placeholder='Teléfono de Emergencia' 
-                                    value={formData.emergency_phone}
-                                    onChange={handleEvent}
-                                    required 
-                                />
-                                <input 
-                                    className={styles2.formInput} 
-                                    name='rate_id'
-                                    type="text" 
-                                    placeholder='Tarifa' 
-                                    value={formData.rate_id}
-                                    onChange={handleEvent}
-                                    required 
-                                />
+                                <div className={styles2.formInput}>
+                                    <input
+                                        className={styles2.checkboxInput}
+                                        name='user_admin'
+                                        type='checkbox'
+                                        checked={formData.user_admin}
+                                        onChange={(e) => setFormData({ ...formData, user_admin: e.target.checked })}
+                                    />
+                                    <label className={styles2.checkboxLabel}>Administrador</label>
+                                </div>
                             </div>
                             <div className={styles2.passwordContainer}>
                                 <input 

@@ -7,6 +7,23 @@ import { useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+/*
+CREATE TABLE clients (
+    client_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255),
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    birthdate DATE NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    inscription_date DATE NOT NULL,
+    emergency_contact VARCHAR(255) NOT NULL,
+    emergency_phone VARCHAR(255) NOT NULL,
+    rate_id INT,
+    available_classes INT
+  );
+*/ 
+
 export default function CrearUsuarioInfo(){
     const router = useRouter();
     const { employee_id } = router.query;

@@ -1,9 +1,6 @@
 import Head from 'next/head'
 import Logo from '../images/Logo.png'
 import Image from 'next/image'
-import Aros from '../images/aros.jpg'
-import Pesas from '../images/55kg.jpg'
-import Barra from '../images/barra.jpg'
 import Manos from '../images/manos.jpg'
 import Envelope from '../images/envelope.svg'
 import PersonIcon from '../images/person-circle-red.svg'
@@ -15,223 +12,8 @@ import Link from 'next/link';
 import { render } from 'react-dom'
 import axios from 'axios';
 import { useEffect } from 'react';
-
-// Datos de todos los empleados.
-// Este array será sustituido por una llamada a la API
-const employeesData = [
-    {
-        employee_id: '1',
-        password: '12345',
-        userAdmin: true,
-        name: 'Jose',
-        surname: 'Rodriguez',
-        birthdate: '1999-01-01',
-        email: 'joserodriguez@gmail.com',
-        phone: '123456789'
-    },
-    {
-        employee_id: '2',
-        password: '54321',
-        userAdmin: false,
-        name: 'Maria',
-        surname: 'Garcia',
-        birthdate: '1999-01-01',
-        email: 'mariagarcia@hotmail.com',
-        phone: '123456789'
-    },
-    {
-        employee_id: '3',
-        password: 'qwerty',
-        userAdmin: false,
-        name: 'Rocio',
-        surname: 'Jimenez',
-        birthdate: '1999-01-01',
-        email: 'rociojimenez@yahoo.com',
-        phone: '123456789'
-    },
-    {
-        employee_id: '4',
-        password: 'ytrewq',
-        userAdmin: false,
-        name: 'Antonio',
-        surname: 'Gomez',
-        birthdate: '1999-01-01',
-        email: 'antoniogomez@gmail.com',
-        phone: '123456789'
-    }
-]
-
-// Datos de todos los clientes.
-// Este array será sustituido por una llamada a la API
-const clientsData = [
-    {
-        client_id: '1',
-        email: 'juanperez@gmail.com',
-        contrasena: '',
-        name: 'Juan',
-        surname: 'Perez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '2',
-        email: 'josehurtado@gmail.com',
-        contrasena: '',
-        name: 'Jose',
-        surname: 'Hurtado',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '3',
-        email: 'albalopez@gmail.com',
-        contrasena: '',
-        name: 'Alba',
-        surname: 'Lopez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '4',
-        email: 'raquelalvarez@gmail.com',
-        contrasena: '',
-        name: 'Raquel',
-        surname: 'Alvarez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '1',
-        email: 'juanperez@gmail.com',
-        contrasena: '',
-        name: 'Juan',
-        surname: 'Perez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '2',
-        email: 'josehurtado@gmail.com',
-        contrasena: '',
-        name: 'Jose',
-        surname: 'Hurtado',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '3',
-        email: 'albalopez@gmail.com',
-        contrasena: '',
-        name: 'Alba',
-        surname: 'Lopez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '4',
-        email: 'raquelalvarez@gmail.com',
-        contrasena: '',
-        name: 'Raquel',
-        surname: 'Alvarez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },{
-        client_id: '1',
-        email: 'juanperez@gmail.com',
-        contrasena: '',
-        name: 'Juan',
-        surname: 'Perez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '2',
-        email: 'josehurtado@gmail.com',
-        contrasena: '',
-        name: 'Jose',
-        surname: 'Hurtado',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '3',
-        email: 'albalopez@gmail.com',
-        contrasena: '',
-        name: 'Alba',
-        surname: 'Lopez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    },
-    {
-        client_id: '4',
-        email: 'raquelalvarez@gmail.com',
-        contrasena: '',
-        name: 'Raquel',
-        surname: 'Alvarez',
-        birthdate: '1999-01-01',
-        phone: '123456789',
-        inscription_date: '2021-01-01',
-        emergency_phone: '987654321',
-        emergency_contact: 'Maria',
-        rate_id: '1',
-        available_classes: '12'
-    }
-]
+import EditClientModal from './EditClientModal'
+import EditEmployeeModal from './EditEmployeeModal'
 
 
 export default function CrearUsuarioInfo(){
@@ -240,17 +22,26 @@ export default function CrearUsuarioInfo(){
     const [userData, setUserData] = useState({});
     const [employeesData, setEmployeesData] = useState([]);
     const [clientsData, setClientsData] = useState([]);
-    //const userData = employeesData.find(user => user.employee_id === employee_id) || {};
+
+    //asadfasdasdasd
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState(null);
+    const [deleteItemType, setDeleteItemType] = useState(null);
+
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [classesDataForSelectedDate, setClassesDataForSelectedDate] = useState([]);
+
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [clientDataToEdit, setClientDataToEdit] = useState(null);
+
+    const [editEmployeeModalOpen, setEditEmployeeModalOpen] = useState(false);
+    const [employeeDataToEdit, setEmployeeDataToEdit] = useState(null);
     
     useEffect(() => {
         const fetchUserData = async () => {
           try {
             const response = await axios.get(`http://127.0.0.1:8000/employees/${employee_id}`);
             setUserData(response.data.employee); // Assign the 'clients' array to usersData
-            // const userD = response.data.clients.find(
-            //     (user) => user.client_id === parseInt(client_id)
-            // );
-            // setUserData(userD || {});
           } catch (error) {
           }
         };
@@ -258,11 +49,7 @@ export default function CrearUsuarioInfo(){
         const fetchClientsData = async () => {
             try {
               const response = await axios.get(`http://127.0.0.1:8000/clients`);
-              setClientsData(response.data.clients); // Assign the 'clients' array to usersData
-              // const userD = response.data.clients.find(
-              //     (user) => user.client_id === parseInt(client_id)
-              // );
-              // setUserData(userD || {});
+              setClientsData(response.data.clients); // Assign the 'clients' array to usersData]
             } catch (error) {
             }
         };
@@ -271,10 +58,6 @@ export default function CrearUsuarioInfo(){
             try {
               const response = await axios.get(`http://127.0.0.1:8000/employees`);
               setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
-              // const userD = response.data.clients.find(
-              //     (user) => user.client_id === parseInt(client_id)
-              // );
-              // setUserData(userD || {});
             } catch (error) {
             }
         };
@@ -283,8 +66,6 @@ export default function CrearUsuarioInfo(){
         fetchClientsData();
         fetchEmployeesData();
     }, [employee_id]);
-
-
 
 
     // useState para el tab activo
@@ -302,10 +83,6 @@ export default function CrearUsuarioInfo(){
         // Aqui se pondrá la lógica de fin de sesion
     };
 
-    //asadfasdasdasd
-    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    const [deleteItemId, setDeleteItemId] = useState(null);
-    const [deleteItemType, setDeleteItemType] = useState(null);
   
     const deleteUser = (userId) => {
       setDeleteItemId(userId);
@@ -331,7 +108,9 @@ export default function CrearUsuarioInfo(){
         // Implement your logic to delete the employee with the deleteItemId
         // This could involve making an API call or updating the state
         // Once the employee is deleted, you can perform any necessary actions
+        const response = await axios.delete(`http://localhost:8000/employees/${deleteItemId}`);
         alert(`Monitor con usuario R${deleteItemId} eliminado.`);
+        window.location.reload();
       }
   
       setDeleteItemId(null);
@@ -345,7 +124,28 @@ export default function CrearUsuarioInfo(){
       setDeleteModalOpen(false);
     };
 
-    // aasdeasdasd
+    const handlePrevDate = () => {
+        const prevDate = new Date(selectedDate);
+        prevDate.setDate(selectedDate.getDate() - 1);
+        setSelectedDate(prevDate);
+      };
+    
+      const handleNextDate = () => {
+        const nextDate = new Date(selectedDate);
+        nextDate.setDate(selectedDate.getDate() + 1);
+        setSelectedDate(nextDate);
+      };
+
+      const openEditModal = (client) => {
+        setClientDataToEdit(client);
+        setEditModalOpen(true);
+      };
+
+      const openEditEmployeeModal = (employee) => {
+        setEmployeeDataToEdit(employee);
+        setEditEmployeeModalOpen(true);
+      };
+
 
   // Función para renderizar el contenido de la página en función del tab activo
   const renderContent = () => {
@@ -419,7 +219,7 @@ export default function CrearUsuarioInfo(){
                                     <button onClick={() => deleteUser(client.client_id)}>Borrar</button>
                               </p>
                               <p>
-                                    <button>Editar</button>
+                                    <button onClick={() => openEditModal(client)}>Editar</button>
                               </p>
                             </div>
                         )}
@@ -439,6 +239,15 @@ export default function CrearUsuarioInfo(){
                     <button onClick={confirmDeletion}>Confirmar</button>
                     <button onClick={cancelDeletion}>Cancelar</button>
                     </div>
+                </div>
+            )}
+            {editModalOpen && (
+                <div className={styles2.modal}>
+                {/* You can create a new component for the modal */}
+                    <EditClientModal
+                        clientData={clientDataToEdit}
+                        onClose={() => setEditModalOpen(false)}
+                    />
                 </div>
             )}
       </div>
@@ -461,10 +270,10 @@ export default function CrearUsuarioInfo(){
                         <div key={employee.employee_id} className={styles2.clientInfo}>
                             <p>
                                 <p>
-                                    <span> {employee.name}</span>
+                                    <span> R{employee.employee_id}</span>
                                 </p>
                                 <p>
-                                    <span> {employee.surname}</span>
+                                    <span> {employee.name} {employee.surname}</span>
                                 </p>
                             </p>
                             <p>
@@ -480,7 +289,7 @@ export default function CrearUsuarioInfo(){
                                     {parseInt(employee_id)!==employee.employee_id &&( <button onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
                               </p>
                               <p>
-                                    <button>Editar</button>
+                                    <button onClick={() => openEditEmployeeModal(employee)}>Editar</button>
                               </p>
                             </p>
                         </div>
@@ -501,9 +310,40 @@ export default function CrearUsuarioInfo(){
                         </div>
                     </div>
                 )}
+                {editEmployeeModalOpen && (
+                    <div className={styles2.modal}>
+                        {/* You can create a new component for the modal */}
+                        <EditEmployeeModal
+                            employeeData={employeeDataToEdit}
+                            onClose={() => setEditEmployeeModalOpen(false)}
+                        />
+                    </div>
+          )}
           </div>
         );
-    }
+    } else if (activeTab === 'Clases') {
+        return (
+          <div className={styles2.userInfoContainer}>
+            <p className={styles2.userInfoPageTitle}>Información de Clases</p>
+    
+            {/* Step 4: Add the header with arrow buttons to select the date */}
+            <div className={styles2.dateHeader}>
+              <button onClick={handlePrevDate}>&lt;</button>
+              <p>{selectedDate.toDateString()}</p>
+              <button onClick={handleNextDate}>&gt;</button>
+            </div>
+    
+            <div className={styles2.classesContainer}>
+              {classesDataForSelectedDate.map((classItem) => (
+                <div key={classItem.class_id} className={styles2.classInfo}>
+                  {/* Display the class information */}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+    
   };
 
     return (
@@ -530,6 +370,12 @@ export default function CrearUsuarioInfo(){
                         onClick={() => handleTabClick('Horarios')}
                         >
                             Horarios
+                        </p>
+                        <p 
+                        className={styles2.userPageHeaderItem}
+                        onClick={() => handleTabClick('Clases')}
+                        >
+                            Clases
                         </p>
                         <p 
                         className={styles2.userPageHeaderItem}

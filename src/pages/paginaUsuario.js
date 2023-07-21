@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import Logo from '../images/Logo.png'
 import Image from 'next/image'
-import Aros from '../images/aros.jpg'
-import Pesas from '../images/55kg.jpg'
 import Barra from '../images/barra.jpg'
 import Envelope from '../images/envelope.svg'
 import PersonIcon from '../images/person-circle-red.svg'
@@ -26,6 +24,9 @@ export default function CrearUsuarioInfo(){
     const [activeTab, setActiveTab] = useState('Inicio'); 
 
     const [showDropdown, setShowDropdown] = useState(false);
+
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [classesDataForSelectedDate, setClassesDataForSelectedDate] = useState([]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -54,6 +55,28 @@ export default function CrearUsuarioInfo(){
     const handleLogout = () => {
         // para implementar cuando se haga logout
     };
+
+    const handlePrevDate = () => {
+        const prevDate = new Date(selectedDate);
+        prevDate.setDate(selectedDate.getDate() - 1);
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (prevDate < yesterday) return; // Don't allow the user to select a date in the past
+        else {
+            setSelectedDate(prevDate);
+        }
+      };
+    
+      const handleNextDate = () => {
+        const nextDate = new Date(selectedDate);
+        nextDate.setDate(selectedDate.getDate() + 1);
+        const weekFromNow = new Date();
+        weekFromNow.setDate(weekFromNow.getDate() + 7);
+        if (nextDate > weekFromNow) return; // Don't allow the user to select a date in the future
+        else{
+            setSelectedDate(nextDate);
+        }
+      };
 
 
   const renderContent = () => {
@@ -118,7 +141,28 @@ export default function CrearUsuarioInfo(){
             </div>
         </div>
       );
-    }
+    }else if (activeTab === 'Clases') {
+        return (
+          <div className={styles2.userInfoContainer}>
+            <p className={styles2.userInfoPageTitle}>Información de Clases</p>
+    
+            {/* Step 4: Add the header with arrow buttons to select the date */}
+            <div className={styles2.dateHeader}>
+              <button onClick={handlePrevDate}>&lt;</button>
+              <p>{selectedDate.toDateString()}</p>
+              <button onClick={handleNextDate}>&gt;</button>
+            </div>
+    
+            <div className={styles2.classesContainer}>
+              {classesDataForSelectedDate.map((classItem) => (
+                <div key={classItem.class_id} className={styles2.classInfo}>
+                  {/* Display the class information */}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
   };
 
     return (
@@ -151,6 +195,12 @@ export default function CrearUsuarioInfo(){
                         onClick={() => handleTabClick('Horarios')}
                         >
                             Horarios
+                        </p>
+                        <p 
+                        className={styles2.userPageHeaderItem}
+                        onClick={() => handleTabClick('Clases')}
+                        >
+                            Clases
                         </p>
                         <p 
                         className={styles2.userPageHeaderUsername}
