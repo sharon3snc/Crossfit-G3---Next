@@ -47,6 +47,15 @@ class ClientCreateRequest(BaseModel):
     emergency_phone: str
     rate_id: int
     available_classes: int
+    
+class EmployeeCreateRequest(BaseModel):
+    email: str
+    password: str
+    name: str
+    surname: str
+    birthdate: str
+    phone: str
+    user_admin: bool
 
 
 # ---------- Función para obtener todos los clientes ---------- #
@@ -295,7 +304,85 @@ def get_employee(employee_id: int):
     except Exception as e:
         traceback.print_exc()
         return {"error": str(e)}
-    
+
+# ---------- Función para crear un nuevo empleado ---------- #
+@app.post("/employees")
+def create_employee(employee_data: EmployeeCreateRequest):
+    try:
+        # Extract data from the request body
+        email = employee_data.email
+        password = employee_data.password
+        name = employee_data.name
+        surname = employee_data.surname
+        birthdate = employee_data.birthdate
+        phone = employee_data.phone
+        user_admin = employee_data.user_admin
+
+        # Create a connection to the database
+        db = make_connection()
+
+        # Create a cursor to execute SQL queries
+        cursor = db.cursor()
+
+        # Construct the SQL query to insert a new client
+        
+#         insert into employees (password, user_admin, name, surname, birthdate, email, phone)
+# VALUES ('12345', true, 'Rocio', 'Jimenez', '1990-01-01', 'johndoe@example.com', '1234567890');
+
+        query = """
+        INSERT INTO employees (email, password, name, surname, birthdate, phone, user_admin)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        values = (
+            email, password, name, surname, birthdate, phone, user_admin
+        )
+
+        # Execute the SQL query
+        cursor.execute(query, values)
+
+        # Commit the changes to the database
+        db.commit()
+
+        # Close the cursor and database connection
+        cursor.close()
+        db.close()
+
+        # Return a response indicating success
+        return {"message": "Employee created successfully"}
+
+    except Exception as e:
+        # Handle any exceptions and return an error response
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ---------- Función para eliminar un cliente ---------- #
+
+@app.delete("/employees/{employee_id}")
+def delete_employee(employee_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        # Check if the employee exists
+        query = "SELECT * FROM employees WHERE employee_id = %s"
+        cursor.execute(query, (employee_id,))
+        result = cursor.fetchone()
+
+        if result is None:
+            raise HTTPException(status_code=404, detail="Client not found")
+
+        # Delete the employee
+        delete_query = "DELETE FROM employees WHERE employee_id = %s"
+        cursor.execute(delete_query, (employee_id,))
+        db.commit()
+
+        cursor.close()
+        db.close()
+
+        return {"message": "Employee deleted successfully"}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # ---------- Función para verificar el empleado en login ---------- #
 @app.post("/employees/check")
 async def check_employee(request_data: dict):
@@ -321,6 +408,14 @@ async def check_employee(request_data: dict):
     except Exception as e:
         traceback.print_exc()
         return {"error": str(e)}
+
+
+
+
+
+
+
+
 
 
 # ---------- CRUD Clases---------- #

@@ -55,7 +55,7 @@ const HorarioGrid = () => {
             <ul>
               <li> <Link href="/" className={styles.a}> Inicio </Link> </li>
               <li> <Link href="/#nosotros" className={styles.a}> Nosotros </Link> </li>
-              <li> <Link href="/#galeria" className={styles.a}> Galería </Link> </li>
+              <li> <Link href="/#galeria" className={styles.a}> Instalaciones </Link> </li>
               <li> <Link href="/horarioGrid" className={styles.a}> Horarios </Link> </li>
               <li> <Link href="/#tarifas" className={styles.a}> Tarifas </Link> </li>
               <li> <Link href="/#contacto" className={styles.a}> Contacto </Link> </li>
