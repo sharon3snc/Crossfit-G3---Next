@@ -550,7 +550,7 @@ export default function CrearUsuarioInfo(){
                         onClick={toggleDropdown}
                         >
                             <span>{userData.name} {userData.surname}</span>
-                            <span><Image src={PersonIcon}/></span>
+                            <span><Image src={PersonIcon} alt=''/></span>
                         </p>
                         {showDropdown && (
                             <div className={styles2.userPageHeaderItem}>
