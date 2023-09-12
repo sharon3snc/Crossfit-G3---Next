@@ -180,7 +180,64 @@ def create_client(client_data: ClientCreateRequest):
     except Exception as e:
         # Handle any exceptions and return an error response
         raise HTTPException(status_code=500, detail=str(e))
+    from fastapi import HTTPException
 
+# ---------- Función para editar un cliente ---------- #
+@app.put("/clients/{client_id}")
+def update_client(client_id: int, client_data: ClientCreateRequest):
+    try:
+        # Extract data from the request body
+        email = client_data.email
+        password = client_data.password
+        name = client_data.name
+        surname = client_data.surname
+        birthdate = client_data.birthdate
+        phone = client_data.phone
+        inscription_date = client_data.inscription_date
+        emergency_contact = client_data.emergency_contact
+        emergency_phone = client_data.emergency_phone
+        rate_id = client_data.rate_id
+        available_classes = client_data.available_classes
+
+        # Create a connection to the database
+        db = make_connection()
+
+        # Create a cursor to execute SQL queries
+        cursor = db.cursor()
+
+        # Construct the SQL query to update the client
+        query = """
+        UPDATE clients
+        SET email=%s, password=%s, name=%s, surname=%s, birthdate=%s, phone=%s, inscription_date=%s, emergency_contact=%s,
+        emergency_phone=%s, rate_id=%s, available_classes=%s
+        WHERE client_id=%s
+        """
+        values = (
+            email, password, name, surname, birthdate, phone, inscription_date, emergency_contact, emergency_phone, rate_id,
+            available_classes, client_id
+        )
+
+        # Execute the SQL query
+        cursor.execute(query, values)
+
+        # Commit the changes to the database
+        db.commit()
+
+        # Close the cursor and database connection
+        cursor.close()
+        db.close()
+
+        # Check if any rows were updated
+        if cursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Client not found")
+
+        # Return a response indicating success
+        return {"message": "Client updated successfully"}
+
+    except Exception as e:
+        # Handle any exceptions and return an error response
+        raise HTTPException(status_code=500, detail=str(e))
+    
 # ---------- Función para eliminar un cliente ---------- #
 
 @app.delete("/clients/{client_id}")
@@ -325,9 +382,6 @@ def create_employee(employee_data: EmployeeCreateRequest):
         cursor = db.cursor()
 
         # Construct the SQL query to insert a new client
-        
-#         insert into employees (password, user_admin, name, surname, birthdate, email, phone)
-# VALUES ('12345', true, 'Rocio', 'Jimenez', '1990-01-01', 'johndoe@example.com', '1234567890');
 
         query = """
         INSERT INTO employees (email, password, name, surname, birthdate, phone, user_admin)
@@ -349,6 +403,57 @@ def create_employee(employee_data: EmployeeCreateRequest):
 
         # Return a response indicating success
         return {"message": "Employee created successfully"}
+
+    except Exception as e:
+        # Handle any exceptions and return an error response
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ---------- Función para editar un nuevo empleado ---------- #
+
+@app.put("/employees/{employee_id}")
+def update_employee(employee_id: int, employee_data: EmployeeCreateRequest):
+    try:
+        # Extract data from the request body
+        email = employee_data.email
+        password = employee_data.password
+        name = employee_data.name
+        surname = employee_data.surname
+        birthdate = employee_data.birthdate
+        phone = employee_data.phone
+        user_admin = employee_data.user_admin
+
+        # Create a connection to the database
+        db = make_connection()
+
+        # Create a cursor to execute SQL queries
+        cursor = db.cursor()
+
+        # Construct the SQL query to update the employee
+        query = """
+        UPDATE employees
+        SET email=%s, password=%s, name=%s, surname=%s, birthdate=%s, phone=%s, user_admin=%s
+        WHERE employee_id=%s
+        """
+        values = (
+            email, password, name, surname, birthdate, phone, user_admin, employee_id
+        )
+
+        # Execute the SQL query
+        cursor.execute(query, values)
+
+        # Commit the changes to the database
+        db.commit()
+
+        # Close the cursor and database connection
+        cursor.close()
+        db.close()
+
+        # Check if any rows were updated
+        if cursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Employee not found")
+
+        # Return a response indicating success
+        return {"message": "Employee updated successfully"}
 
     except Exception as e:
         # Handle any exceptions and return an error response

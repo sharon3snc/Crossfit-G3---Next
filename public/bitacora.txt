@@ -1,0 +1,8 @@
+11-9-23
+
+- Se continuó con los componentes EditCLientModal y EditEmployeeModal para la edición de los clientes y los monitores.
+- Se creó la función en la api para la edición en las tablas correspondientes.
+- Se creó en el componente paginaMonitor las funciones para cerrar el modal abierto en caso de descartar los cambios y 
+cerrarlo y refrescar la pagina en caso de aplicar los cambios.
+
+

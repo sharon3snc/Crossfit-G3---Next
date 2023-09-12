@@ -1,24 +1,29 @@
-// Create a new file named 'EditClientModal.js'
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const EditClientModal = ({ clientData, onClose }) => {
-  // Create state variables to manage the edited client data
+const EditClientModal = ({ clientData, onClose, onEdit }) => {
   const [formData, setFormData] = useState({
-    name: clientData.name,
-    surname: clientData.surname,
-    email: clientData.email,
-    // Add other client fields here...
+      name: clientData.name,
+      surname: clientData.surname,
+      email: clientData.email,
+      birthdate: clientData.birthdate,
+      phone: clientData.phone,
+      emergency_contact: clientData.emergency_contact,
+      emergency_phone: clientData.emergency_phone,
+      rate_id: clientData.rate_id,
+      password: clientData.password,
+      available_classes: clientData.available_classes,
+      client_id: clientData.client_id,
+      inscription_date: clientData.inscription_date
+
   });
 
-  // Implement a function to handle form submission and update the client data
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Make an API call to update the client data with the formData
       await axios.put(`http://localhost:8000/clients/${clientData.client_id}`, formData);
-      alert('Client data updated successfully!');
-      onClose(); // Close the modal after successful update
+      alert('Información de cliente ha sido actualizada');
+      onEdit();
     } catch (error) {
       console.error(error);
     }
@@ -26,11 +31,10 @@ const EditClientModal = ({ clientData, onClose }) => {
 
   return (
     <div>
-      <h2>Edit Client Information</h2>
+      <h2>Editar Cliente</h2>
       <form onSubmit={handleSubmit}>
-        {/* Add input fields for editing client data */}
         <div>
-          <label>Name:</label>
+          <label>Nombre:</label>
           <input
             type="text"
             name="name"
@@ -39,7 +43,7 @@ const EditClientModal = ({ clientData, onClose }) => {
           />
         </div>
         <div>
-          <label>Surname:</label>
+          <label>Apellido:</label>
           <input
             type="text"
             name="surname"
@@ -47,10 +51,72 @@ const EditClientModal = ({ clientData, onClose }) => {
             onChange={(e) => setFormData({ ...formData, surname: e.target.value })}
           />
         </div>
-        {/* Add other input fields for other client data... */}
         <div>
-          <button type="submit">Save Changes</button>
-          <button onClick={onClose}>Discard</button>
+          <label>Email:</label>
+          <input
+            type="text"
+            name="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Fecha de Nacimiento:</label>
+          <input
+            type="text"
+            name="birthdate"
+            value={formData.birthdate}
+            onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Telefono:</label>
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Contacto de emergencia:</label>
+          <input
+            type="text"
+            name="emergency_contact"
+            value={formData.emergency_contact}
+            onChange={(e) => setFormData({ ...formData, emergency_contact: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Telefono de emergencia:</label>
+          <input
+            type="text"
+            name="emergency_phone"
+            value={formData.emergency_phone}
+            onChange={(e) => setFormData({ ...formData, emergency_phone: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Tarifa:</label>
+          <input
+            type="text"
+            name="rate"
+            value={formData.rate_id}
+            onChange={(e) => setFormData({ ...formData, rate_id: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Contraseña:</label>
+          <input
+            type="text"
+            name="password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          />
+        </div>
+        <div>
+          <button type="submit">Editar</button>
+          <button onClick={onClose}>Cancelar</button>
         </div>
       </form>
     </div>

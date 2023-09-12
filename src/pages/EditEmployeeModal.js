@@ -1,24 +1,27 @@
-// Create a new file named 'EditEmployeeModal.js'
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const EditEmployeeModal = ({ employeeData, onClose }) => {
-  // Create state variables to manage the edited employee data
+const EditEmployeeModal = ({ employeeData, onClose, onEdit, employee }) => {
   const [formData, setFormData] = useState({
     name: employeeData.name,
     surname: employeeData.surname,
     email: employeeData.email,
-    // Add other employee fields here...
+    birthdate: employeeData.birthdate,
+    phone: employeeData.phone,
+    user_admin: employeeData.user_admin,
+    password: employeeData.password,
+    employee_id: employeeData.employee_id,
   });
 
-  // Implement a function to handle form submission and update the employee data
+
+  const user_type_available = (parseInt(employee) === formData.employee_id);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Make an API call to update the employee data with the formData
       await axios.put(`http://localhost:8000/employees/${employeeData.employee_id}`, formData);
-      alert('Employee data updated successfully!');
-      onClose(); // Close the modal after successful update
+      alert('Información de monitor ha sido actualizada');
+      onEdit();
     } catch (error) {
       console.error(error);
     }
@@ -26,11 +29,10 @@ const EditEmployeeModal = ({ employeeData, onClose }) => {
 
   return (
     <div>
-      <h2>Edit Employee Information</h2>
+      <h2>Editar Monitor</h2>
       <form onSubmit={handleSubmit}>
-        {/* Add input fields for editing employee data */}
         <div>
-          <label>Name:</label>
+          <label>Nombre:</label>
           <input
             type="text"
             name="name"
@@ -39,7 +41,7 @@ const EditEmployeeModal = ({ employeeData, onClose }) => {
           />
         </div>
         <div>
-          <label>Surname:</label>
+          <label>Apellido:</label>
           <input
             type="text"
             name="surname"
@@ -47,10 +49,46 @@ const EditEmployeeModal = ({ employeeData, onClose }) => {
             onChange={(e) => setFormData({ ...formData, surname: e.target.value })}
           />
         </div>
-        {/* Add other input fields for other employee data... */}
         <div>
-          <button type="submit">Save Changes</button>
-          <button onClick={onClose}>Discard</button>
+          <label>Email:</label>
+          <input
+            type="text"
+            name="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Fecha de Nacimiento:</label>
+          <input
+            type="text"
+            name="birthdate"
+            value={formData.birthdate}
+            onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Telefono:</label>
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          />
+        </div>
+        {!user_type_available && (<div>
+          <label>Administrador:</label>
+          <input
+            type="checkbox"
+            name="admin"
+            value={formData.user_admin}
+            checked={formData.user_admin}
+            onChange={(e) => setFormData({ ...formData, user_admin: e.target.checked })}
+          />
+        </div>)}
+        <div>
+          <button type="submit">Editar</button>
+          <button onClick={onClose}>Cancelar</button>
         </div>
       </form>
     </div>

@@ -16,7 +16,7 @@ import EditClientModal from './EditClientModal'
 import EditEmployeeModal from './EditEmployeeModal'
 
 
-export default function CrearUsuarioInfo(){
+export default function CrearUsuarioInfo() {
     const router = useRouter();
     const { employee_id } = router.query;
     const [userData, setUserData] = useState({});
@@ -36,32 +36,32 @@ export default function CrearUsuarioInfo(){
 
     const [editEmployeeModalOpen, setEditEmployeeModalOpen] = useState(false);
     const [employeeDataToEdit, setEmployeeDataToEdit] = useState(null);
-    
+
     useEffect(() => {
         const fetchUserData = async () => {
-          try {
-            const response = await axios.get(`http://127.0.0.1:8000/employees/${employee_id}`);
-            setUserData(response.data.employee); // Assign the 'clients' array to usersData
-          } catch (error) {
-          }
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/employees/${employee_id}`);
+                setUserData(response.data.employee); // Assign the 'clients' array to usersData
+            } catch (error) {
+            }
         };
 
         const fetchClientsData = async () => {
             try {
-              const response = await axios.get(`http://127.0.0.1:8000/clients`);
-              setClientsData(response.data.clients); // Assign the 'clients' array to usersData]
+                const response = await axios.get(`http://127.0.0.1:8000/clients`);
+                setClientsData(response.data.clients); // Assign the 'clients' array to usersData]
             } catch (error) {
             }
         };
-    
+
         const fetchEmployeesData = async () => {
             try {
-              const response = await axios.get(`http://127.0.0.1:8000/employees`);
-              setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+                const response = await axios.get(`http://127.0.0.1:8000/employees`);
+                setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
             } catch (error) {
             }
         };
-    
+
         fetchUserData();
         fetchClientsData();
         fetchEmployeesData();
@@ -71,8 +71,8 @@ export default function CrearUsuarioInfo(){
     // useState para el tab activo
     const [activeTab, setActiveTab] = useState('Inicio');
     const handleTabClick = (tabName) => {
-        setActiveTab(tabName); 
-      };
+        setActiveTab(tabName);
+    };
 
     // Sección de código para el dropdown de usuario que hace logout
     const [showDropdown, setShowDropdown] = useState(false);
@@ -83,268 +83,290 @@ export default function CrearUsuarioInfo(){
         // Aqui se pondrá la lógica de fin de sesion
     };
 
-  
+
     const deleteUser = (userId) => {
-      setDeleteItemId(userId);
-      setDeleteItemType('cliente');
-      setDeleteModalOpen(true);
+        setDeleteItemId(userId);
+        setDeleteItemType('cliente');
+        setDeleteModalOpen(true);
     };
-  
+
     const deleteEmployee = (employeeId) => {
-      setDeleteItemId(employeeId);
-      setDeleteItemType('monitor');
-      setDeleteModalOpen(true);
+        setDeleteItemId(employeeId);
+        setDeleteItemType('monitor');
+        setDeleteModalOpen(true);
     };
-  
-    const confirmDeletion = async() => {
-      if (deleteItemType === 'cliente') {
-        // Implement your logic to delete the user with the deleteItemId
-        // This could involve making an API call or updating the state
-        // Once the user is deleted, you can perform any necessary actions
-        const response = await axios.delete(`http://localhost:8000/clients/${deleteItemId}`);
-        alert(`Cliente con ID ${deleteItemId} eliminado.`);
-        window.location.reload();
-      } else if (deleteItemType === 'monitor') {
-        // Implement your logic to delete the employee with the deleteItemId
-        // This could involve making an API call or updating the state
-        // Once the employee is deleted, you can perform any necessary actions
-        const response = await axios.delete(`http://localhost:8000/employees/${deleteItemId}`);
-        alert(`Monitor con usuario R${deleteItemId} eliminado.`);
-        window.location.reload();
-      }
-  
-      setDeleteItemId(null);
-      setDeleteItemType(null);
-      setDeleteModalOpen(false);
+
+    const confirmDeletion = async () => {
+        if (deleteItemType === 'cliente') {
+            // Implement your logic to delete the user with the deleteItemId
+            // This could involve making an API call or updating the state
+            // Once the user is deleted, you can perform any necessary actions
+            const response = await axios.delete(`http://localhost:8000/clients/${deleteItemId}`);
+            alert(`Cliente con ID ${deleteItemId} eliminado.`);
+            window.location.reload();
+        } else if (deleteItemType === 'monitor') {
+            // Implement your logic to delete the employee with the deleteItemId
+            // This could involve making an API call or updating the state
+            // Once the employee is deleted, you can perform any necessary actions
+            const response = await axios.delete(`http://localhost:8000/employees/${deleteItemId}`);
+            alert(`Monitor con usuario R${deleteItemId} eliminado.`);
+            window.location.reload();
+        }
+
+        setDeleteItemId(null);
+        setDeleteItemType(null);
+        setDeleteModalOpen(false);
     };
-  
+
     const cancelDeletion = () => {
-      setDeleteItemId(null);
-      setDeleteItemType(null);
-      setDeleteModalOpen(false);
+        setDeleteItemId(null);
+        setDeleteItemType(null);
+        setDeleteModalOpen(false);
     };
 
     const handlePrevDate = () => {
         const prevDate = new Date(selectedDate);
         prevDate.setDate(selectedDate.getDate() - 1);
         setSelectedDate(prevDate);
-      };
-    
-      const handleNextDate = () => {
+    };
+
+    const handleNextDate = () => {
         const nextDate = new Date(selectedDate);
         nextDate.setDate(selectedDate.getDate() + 1);
         setSelectedDate(nextDate);
-      };
+    };
 
-      const openEditModal = (client) => {
+    const openEditModal = (client) => {
         setClientDataToEdit(client);
         setEditModalOpen(true);
-      };
+    };
 
-      const openEditEmployeeModal = (employee) => {
+    const openEditEmployeeModal = (employee) => {
         setEmployeeDataToEdit(employee);
+        console.log(employee);
+        console.log(employee_id)
         setEditEmployeeModalOpen(true);
-      };
+    };
+
+    const onCloseModal = () => {
+        setEditModalOpen(false);
+        setEditEmployeeModalOpen(false)
+    };
+
+    const onEditModalSubmit = () => {
+        setEditModalOpen(false);
+        setEditEmployeeModalOpen(false)
+        window.location.reload();
+    }
 
 
-  // Función para renderizar el contenido de la página en función del tab activo
-  const renderContent = () => {
-    if (activeTab === 'Inicio') {
-      return (
-        <div className={styles2.userInfoContainer}>
-             <p className={styles2.userInfoPageTitle}>Información Personal</p>
-             <p>
-                    <span className={styles2.userInfoTitle}>Usuario Empleado:</span>
-                    <span className={styles2.userInfoData}> R{userData.employee_id}</span>
-             </p>
-             <p>
-                 <span className={styles2.userInfoTitle}>Nombre:</span>
-                 <span className={styles2.userInfoData}> {userData.name}</span>
-             </p>
-             <p>
-                 <span className={styles2.userInfoTitle}>Apellidos:</span>
-                 <span className={styles2.userInfoData}> {userData.surname}</span>
-             </p>
-             <p>
-                 <span className={styles2.userInfoTitle}>Email:</span>
-                 <span className={styles2.userInfoData}> {userData.email}</span>
-             </p>
-             <p>
-                 <span className={styles2.userInfoTitle}>Fecha de Nacimiento:</span>
-                 <span className={styles2.userInfoData}> {userData.birthdate}</span>
-             </p>
-             <p>
-                 <span className={styles2.userInfoTitle}>Teléfono:</span>
-                 <span className={styles2.userInfoData}> {userData.phone}</span>
-             </p>
+    // Función para renderizar el contenido de la página en función del tab activo
+    const renderContent = () => {
+        if (activeTab === 'Inicio') {
+            return (
+                <div className={styles2.userInfoContainer}>
+                    <p className={styles2.userInfoPageTitle}>Información Personal</p>
+                    <p>
+                        <span className={styles2.userInfoTitle}>Usuario Empleado:</span>
+                        <span className={styles2.userInfoData}> R{userData.employee_id}</span>
+                    </p>
+                    <p>
+                        <span className={styles2.userInfoTitle}>Nombre:</span>
+                        <span className={styles2.userInfoData}> {userData.name}</span>
+                    </p>
+                    <p>
+                        <span className={styles2.userInfoTitle}>Apellidos:</span>
+                        <span className={styles2.userInfoData}> {userData.surname}</span>
+                    </p>
+                    <p>
+                        <span className={styles2.userInfoTitle}>Email:</span>
+                        <span className={styles2.userInfoData}> {userData.email}</span>
+                    </p>
+                    <p>
+                        <span className={styles2.userInfoTitle}>Fecha de Nacimiento:</span>
+                        <span className={styles2.userInfoData}> {userData.birthdate}</span>
+                    </p>
+                    <p>
+                        <span className={styles2.userInfoTitle}>Teléfono:</span>
+                        <span className={styles2.userInfoData}> {userData.phone}</span>
+                    </p>
 
-      </div>
-      );
-    } else if (activeTab === 'Clientes') {
-      return (
-        <div className={styles2.userInfoContainer}>
-            <p className={styles2.userInfoPageTitle}>Información de Clientes</p>
-            <div className={styles2.clientInfoContainer}>
-                {clientsData.map((client) => (
-                    <div key={client.client_id} className={styles2.clientInfo}>
-                        <p>
-                            <p>
-                                <span> {client.client_id}</span>
-                            </p>
-                            <p>
-                                <span>{client.name} {client.surname}</span>
-                            </p>
-                        </p>
-                        <p>
-                            <p>
-                                <span> {client.email}</span>
-                            </p>
-                            <p>
-                                <span> {client.phone}</span>
-                            </p>
-                        </p>
-                        <p>
-                            <p>
-                                <span> Tarifa:</span>
-                                <span> {client.rate_id}</span>
-                            </p>
-                            <p>
-                                <span> Clases disponibles:</span>
-                                <span> {client.available_classes}</span>
-                            </p>
-                        </p>
-                        {userData.user_admin && ( // Conditionally render the "Monitores" tab
-                            <div>
-                              <p>
-                                    <button onClick={() => deleteUser(client.client_id)}>Borrar</button>
-                              </p>
-                              <p>
-                                    <button onClick={() => openEditModal(client)}>Editar</button>
-                              </p>
+                </div>
+            );
+        } else if (activeTab === 'Clientes') {
+            return (
+                <div className={styles2.userInfoContainer}>
+                    <p className={styles2.userInfoPageTitle}>Información de Clientes</p>
+                    <div className={styles2.clientInfoContainer}>
+                        {clientsData.map((client) => (
+                            <div key={client.client_id} className={styles2.clientInfo}>
+                                <p>
+                                    <p>
+                                        <span> {client.client_id}</span>
+                                    </p>
+                                    <p>
+                                        <span>{client.name} {client.surname}</span>
+                                    </p>
+                                </p>
+                                <p>
+                                    <p>
+                                        <span> {client.email}</span>
+                                    </p>
+                                    <p>
+                                        <span> {client.phone}</span>
+                                    </p>
+                                </p>
+                                <p>
+                                    <p>
+                                        <span> Tarifa:</span>
+                                        <span> {client.rate_id}</span>
+                                    </p>
+                                    <p>
+                                        <span> Clases disponibles:</span>
+                                        <span> {client.available_classes}</span>
+                                    </p>
+                                </p>
+                                {userData.user_admin && ( // Conditionally render the "Monitores" tab
+                                    <div>
+                                        <p>
+                                            <button onClick={() => deleteUser(client.client_id)}>Borrar</button>
+                                        </p>
+                                        <p>
+                                            <button onClick={() => openEditModal(client)}>Editar</button>
+                                        </p>
+                                    </div>
+                                )}
                             </div>
-                        )}
+                        ))}
                     </div>
-                ))}
-            </div>
-            <button 
-                className={styles2.redRoundButton}
-                onClick={() => router.push(`/crearUsuarioInfo?employee_id=${employee_id}`)}
-            >
-                Añadir Cliente
-            </button>
-            {deleteModalOpen && (
-                <div className={styles2.modal}>
-                    <p>Estas seguro que deseas eliminar este {deleteItemType}?</p>
-                    <div>
-                    <button onClick={confirmDeletion}>Confirmar</button>
-                    <button onClick={cancelDeletion}>Cancelar</button>
-                    </div>
-                </div>
-            )}
-            {editModalOpen && (
-                <div className={styles2.modal}>
-                {/* You can create a new component for the modal */}
-                    <EditClientModal
-                        clientData={clientDataToEdit}
-                        onClose={() => setEditModalOpen(false)}
-                    />
-                </div>
-            )}
-      </div>
-      );
-    } else if (activeTab === 'Horarios') {
-      return (
-        <div className={styles2.userInfoContainer}>
-            <p className={styles2.userInfoPageTitle}>Información de Horarios</p>
-            <div className={styles2.horarioContainer}>
-                <HorarioPage className={styles2.horario}/>
-            </div>
-        </div>
-      )
-    } else if (activeTab === 'Monitores'){
-        return (
-            <div className={styles2.userInfoContainer}>
-                <p className={styles2.userInfoPageTitle}>Información de Monitores</p>
-                <div className={styles2.employeeInfoContainer}>
-                    {employeesData.map((employee) => (
-                        <div key={employee.employee_id} className={styles2.clientInfo}>
-                            <p>
-                                <p>
-                                    <span> R{employee.employee_id}</span>
-                                </p>
-                                <p>
-                                    <span> {employee.name} {employee.surname}</span>
-                                </p>
-                            </p>
-                            <p>
-                                <p>
-                                    <span> {employee.email}</span>
-                                </p>
-                                <p>
-                                    <span> {employee.phone}</span>
-                                </p>
-                            </p>
-                            <p>
-                              <p>
-                                    {parseInt(employee_id)!==employee.employee_id &&( <button onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
-                              </p>
-                              <p>
-                                    <button onClick={() => openEditEmployeeModal(employee)}>Editar</button>
-                              </p>
-                            </p>
+                    <button
+                        className={styles2.redRoundButton}
+                        onClick={() => router.push(`/crearUsuarioInfo?employee_id=${employee_id}`)}
+                    >
+                        Añadir Cliente
+                    </button>
+                    {deleteModalOpen && (
+                        <div className={styles2.modal}>
+                            <p>Estas seguro que deseas eliminar este {deleteItemType}?</p>
+                            <div>
+                                <button onClick={confirmDeletion}>Confirmar</button>
+                                <button onClick={cancelDeletion}>Cancelar</button>
+                            </div>
                         </div>
-                    ))}
-                </div>
-                <button 
-                    className={styles2.redRoundButton}
-                    onClick={() => router.push(`/crearMonitorInfo?employee_id=${employee_id}`)}
-                >
-                    Añadir Monitor
-                </button>
-                {deleteModalOpen && (
-                    <div className={styles2.modal}>
-                        <p>Estas seguro que deseas eliminar este {deleteItemType}?</p>
-                        <div>
-                        <button onClick={confirmDeletion}>Confirmar</button>
-                        <button onClick={cancelDeletion}>Cancelar</button>
+                    )}
+                    {editModalOpen && (
+                        <div className={styles2.modal}>
+                            <EditClientModal
+                                clientData={clientDataToEdit}
+                                onClose={() => onCloseModal()}
+                                onEdit={() => onEditModalSubmit()}
+                            />
                         </div>
-                    </div>
-                )}
-                {editEmployeeModalOpen && (
-                    <div className={styles2.modal}>
-                        {/* You can create a new component for the modal */}
-                        <EditEmployeeModal
-                            employeeData={employeeDataToEdit}
-                            onClose={() => setEditEmployeeModalOpen(false)}
-                        />
-                    </div>
-          )}
-          </div>
-        );
-    } else if (activeTab === 'Clases') {
-        return (
-          <div className={styles2.userInfoContainer}>
-            <p className={styles2.userInfoPageTitle}>Información de Clases</p>
-    
-            {/* Step 4: Add the header with arrow buttons to select the date */}
-            <div className={styles2.dateHeader}>
-              <button onClick={handlePrevDate}>&lt;</button>
-              <p>{selectedDate.toDateString()}</p>
-              <button onClick={handleNextDate}>&gt;</button>
-            </div>
-    
-            <div className={styles2.classesContainer}>
-              {classesDataForSelectedDate.map((classItem) => (
-                <div key={classItem.class_id} className={styles2.classInfo}>
-                  {/* Display the class information */}
+                    )}
                 </div>
-              ))}
-            </div>
-          </div>
-        );
-      }
-    
-  };
+            );
+        } else if (activeTab === 'Horarios') {
+            return (
+                <div className={styles2.userInfoContainer}>
+                    <p className={styles2.userInfoPageTitle}>Información de Horarios</p>
+                    <div className={styles2.horarioContainer}>
+                        <HorarioPage className={styles2.horario} />
+                    </div>
+                </div>
+            )
+        } else if (activeTab === 'Monitores') {
+            return (
+                <div className={styles2.userInfoContainer}>
+                    <p className={styles2.userInfoPageTitle}>Información de Monitores</p>
+                    <div className={styles2.employeeInfoContainer}>
+                        {employeesData.map((employee) => (
+                            <div key={employee.employee_id} className={styles2.clientInfo}>
+                                <p>
+                                    <p>
+                                        <span> R{employee.employee_id}</span>
+                                    </p>
+                                    <p>
+                                        <span> {employee.name} {employee.surname}</span>
+                                    </p>
+                                </p>
+                                <p>
+                                    <p>
+                                        <span> Usuario:</span>
+                                    </p>
+                                    <p>
+                                        <span> {employee.user_admin ? "Admin" : "Monitor"}</span>
+                                    </p>
+                                </p>
+                                <p>
+                                    <p>
+                                        <span> {employee.email}</span>
+                                    </p>
+                                    <p>
+                                        <span> {employee.phone}</span>
+                                    </p>
+                                </p>
+                                <p>
+                                    <p>
+                                        {parseInt(employee_id) !== employee.employee_id && (<button onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
+                                    </p>
+                                    <p>
+                                        <button onClick={() => openEditEmployeeModal(employee)}>Editar</button>
+                                    </p>
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                    <button
+                        className={styles2.redRoundButton}
+                        onClick={() => router.push(`/crearMonitorInfo?employee_id=${employee_id}`)}
+                    >
+                        Añadir Monitor
+                    </button>
+                    {deleteModalOpen && (
+                        <div className={styles2.modal}>
+                            <p>Estas seguro que deseas eliminar este {deleteItemType}?</p>
+                            <div>
+                                <button onClick={confirmDeletion}>Confirmar</button>
+                                <button onClick={cancelDeletion}>Cancelar</button>
+                            </div>
+                        </div>
+                    )}
+                    {editEmployeeModalOpen && (
+                        <div className={styles2.modal}>
+                            <EditEmployeeModal
+                                employeeData={employeeDataToEdit}
+                                onClose={() => onCloseModal()}
+                                onEdit={() => onEditModalSubmit()}
+                                employee={employee_id}
+                            />
+                        </div>
+                    )}
+                </div>
+            );
+        } else if (activeTab === 'Clases') {
+            return (
+                <div className={styles2.userInfoContainer}>
+                    <p className={styles2.userInfoPageTitle}>Información de Clases</p>
+
+                    {/* Step 4: Add the header with arrow buttons to select the date */}
+                    <div className={styles2.dateHeader}>
+                        <button onClick={handlePrevDate}>&lt;</button>
+                        <p>{selectedDate.toDateString()}</p>
+                        <button onClick={handleNextDate}>&gt;</button>
+                    </div>
+
+                    <div className={styles2.classesContainer}>
+                        {classesDataForSelectedDate.map((classItem) => (
+                            <div key={classItem.class_id} className={styles2.classInfo}>
+                                {/* Display the class information */}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+    };
 
     return (
         <>
@@ -359,51 +381,51 @@ export default function CrearUsuarioInfo(){
                 <Image src={Manos} alt="manos" className={styles2.imagenFondo} />
                 <div className={styles2.backgroundCanvas}>
                     <div className={styles2.userPageHeader}>
-                        <p 
-                        className={styles2.userPageHeaderItem}
-                        onClick={() => handleTabClick('Inicio')}
+                        <p
+                            className={styles2.userPageHeaderItem}
+                            onClick={() => handleTabClick('Inicio')}
                         >
                             Perfil
                         </p>
-                        <p 
-                        className={styles2.userPageHeaderItem}
-                        onClick={() => handleTabClick('Horarios')}
+                        <p
+                            className={styles2.userPageHeaderItem}
+                            onClick={() => handleTabClick('Horarios')}
                         >
                             Horarios
                         </p>
-                        <p 
-                        className={styles2.userPageHeaderItem}
-                        onClick={() => handleTabClick('Clases')}
+                        <p
+                            className={styles2.userPageHeaderItem}
+                            onClick={() => handleTabClick('Clases')}
                         >
                             Clases
                         </p>
-                        <p 
-                        className={styles2.userPageHeaderItem}
-                        onClick={() => handleTabClick('Clientes')}
+                        <p
+                            className={styles2.userPageHeaderItem}
+                            onClick={() => handleTabClick('Clientes')}
                         >
                             Clientes
                         </p>
                         {userData.user_admin && ( // Conditionally render the "Monitores" tab
-                              <p
+                            <p
                                 className={styles2.userPageHeaderItem}
                                 onClick={() => handleTabClick('Monitores')}
-                              >
+                            >
                                 Monitores
-                              </p>
+                            </p>
                         )}
-                        <p 
-                        className={styles2.userPageHeaderUsername}
-                        onClick={toggleDropdown}
+                        <p
+                            className={styles2.userPageHeaderUsername}
+                            onClick={toggleDropdown}
                         >
                             <span>{userData.name} {userData.surname}</span>
-                            <span><Image src={PersonIcon} alt=''/></span>
+                            <span><Image src={PersonIcon} alt='' /></span>
                         </p>
                         {showDropdown && (
                             <div className={styles2.userPageHeaderItem}>
                                 <Link href="/">
-                                <span onClick={handleLogout} className={styles2.logoutLink}>
-                                    Logout
-                                </span>
+                                    <span onClick={handleLogout} className={styles2.logoutLink}>
+                                        Logout
+                                    </span>
                                 </Link>
                             </div>
                         )}
