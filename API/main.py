@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import mysql.connector
 from mysql.connector import connect
 import traceback
+from datetime import date, time
 
 from pydantic import BaseModel
 
@@ -35,7 +36,7 @@ def make_connection():
 def hola_mundo():
     return {"mensaje": "Hola mundo"}
 
-class ClientCreateRequest(BaseModel):
+class ClientModel(BaseModel):
     email: str
     password: str
     name: str
@@ -48,7 +49,7 @@ class ClientCreateRequest(BaseModel):
     rate_id: int
     available_classes: int
     
-class EmployeeCreateRequest(BaseModel):
+class EmployeeModel(BaseModel):
     email: str
     password: str
     name: str
@@ -57,6 +58,19 @@ class EmployeeCreateRequest(BaseModel):
     phone: str
     user_admin: bool
 
+class ClassModel(BaseModel):
+    date: date
+    hour: time
+    duration: int
+    employee_id: int
+    class_name: str
+    num_places: int
+
+class AssistenceModel(BaseModel):
+    client_id: int
+    class_id: int
+
+#################### CLIENTES ####################
 
 # ---------- Función para obtener todos los clientes ---------- #
 @app.get("/clients")
@@ -134,7 +148,7 @@ def get_client(client_id: int):
 
 # ---------- Función para crear un nuevo cliente ---------- #
 @app.post("/clients")
-def create_client(client_data: ClientCreateRequest):
+def create_client(client_data: ClientModel):
     try:
         # Extract data from the request body
         email = client_data.email
@@ -184,7 +198,7 @@ def create_client(client_data: ClientCreateRequest):
 
 # ---------- Función para editar un cliente ---------- #
 @app.put("/clients/{client_id}")
-def update_client(client_id: int, client_data: ClientCreateRequest):
+def update_client(client_id: int, client_data: ClientModel):
     try:
         # Extract data from the request body
         email = client_data.email
@@ -293,6 +307,7 @@ async def check_client(request_data: dict):
         traceback.print_exc()
         return {"error": str(e)}
 
+#################### Empleados ####################
 
 # ---------- Función para obtener todos los empleados ---------- #
 @app.get("/employees")
@@ -364,7 +379,7 @@ def get_employee(employee_id: int):
 
 # ---------- Función para crear un nuevo empleado ---------- #
 @app.post("/employees")
-def create_employee(employee_data: EmployeeCreateRequest):
+def create_employee(employee_data: EmployeeModel):
     try:
         # Extract data from the request body
         email = employee_data.email
@@ -411,7 +426,7 @@ def create_employee(employee_data: EmployeeCreateRequest):
 # ---------- Función para editar un nuevo empleado ---------- #
 
 @app.put("/employees/{employee_id}")
-def update_employee(employee_id: int, employee_data: EmployeeCreateRequest):
+def update_employee(employee_id: int, employee_data: EmployeeModel):
     try:
         # Extract data from the request body
         email = employee_data.email
@@ -514,14 +529,74 @@ async def check_employee(request_data: dict):
         traceback.print_exc()
         return {"error": str(e)}
 
+#################### CLASES ####################
 
+# ---------- Función para obtener todas las clases ---------- #\
+@app.get("/all_classes")
+def get_classes():
+    try:
+        db = make_connection()
+        cursor = db.cursor()
 
+        query = "SELECT * FROM classes"
+        cursor.execute(query)
+        results = cursor.fetchall()
 
+        classes = []
+        for result in results:
+            class_data = {
+                "class_id": result[0],
+                "class_date": result[1],
+                "class_hour": result[2],
+                "duration": result[3],
+                "class_name": result[4],
+                "number_spaces": result[5],
+                "employee_id": result[6]
+            }
+            classes.append(class_data)
 
+        cursor.close()
+        db.close()
 
+        return {"classes":classes}
 
+    except Exception as e:
+        traceback.print_exc()
+        return {"error": str(e)}
 
+# ---------- Función para obtener todas las clases de un dia especifico ---------- #\
+@app.get("/classes")
+def get_classes(day: str):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
 
+        # Use a parameterized query to filter by day
+        query = "SELECT * FROM classes WHERE class_date = %s"
+        cursor.execute(query, (day,))
+        results = cursor.fetchall()
+
+        classes = []
+        for result in results:
+            class_data = {
+                "class_id": result[0],
+                "class_date": result[1],
+                "class_hour": result[2],
+                "duration": result[3],
+                "class_name": result[4],
+                "number_spaces": result[5],
+                "employee_id": result[6]
+            }
+            classes.append(class_data)
+
+        cursor.close()
+        db.close()
+
+        return {"classes":classes}
+
+    except Exception as e:
+        traceback.print_exc()
+        return {"error": str(e)}
 
 # ---------- CRUD Clases---------- #
 class Clase (BaseModel):

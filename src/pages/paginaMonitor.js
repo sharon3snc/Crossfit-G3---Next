@@ -5,7 +5,7 @@ import Manos from '../images/manos.jpg'
 import Envelope from '../images/envelope.svg'
 import PersonIcon from '../images/person-circle-red.svg'
 import styles2 from '@/styles/PaginaUsuario.module.css'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import HorarioPage from './horarioGrid2'
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -22,6 +22,7 @@ export default function CrearUsuarioInfo() {
     const [userData, setUserData] = useState({});
     const [employeesData, setEmployeesData] = useState([]);
     const [clientsData, setClientsData] = useState([]);
+    const [classesData, setClassesData] = useState([]);
 
     //asadfasdasdasd
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -62,10 +63,37 @@ export default function CrearUsuarioInfo() {
             }
         };
 
+        const fetchClassesData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/all_classes`);
+                setClassesData(response.data.classes); // Assign the 'clients' array to usersData
+            } catch (error) {
+            }
+        };
+
         fetchUserData();
         fetchClientsData();
         fetchEmployeesData();
+        // fetchClassesData();
     }, [employee_id]);
+
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0, so we add 1 and pad with '0'
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    useEffect(() => {
+        const fetchClassData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/classes?day=${formatDate(selectedDate)}`);
+                setClassesDataForSelectedDate(response.data.classes); // Assign the 'clients' array to usersData]
+            } catch (error) {
+            }
+        };
+        fetchClassData();
+    }, [selectedDate]);
 
 
     // useState para el tab activo
@@ -124,6 +152,8 @@ export default function CrearUsuarioInfo() {
         setDeleteModalOpen(false);
     };
 
+
+
     const handlePrevDate = () => {
         const prevDate = new Date(selectedDate);
         prevDate.setDate(selectedDate.getDate() - 1);
@@ -158,6 +188,22 @@ export default function CrearUsuarioInfo() {
         setEditEmployeeModalOpen(false)
         window.location.reload();
     }
+
+    const convertSecondsToTime = (seconds) => {
+        const date = new Date(Date.UTC(0, 0, 0, Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60))); // Create a date object at UTC midnight
+        const options = { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' };
+        return date.toLocaleTimeString([], options);
+    };
+
+    const findEmployeeByID = (id) => {
+        const selected_employee = employeesData.find((employee) => employee.employee_id === id);
+        if (selected_employee) {
+            return selected_employee.name + " " + selected_employee.surname;
+        } else {
+            return "Employee not found";
+        }
+    }
+
 
 
     // Función para renderizar el contenido de la página en función del tab activo
@@ -357,11 +403,45 @@ export default function CrearUsuarioInfo() {
 
                     <div className={styles2.classesContainer}>
                         {classesDataForSelectedDate.map((classItem) => (
-                            <div key={classItem.class_id} className={styles2.classInfo}>
-                                {/* Display the class information */}
+                            <div key={classItem.class_id} className={styles2.clientInfo}>
+                                <p>
+                                    <p>
+                                        <span> {classItem.class_date}</span>
+                                    </p>
+                                    <p>
+                                        <span> {convertSecondsToTime(classItem.class_hour)}</span>
+                                    </p>
+                                </p>
+                                <p>
+                                    <p>
+                                        <span> {classItem.class_name}</span>
+                                    </p>
+                                    <p>
+                                        <span> {classItem.duration} min</span>
+                                    </p>
+                                </p>
+                                <p>
+
+                                    <p>
+                                        <span> Coach: {findEmployeeByID(classItem.employee_id)}</span>
+                                    </p>
+                                    <p>
+                                        <span> Plazas: {classItem.number_spaces}</span>
+                                    </p>
+                                </p>
                             </div>
                         ))}
                     </div>
+                    {userData.user_admin && ( // Conditionally render the "Monitores" tab
+                        <div>
+                            <button
+                                className={styles2.redRoundButton}
+                                onClick={() => router.push(`/crearMonitorInfo?employee_id=${employee_id}`)}
+                            >
+                                Crear Clase
+                            </button>
+                        </div>
+                    )}
                 </div>
             );
         }

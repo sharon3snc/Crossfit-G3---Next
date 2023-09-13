@@ -6,3 +6,22 @@
 cerrarlo y refrescar la pagina en caso de aplicar los cambios.
 
 
+12-9-23
+
+- Se creó las funciones en la API para devolver todas las clases de la tabla classes y tambien para devolver todas las clases de un determinado dia.
+- Se creó con useEffect dependiente de selectedDate para que hiciera fetch a esa función tanto en la pagina de monitor como en la pagina de usuario.
+- Se crearon funciones auxiliares para realizar:
+    - Cambio de formato en hora para adaptarlo al fetch
+    - Cambio de formato de la hora de la tabla classes para mostrarlo como hora y no como segundos desde media noche.
+    - Busqueda del nombre del monitor sacado del array del employeesData usando el employee_id de la tabla Classes. para esto se tuvo que agregar
+    en los fetch iniciales de la pagina de usuarios un fetch de todos los empleados. esto no se va a mostrar en pantalla, solamente se usara para
+    poder mostrar el nombre del monitor en la lista
+- Se agrefaron nuevas clases desde el workbech y se comprobó que tanto la pagina de monitores como la pagina de uisuarios mostraban información correctamente.
+- Se agregó el boton de Crear Clase. Se enlazará a la nueva pagina de crear clase.
+
+Pendiente:
+- Crear pagina de crear clase. Crear funcion en FastAPI para crear la clase
+- Crear función para editar la clase.
+- Crear la opción para los clientes de inscribirse a la clase. Crear la función en FastAPI para esto.
+- Crear la opción de eliminar a alguien de una clase.
+- Borrar clase.

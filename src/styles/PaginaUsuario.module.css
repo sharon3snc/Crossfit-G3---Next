@@ -277,3 +277,11 @@
     background-color: rgb(212, 79, 79);
   }
   
+
+.classesContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow: scroll;
+    max-height: 100%;
+}
