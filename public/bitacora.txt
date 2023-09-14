@@ -25,3 +25,14 @@ Pendiente:
 - Crear la opción para los clientes de inscribirse a la clase. Crear la función en FastAPI para esto.
 - Crear la opción de eliminar a alguien de una clase.
 - Borrar clase.
+
+13-09-23
+
+- Se creó la función de fastapi para la creación de las clases.
+- Se creó la pagina para la creación de las clases basandose en las paginas de creación de 
+uduarios y de monitores.
+- Se modificaron los inputs para que fuese mas intiutiva la entrada de datos y que concordara con los de la tabla.
+
+** Se debe cambiar el formato en el que se envia la hora. no se debe enviar en segunddos sino en HH:mm:setSelectedDate
+** Se debe revisar los problemas al conectar con el servidor de mysql a la hora de hacer un post en la tabla clases. Problema solo pasa en la tabal clases
+ya que se probó creando un cliente nuevo y dijo INSERT funcionó correctamente. Probar eliminar la tabla y crearla de nuevo.

@@ -80,6 +80,10 @@ export default function CrearUsuarioInfo(){
         router.push(`/paginaMonitor?employee_id=${employee_id}`)
     }
     
+    const handleSubmit2 = async (e) => {
+        console.log(formData)
+        e.preventDefault();
+    }
     const passwordMatch = formData.password === formData.password2;
 
     return (

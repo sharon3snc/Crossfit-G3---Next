@@ -436,7 +436,7 @@ export default function CrearUsuarioInfo() {
                         <div>
                             <button
                                 className={styles2.redRoundButton}
-                                onClick={() => router.push(`/crearMonitorInfo?employee_id=${employee_id}`)}
+                                onClick={() => router.push(`/crearClase?employee_id=${employee_id}`)}
                             >
                                 Crear Clase
                             </button>

@@ -59,12 +59,12 @@ class EmployeeModel(BaseModel):
     user_admin: bool
 
 class ClassModel(BaseModel):
-    date: date
-    hour: time
+    class_date: date
+    class_hour: time
     duration: int
     employee_id: int
     class_name: str
-    num_places: int
+    number_spaces: int
 
 class AssistenceModel(BaseModel):
     client_id: int
@@ -564,7 +564,7 @@ def get_classes():
         traceback.print_exc()
         return {"error": str(e)}
 
-# ---------- Función para obtener todas las clases de un dia especifico ---------- #\
+# ---------- Función para obtener todas las clases de un dia especifico ---------- #
 @app.get("/classes")
 def get_classes(day: str):
     try:
@@ -597,6 +597,51 @@ def get_classes(day: str):
     except Exception as e:
         traceback.print_exc()
         return {"error": str(e)}
+
+# ---------- Función para crear una nueva clase ---------- #
+@app.post("/classes")
+def create_class(class_data: ClassModel):
+    try:
+        # Extract data from the request body
+        class_date = class_data.class_date
+        class_hour = class_data.class_hour
+        duration = class_data.duration
+        employee_id = class_data.employee_id
+        class_name = class_data.class_name
+        number_spaces = class_data.number_spaces
+
+        # Create a connection to the database
+        db = make_connection()
+
+        # Create a cursor to execute SQL queries
+        cursor = db.cursor()
+
+        # Construct the SQL query to insert a new class
+        query = """
+        INSERT INTO classes (class_date, class_hour, duration, employee_id, class_name, number_spaces)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        values = (class_date, class_hour, duration, employee_id, class_name, number_spaces)
+
+        # Execute the SQL query
+        cursor.execute(query, values)
+
+        # Commit the changes to the database
+        db.commit()
+
+        # Close the cursor and database connection
+        cursor.close()
+        db.close()
+
+        # Return a response indicating success
+        return {"message": "Class created successfully"}
+
+    except Exception as e:
+        # Handle any exceptions and return an error response
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
 
 # ---------- CRUD Clases---------- #
 class Clase (BaseModel):
