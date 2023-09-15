@@ -531,7 +531,7 @@ async def check_employee(request_data: dict):
 
 #################### CLASES ####################
 
-# ---------- Función para obtener todas las clases ---------- #\
+# ---------- Función para obtener todas las clases ---------- #
 @app.get("/all_classes")
 def get_classes():
     try:
@@ -598,6 +598,43 @@ def get_classes(day: str):
         traceback.print_exc()
         return {"error": str(e)}
 
+# ---------- Función para obtener una clase con un determinado id ---------- #
+
+@app.get("/classes/{class_id}")
+def get_class_by_id(class_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "SELECT * FROM classes WHERE class_id = %s"
+        cursor.execute(query, (class_id,))
+        result = cursor.fetchone()
+
+        if result is None:
+            return {"error": "Class not found"}
+
+        class_data = {
+            "class_id": result[0],
+            "class_date": str(result[1]),
+            "class_hour": str(result[2]),
+            "duration": result[3],
+            "class_name": result[4],
+            "number_spaces": result[5],
+            "employee_id": result[6]
+        }
+
+        cursor.close()
+        db.close()
+
+        return {"class": class_data}
+
+    except Exception as e:
+        # If you want to print the traceback for more detailed error info, you can import it:
+        # import traceback
+        # traceback.print_exc()
+        return {"error": str(e)}
+
+
 # ---------- Función para crear una nueva clase ---------- #
 @app.post("/classes")
 def create_class(class_data: ClassModel):
@@ -640,8 +677,72 @@ def create_class(class_data: ClassModel):
         # Handle any exceptions and return an error response
         raise HTTPException(status_code=500, detail=str(e))
 
+# ---------- Función para eliminar una clase ---------- #
 
+@app.delete("/classes/{class_id}")
+def delete_class(class_id: int):
+    try:
+        # Create a connection to the database
+        db = make_connection()
 
+        # Create a cursor to execute SQL queries
+        cursor = db.cursor()
+
+        # Check if the class with the given ID exists
+        cursor.execute("SELECT COUNT(1) FROM classes WHERE class_id = %s", (class_id,))
+        exists = cursor.fetchone()[0]
+        
+        if not exists:
+            cursor.close()
+            db.close()
+            raise HTTPException(status_code=404, detail="Class not found")
+
+        # Construct the SQL query to delete the class
+        query = "DELETE FROM classes WHERE class_id = %s"
+        cursor.execute(query, (class_id,))
+
+        # Commit the changes to the database
+        db.commit()
+
+        # Close the cursor and database connection
+        cursor.close()
+        db.close()
+
+        # Return a response indicating success
+        return {"message": f"Class with ID {class_id} deleted successfully"}
+
+    except Exception as e:
+        # Handle any exceptions and return an error response
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ---------- Función para editar una clase ---------- #
+
+@app.put("/classes/{class_id}")
+def update_class(class_id: int, class_data: ClassModel):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        # Construct the SQL query dynamically based on provided data
+        update_data = class_data.dict(exclude_unset=True)
+        set_statements = [f"{key} = %s" for key in update_data.keys()]
+        query = f"UPDATE classes SET {', '.join(set_statements)} WHERE class_id = %s"
+        values = list(update_data.values()) + [class_id]
+
+        cursor.execute(query, values)
+        updated_rows = cursor.rowcount
+
+        if updated_rows == 0:
+            raise HTTPException(status_code=404, detail="Class not found or no update was needed")
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return {"message": f"Class with ID {class_id} updated successfully"}
+
+    except Exception as e:
+        return {"error": str(e)}
 
 # ---------- CRUD Clases---------- #
 class Clase (BaseModel):

@@ -285,3 +285,11 @@
     overflow: scroll;
     max-height: 100%;
 }
+
+.listButton{
+    background-color: rgb(212,79,79);
+    border: none;
+    border-radius: 9999px;
+    padding: 3px;
+    margin: 2px;
+}

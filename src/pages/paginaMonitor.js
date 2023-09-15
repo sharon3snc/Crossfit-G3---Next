@@ -96,13 +96,11 @@ export default function CrearUsuarioInfo() {
     }, [selectedDate]);
 
 
-    // useState para el tab activo
     const [activeTab, setActiveTab] = useState('Inicio');
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     };
 
-    // Sección de código para el dropdown de usuario que hace logout
     const [showDropdown, setShowDropdown] = useState(false);
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -124,20 +122,24 @@ export default function CrearUsuarioInfo() {
         setDeleteModalOpen(true);
     };
 
+    const deleteClass = (classId) => {
+        setDeleteItemId(classId);
+        setDeleteItemType('clase');
+        setDeleteModalOpen(true);
+    };
+
     const confirmDeletion = async () => {
         if (deleteItemType === 'cliente') {
-            // Implement your logic to delete the user with the deleteItemId
-            // This could involve making an API call or updating the state
-            // Once the user is deleted, you can perform any necessary actions
             const response = await axios.delete(`http://localhost:8000/clients/${deleteItemId}`);
             alert(`Cliente con ID ${deleteItemId} eliminado.`);
             window.location.reload();
         } else if (deleteItemType === 'monitor') {
-            // Implement your logic to delete the employee with the deleteItemId
-            // This could involve making an API call or updating the state
-            // Once the employee is deleted, you can perform any necessary actions
             const response = await axios.delete(`http://localhost:8000/employees/${deleteItemId}`);
             alert(`Monitor con usuario R${deleteItemId} eliminado.`);
+            window.location.reload();
+        } else if (deleteItemType === 'clase') {
+            const response = await axios.delete(`http://localhost:8000/classes/${deleteItemId}`);
+            alert('Clase eliminada.');
             window.location.reload();
         }
 
@@ -275,10 +277,10 @@ export default function CrearUsuarioInfo() {
                                 {userData.user_admin && ( // Conditionally render the "Monitores" tab
                                     <div>
                                         <p>
-                                            <button onClick={() => deleteUser(client.client_id)}>Borrar</button>
+                                            <button className={styles2.listButton} onClick={() => deleteUser(client.client_id)}>Borrar</button>
                                         </p>
                                         <p>
-                                            <button onClick={() => openEditModal(client)}>Editar</button>
+                                            <button className={styles2.listButton} onClick={() => openEditModal(client)}>Editar</button>
                                         </p>
                                     </div>
                                 )}
@@ -337,7 +339,7 @@ export default function CrearUsuarioInfo() {
                                 </p>
                                 <p>
                                     <p>
-                                        <span> Usuario:</span>
+                                        <span> Rol:</span>
                                     </p>
                                     <p>
                                         <span> {employee.user_admin ? "Admin" : "Monitor"}</span>
@@ -353,10 +355,10 @@ export default function CrearUsuarioInfo() {
                                 </p>
                                 <p>
                                     <p>
-                                        {parseInt(employee_id) !== employee.employee_id && (<button onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
+                                        {parseInt(employee_id) !== employee.employee_id && (<button className={styles2.listButton} onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
                                     </p>
                                     <p>
-                                        <button onClick={() => openEditEmployeeModal(employee)}>Editar</button>
+                                        <button className={styles2.listButton} onClick={() => openEditEmployeeModal(employee)}>Editar</button>
                                     </p>
                                 </p>
                             </div>
@@ -429,8 +431,32 @@ export default function CrearUsuarioInfo() {
                                         <span> Plazas: {classItem.number_spaces}</span>
                                     </p>
                                 </p>
+                                {userData.user_admin && ( // Conditionally render the "Monitores" tab
+                                    <div>
+                                        <p>
+                                            <button className={styles2.listButton} onClick={() => deleteClass(classItem.class_id)}>Borrar</button>
+                                        </p>
+                                        <p>
+                                            <button
+                                                className={styles2.listButton}
+                                                onClick={() => router.push(`/crearClase?employee_id=${employee_id}&edit=true&edit_class_id=${classItem.class_id}`)}
+                                            >
+                                                Editar
+                                            </button>
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         ))}
+                        {deleteModalOpen && (
+                            <div className={styles2.modal}>
+                                <p>Estas seguro que deseas eliminar esta {deleteItemType} con id {deleteItemId}?</p>
+                                <div>
+                                    <button onClick={confirmDeletion}>Confirmar</button>
+                                    <button onClick={cancelDeletion}>Cancelar</button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                     {userData.user_admin && ( // Conditionally render the "Monitores" tab
                         <div>

@@ -7,27 +7,37 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+// class_date = class_data.class_date
+//         class_hour = class_data.class_hour
+//         duration = class_data.duration
+//         employee_id = class_data.employee_id
+//         class_name = class_data.class_name
+//         number_spaces = class_data.number_spaces
+
 
 export default function CrearMonitorInfo() {
     const router = useRouter();
     const { employee_id } = router.query;
+    const { edit } = router.query;
+    const { edit_class_id } = router.query;
     const [employeesData, setEmployeesData] = useState([]);
+    const [classData, setClassData] = useState([]);
 
     const initialFormData = {
-        date: '',
-        hour: '',
+        class_date: '',
+        class_hour: '',
         duration: '',
         employee_id: '',
         class_name: '',
-        num_places: ''
+        number_spaces: ''
     }
     const [formData, setFormData] = useState({
-        date: '',
-        hour: '',
+        class_date: '',
+        class_hour: '',
         duration: '',
         employee_id: '',
         class_name: '',
-        num_places: ''
+        number_spaces: ''
     });
 
     useEffect(() => {
@@ -38,45 +48,88 @@ export default function CrearMonitorInfo() {
             } catch (error) {
             }
         };
+        const fetchClassesData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/all_classes`);
+                setClassesData(response.data.employees); // Assign the 'clients' array to usersData
+            } catch (error) {
+            }
+        };
+
         fetchEmployeesData();
+        fetchClassesData();
+
+        if (edit) {
+            console.log(edit_class_id)
+            const fetchClassData = async () => {
+                try {
+                    const response = await axios.get(`http://127.0.0.1:8000/classes/${edit_class_id}`);
+                    setClassData(response.data); // Assign the 'clients' array to usersData
+                    setFormData({
+                        class_date: response.data.class.class_date,
+                        class_hour: response.data.class.class_hour,
+                        duration: response.data.class.duration, // converting number to string, if you need it as a string
+                        employee_id: response.data.class.employee_id, // converting number to string, if you need it as a string
+                        class_name: response.data.class.class_name,
+                        number_spaces: response.data.class.number_spaces // converting number to string, if you need it as a string
+                    });
+                } catch (error) {
+                }
+            };
+            fetchClassData();
+            console.log(classData)
+            setFormData({
+                class_date: classData.class_date,
+                class_hour: classData.class_hour,
+                duration: classData.duration, // converting number to string, if you need it as a string
+                employee_id: classData.employee_id, // converting number to string, if you need it as a string
+                class_name: classData.class_name,
+                number_spaces: classData.number_spaces // converting number to string, if you need it as a string
+            });
+        } else {
+            console.log('no edit')
+        }
+
     }, [employee_id]);
+
+
 
     const handleEvent = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
-        console.log(e.target.value)
+        // console.log(e.target.value)
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8000/classes', formData);
-            console.log(response.data); // Assuming the API returns the created client data
-            setFormData(initialFormData);
-        } catch (error) {
-            console.error(error);
+        if (!edit) {
+            try {
+                const response = await axios.post('http://localhost:8000/classes', formData);
+                console.log(response.data); // Assuming the API returns the created client data
+                setFormData(initialFormData);
+            } catch (error) {
+                console.error(error);
+            }
+            alert('Clase creada con éxito')
+        } else {
+            try {
+                const response = await axios.put(`http://localhost:8000/classes/${edit_class_id}`, formData);
+                console.log(response.data); // Assuming the API returns the created client data
+                setFormData(initialFormData);
+            } catch (error) {
+                console.error(error);
+            }
+            alert('Clase editada con éxito')
         }
-
         setFormData(initialFormData)
-        //router.push(`/paginaMonitor?employee_id=${employee_id}`)
+        router.push(`/paginaMonitor?employee_id=${employee_id}`)
     }
 
     const handleSubmit2 = async (e) => {
         console.log(formData)
         e.preventDefault();
-    }
-
-    function secondsToHHMM(seconds) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-    }
-
-    function hhmmToSeconds(hhmm) {
-        const [hours, minutes] = hhmm.split(':').map(Number);
-        return hours * 3600 + minutes * 60;
     }
 
     return (
@@ -99,23 +152,21 @@ export default function CrearMonitorInfo() {
 
                                 <input
                                     className={styles2.formInput}
-                                    name='date'
+                                    name='class_date'
                                     type="date"
                                     placeholder='YYYY-MM-DD'
-                                    value={formData.date}
+                                    value={formData.class_date}
                                     onChange={handleEvent}
                                     required
                                 />
                                 <input
                                     className={styles2.formInput}
-                                    name='hour'
+                                    name="class_hour"
                                     type="time"
-                                    placeholder='HH:mm'
-                                    value={secondsToHHMM(formData.hour)}
-                                    onChange={(e) => {
-                                        const seconds = hhmmToSeconds(e.target.value);
-                                        handleEvent({ ...e, target: { ...e.target, name: 'hour', value: seconds } });
-                                    }}
+                                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]"
+                                    placeholder="HH:mm:ss"
+                                    value={formData.class_hour}
+                                    onChange={handleEvent}
                                     required
                                 />
                                 <select
@@ -161,16 +212,16 @@ export default function CrearMonitorInfo() {
                                 />
                                 <input
                                     className={styles2.formInput}
-                                    name='num_places'
+                                    name='number_spaces'
                                     type="number"
                                     min="0"
                                     max="25"
                                     step="1"
                                     placeholder='Enter a number'
-                                    value={formData.num_places}
+                                    value={formData.number_spaces}
                                     onChange={(e) => {
                                         const valueAsInt = parseInt(e.target.value, 10);
-                                        handleEvent({ ...e, target: { ...e.target, name: 'num_places', value: valueAsInt } });
+                                        handleEvent({ ...e, target: { ...e.target, name: 'number_spaces', value: valueAsInt } });
                                     }}
                                     required
                                 />
@@ -179,7 +230,7 @@ export default function CrearMonitorInfo() {
                             <button
                                 className={styles2.redRoundButton}
                                 type="submit"
-                            >Crear Clase
+                            >{edit ? 'Editar Clase' : 'Crear Clase'}
                             </button>
                         </form>
                     </div>

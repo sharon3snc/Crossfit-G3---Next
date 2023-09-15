@@ -199,7 +199,7 @@ export default function CrearUsuarioInfo() {
 
           <div className={styles2.classesContainer}>
             {classesDataForSelectedDate.map((classItem) => (
-              <div key={classItem.class_id} className={styles2.clientInfo}>
+              <div onClick={() => {alert(`Clase ${classItem.class_id} Seleccionada`)}} key={classItem.class_id} className={styles2.clientInfo}>
                 <p>
                   <p>
                     <span> {classItem.class_date}</span>
