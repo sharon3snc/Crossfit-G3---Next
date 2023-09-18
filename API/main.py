@@ -599,7 +599,6 @@ def get_classes(day: str):
         return {"error": str(e)}
 
 # ---------- Función para obtener una clase con un determinado id ---------- #
-
 @app.get("/classes/{class_id}")
 def get_class_by_id(class_id: int):
     try:
@@ -633,7 +632,6 @@ def get_class_by_id(class_id: int):
         # import traceback
         # traceback.print_exc()
         return {"error": str(e)}
-
 
 # ---------- Función para crear una nueva clase ---------- #
 @app.post("/classes")
@@ -678,7 +676,6 @@ def create_class(class_data: ClassModel):
         raise HTTPException(status_code=500, detail=str(e))
 
 # ---------- Función para eliminar una clase ---------- #
-
 @app.delete("/classes/{class_id}")
 def delete_class(class_id: int):
     try:
@@ -716,7 +713,6 @@ def delete_class(class_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 # ---------- Función para editar una clase ---------- #
-
 @app.put("/classes/{class_id}")
 def update_class(class_id: int, class_data: ClassModel):
     try:
@@ -743,6 +739,154 @@ def update_class(class_id: int, class_data: ClassModel):
 
     except Exception as e:
         return {"error": str(e)}
+
+# ---------- Función para decrementar numero de plazas disponibles ---------- #
+@app.post("/classes/{class_id}/decrement_spaces")
+def decrement_spaces(class_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "UPDATE classes SET number_spaces = number_spaces - 1 WHERE class_id = %s AND number_spaces > 0"
+        cursor.execute(query, (class_id,))
+
+        updated_rows = cursor.rowcount
+        if updated_rows == 0:
+            raise HTTPException(status_code=404, detail="Class not found or no spaces available")
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return {"message": f"Number of spaces for class with ID {class_id} decremented successfully"}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+# ---------- Función para aumentar numero de plazas disponibles ---------- #
+@app.post("/classes/{class_id}/increment_spaces")
+def increment_spaces(class_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "UPDATE classes SET number_spaces = number_spaces + 1 WHERE class_id = %s"
+        cursor.execute(query, (class_id,))
+
+        updated_rows = cursor.rowcount
+        if updated_rows == 0:
+            raise HTTPException(status_code=404, detail="Class not found")
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return {"message": f"Number of spaces for class with ID {class_id} incremented successfully"}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+
+#################### ASISTENCIA ####################
+
+# ---------- Función para obtener una asistencia segun cliente ---------- #
+@app.get("/assistance_by_client/{client_id}")
+def get_classes_for_client(client_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "SELECT client_id, class_id FROM client_classes WHERE client_id = %s"
+        cursor.execute(query, (client_id,))
+        results = cursor.fetchall()
+
+        if not results:
+            raise HTTPException(status_code=404, detail="No classes found for this client")
+
+        assistances = [AssistenceModel(client_id=row[0], class_id=row[1]) for row in results]
+
+        cursor.close()
+        db.close()
+
+        return assistances
+
+    except Exception as e:
+        return {"error": str(e)}
+
+# ---------- Función para obtener una asistencia segun clase ---------- #
+@app.get("/assistance_by_class/{class_id}")
+def get_clients_for_class(class_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "SELECT client_id, class_id FROM client_classes WHERE class_id = %s"
+        cursor.execute(query, (class_id,))
+        results = cursor.fetchall()
+
+        if not results:
+            raise HTTPException(status_code=404, detail="No clients found for this class")
+
+        assistances = [AssistenceModel(client_id=row[0], class_id=row[1]) for row in results]
+
+        cursor.close()
+        db.close()
+
+        return assistances
+
+    except Exception as e:
+        return {"error": str(e)}
+
+# ---------- Función para crear una asistencia ---------- #
+@app.post("/assistance/")
+def create_assistance(client_id: int, class_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "INSERT INTO client_classes (client_id, class_id) VALUES (%s, %s)"
+        cursor.execute(query, (client_id, class_id))
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return {"message": f"Assistance for client {client_id} in class {class_id} created successfully"}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+# ---------- Función para borrar una asistencia ---------- #
+@app.delete("/delete_assistance/{client_id}/{class_id}")
+def delete_assistance(client_id: int, class_id: int):
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        query = "DELETE FROM client_classes WHERE client_id = %s AND class_id = %s"
+        cursor.execute(query, (client_id, class_id))
+        deleted_rows = cursor.rowcount
+
+        if deleted_rows == 0:
+            raise HTTPException(status_code=404, detail="Assistance not found")
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return {"message": f"Assistance for client {client_id} in class {class_id} deleted successfully"}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+
+
+
+
+
+
+
+
 
 # ---------- CRUD Clases---------- #
 class Clase (BaseModel):

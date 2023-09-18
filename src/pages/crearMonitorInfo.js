@@ -3,26 +3,17 @@ import Logo from '../images/Logo.png'
 import Image from 'next/image'
 import Manos from '../images/manos.jpg'
 import styles2 from '@/styles/CrearUsuario.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-/*
-CREATE TABLE employees (
-  employee_id INT AUTO_INCREMENT PRIMARY KEY,
-  password VARCHAR(255) NOT NULL,
-  user_admin BOOLEAN NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  surname VARCHAR(255) NOT NULL,
-  birthdate DATE NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  phone VARCHAR(255) NOT NULL
-);
-*/
-
-export default function CrearMonitorInfo(){
+export default function CrearMonitorInfo() {
     const router = useRouter();
     const { employee_id } = router.query;
+    const { edit } = router.query;
+    const { edit_employee_id } = router.query;
+    const [employeesData, setEmployeesData] = useState([]);
+
     const initialFormData = {
         user_admin: false,
         name: '',
@@ -44,6 +35,38 @@ export default function CrearMonitorInfo(){
         password2: ''
     });
 
+    useEffect(() => {
+        const fetchEmployeesData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/employees`);
+                setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+            } catch (error) {
+            }
+        };
+        fetchEmployeesData();
+        if (edit) {
+            console.log(edit_employee_id)
+            const fetchEmployeeData = async () => {
+                try {
+                    const response = await axios.get(`http://127.0.0.1:8000/employees/${edit_employee_id}`);
+                    setFormData({
+                        user_admin: response.data.employee.user_admin,
+                        name: response.data.employee.name,
+                        surname: response.data.employee.surname,
+                        birthdate: response.data.employee.birthdate,
+                        email: response.data.employee.email,
+                        phone: response.data.employee.phone,
+                        password: response.data.employee.password,
+                        password2: response.data.employee.password
+                    });
+                } catch (error) {
+                }
+            };
+            fetchEmployeeData();
+        }
+
+    }, [employee_id]);
+
     const handleEvent = (e) => {
         const currentDate = new Date().toISOString().split('T')[0];
         setFormData({
@@ -56,18 +79,29 @@ export default function CrearMonitorInfo(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8000/employees', formData);
-            console.log(response.data); // Assuming the API returns the created client data
-            setFormData(initialFormData);
-          } catch (error) {
-            console.error(error);
+        if (edit) {
+            try {
+                const response = await axios.put(`http://localhost:8000/employees/${edit_employee_id}`, formData);
+                console.log(response.data); // Assuming the API returns the created client data
+                setFormData(initialFormData);
+                alert('Monitor editado correctamente')
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            try {
+                const response = await axios.post('http://localhost:8000/employees', formData);
+                console.log(response.data); // Assuming the API returns the created client data
+                setFormData(initialFormData);
+                alert('Monitor creado correctamente')
+            } catch (error) {
+                console.error(error);
+            }
         }
-        
         setFormData(initialFormData)
         router.push(`/paginaMonitor?employee_id=${employee_id}`)
     }
-    
+
     const passwordMatch = formData.password === formData.password2;
 
     return (
@@ -89,13 +123,13 @@ export default function CrearMonitorInfo(){
                             <div className={styles2.formContainerInfo}>
 
                                 <input
-                                    className={styles2.formInput} 
+                                    className={styles2.formInput}
                                     name='name'
-                                    type="text" 
-                                    placeholder='Nombre' 
+                                    type="text"
+                                    placeholder='Nombre'
                                     value={formData.name}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
                                 <input
@@ -105,38 +139,38 @@ export default function CrearMonitorInfo(){
                                     placeholder='Apellidos'
                                     value={formData.surname}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
                                 <input
-                                    className={styles2.formInput} 
+                                    className={styles2.formInput}
                                     name='email'
-                                    type="text" 
-                                    placeholder='Email' 
+                                    type="text"
+                                    placeholder='Email'
                                     value={formData.email}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name='birthdate'
-                                    type="text" 
-                                    placeholder='Fecha de Nacimiento' 
+                                    type="text"
+                                    placeholder='Fecha de Nacimiento'
                                     value={formData.birthdate}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                     pattern='^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[01])$'
                                 />
 
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name='phone'
-                                    type="text" 
-                                    placeholder='Teléfono' 
+                                    type="text"
+                                    placeholder='Teléfono'
                                     value={formData.phone}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
                                 <div className={styles2.formInput}>
                                     <input
@@ -150,30 +184,30 @@ export default function CrearMonitorInfo(){
                                 </div>
                             </div>
                             <div className={styles2.passwordContainer}>
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name="password"
-                                    type="password" 
+                                    type="password"
                                     placeholder='Contraseña'
                                     value={formData.password}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name="password2"
-                                    type="password" 
-                                    placeholder='Repetir contraseña' 
+                                    type="password"
+                                    placeholder='Repetir contraseña'
                                     value={formData.password2}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
                             </div>
-                            <button 
-                                className={styles2.redRoundButton} 
-                                type="submit" 
+                            <button
+                                className={styles2.redRoundButton}
+                                type="submit"
                                 disabled={!passwordMatch}
-                            >Crear Usuario
+                            >{edit ? 'Editar Monitor' : 'Crear Monitor'}
                             </button>
                         </form>
                     </div>

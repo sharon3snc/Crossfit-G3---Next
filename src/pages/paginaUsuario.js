@@ -29,29 +29,36 @@ export default function CrearUsuarioInfo() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [classesDataForSelectedDate, setClassesDataForSelectedDate] = useState([]);
 
+  const [assistanceData, setAssistanceData] = useState([]);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/clients/${client_id}`);
         setUserData(response.data.client); // Assign the 'clients' array to usersData
-        // const userD = response.data.clients.find(
-        //     (user) => user.client_id === parseInt(client_id)
-        // );
-        // setUserData(userD || {});
       } catch (error) {
       }
     };
 
     const fetchEmployeesData = async () => {
       try {
-          const response = await axios.get(`http://127.0.0.1:8000/employees`);
-          setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+        const response = await axios.get(`http://127.0.0.1:8000/employees`);
+        setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
       } catch (error) {
       }
-  };
+    };
+
+    const fetchAssistanceData = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/assistance_by_client/${client_id}`);
+        setAssistanceData(response.data);
+      } catch (error) {
+      }
+    };
 
     fetchUserData();
     fetchEmployeesData();
+    fetchAssistanceData();
   }, [client_id]);
 
   const formatDate = (date) => {
@@ -120,6 +127,75 @@ export default function CrearUsuarioInfo() {
       return "Employee not found";
     }
   }
+
+  const [assistanceModalOpen, setAssistanceModalOpen] = useState(false);
+  const [cancelAssistanceModalOpen, setCancelAssistanceModalOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState({});
+
+  const assistanceModal = (class_id) => {
+    setAssistanceModalOpen(true);
+    setSelectedClass(class_id);
+  }
+
+  const cancelAssistanceModal = (class_id) => {
+    setCancelAssistanceModalOpen(true);
+    setSelectedClass(class_id);
+  }
+
+
+  const confirmAssistance = async () => {
+
+    const number_spaces = classesDataForSelectedDate.find(classItem => classItem.class_id === selectedClass).number_spaces;
+    if (number_spaces === 0) {
+      alert("No quedan plazas disponibles para esta clase.");
+      setAssistanceModalOpen(false);
+      return;
+    }
+
+
+    if (Array.isArray(assistanceData) && assistanceData.length > 0) {
+      const assistance = assistanceData.find(assistance => assistance.class_id === selectedClass);
+
+      if (assistance) {
+        alert("Ya tienes reservada esta clase.");
+        setAssistanceModalOpen(false);
+        return;
+      }
+
+
+    }
+
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/assistance?client_id=${client_id}&class_id=${selectedClass}`);
+      const response2 = await axios.post(`http://127.0.0.1:8000/classes/${selectedClass}/decrement_spaces`)
+
+      if (response.data.error) {
+        alert("Error: " + response.data.error);
+        return;
+      }
+
+      setAssistanceModalOpen(false);
+      window.location.reload();
+
+    } catch (error) {
+      console.error("There was an error making the request:", error);
+      alert("Failed to confirm assistance. Please try again.");
+    }
+  }
+
+  const cancelAssistance = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:8000/delete_assistance/${client_id}/${selectedClass}`);
+      const response2 = await axios.post(`http://127.0.0.1:8000/classes/${selectedClass}/increment_spaces`)
+    } catch (error) {
+      console.error("There was an error making the request:", error);
+      alert("Failed to cancel assistance. Please try again.");
+    }
+
+    setCancelAssistanceModalOpen(false);
+    window.location.reload();
+  }
+
 
 
 
@@ -199,7 +275,7 @@ export default function CrearUsuarioInfo() {
 
           <div className={styles2.classesContainer}>
             {classesDataForSelectedDate.map((classItem) => (
-              <div onClick={() => {alert(`Clase ${classItem.class_id} Seleccionada`)}} key={classItem.class_id} className={styles2.clientInfo}>
+              <div key={classItem.class_id} className={styles2.clientInfo}>
                 <p>
                   <p>
                     <span> {classItem.class_date}</span>
@@ -225,10 +301,37 @@ export default function CrearUsuarioInfo() {
                     <span> Plazas: {classItem.number_spaces}</span>
                   </p>
                 </p>
+                <p>
+                  {
+                    Array.isArray(assistanceData) && assistanceData.some(assistance => assistance.class_id === classItem.class_id)
+                      ? <button className={styles2.listButton} onClick={() => cancelAssistanceModal(classItem.class_id)}>Cancelar Reserva</button>
+                      : <button className={styles2.listButton} onClick={() => assistanceModal(classItem.class_id)}> Reservar</button>
+                  }
+                </p>
+
               </div>
             ))}
           </div>
+          {assistanceModalOpen && (
+            <div className={styles2.modal}>
+              <p>¿Deseas confirmar asistencia a esta clase?</p>
+              <div>
+                <button onClick={() => confirmAssistance()}>Confirmar</button>
+                <button onClick={() => setAssistanceModalOpen(false)}>Cancelar</button>
+              </div>
+            </div>
+          )}
+          {cancelAssistanceModalOpen && (
+            <div className={styles2.modal}>
+              <p>¿Deseas cancelar asistencia a esta clase?</p>
+              <div>
+                <button onClick={() => cancelAssistance()}>Confirmar</button>
+                <button onClick={() => setCancelAssistanceModalOpen(false)}>Cancelar</button>
+              </div>
+            </div>
+          )}
         </div>
+
       );
     }
   };
@@ -252,12 +355,12 @@ export default function CrearUsuarioInfo() {
             >
               Perfil
             </p>
-            <p
+            {/* <p
               className={styles2.userPageHeaderItem}
               onClick={() => handleTabClick('Reservas')}
             >
               Reservas
-            </p>
+            </p> */}
             <p
               className={styles2.userPageHeaderItem}
               onClick={() => handleTabClick('Horarios')}

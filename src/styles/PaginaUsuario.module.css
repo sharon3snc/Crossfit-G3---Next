@@ -293,3 +293,14 @@
     padding: 3px;
     margin: 2px;
 }
+
+.assistaceList{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    padding: 10px;
+    padding-right: 30px;
+    padding-left: 10px;
+}

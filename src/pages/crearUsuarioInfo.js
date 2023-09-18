@@ -3,30 +3,16 @@ import Logo from '../images/Logo.png'
 import Image from 'next/image'
 import Manos from '../images/manos.jpg'
 import styles2 from '@/styles/CrearUsuario.module.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-/*
-CREATE TABLE clients (
-    client_id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255),
-    password VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    surname VARCHAR(255) NOT NULL,
-    birthdate DATE NOT NULL,
-    phone VARCHAR(255) NOT NULL,
-    inscription_date DATE NOT NULL,
-    emergency_contact VARCHAR(255) NOT NULL,
-    emergency_phone VARCHAR(255) NOT NULL,
-    rate_id INT,
-    available_classes INT
-  );
-*/ 
-
-export default function CrearUsuarioInfo(){
+export default function CrearUsuarioInfo() {
     const router = useRouter();
     const { employee_id } = router.query;
+    const { edit } = router.query;
+    const { edit_client_id } = router.query;
+
     const initialFormData = {
         name: '',
         surname: '',
@@ -56,30 +42,78 @@ export default function CrearUsuarioInfo(){
         available_classes: 10
     });
 
+    useEffect(() => {
+        if (edit) {
+            console.log(edit_client_id)
+            const fetchClientData = async () => {
+                try {
+                    const response = await axios.get(`http://127.0.0.1:8000/clients/${edit_client_id}`);
+                    setFormData({
+                        name: response.data.client.name,
+                        surname: response.data.client.surname,
+                        email: response.data.client.email,
+                        birthdate: response.data.client.birthdate,
+                        inscription_date: response.data.client.inscription_date,
+                        phone: response.data.client.phone,
+                        emergency_contact: response.data.client.emergency_contact,
+                        emergency_phone: response.data.client.emergency_phone,
+                        rate_id: response.data.client.rate_id,
+                        password: response.data.client.password,
+                        password2: response.data.client.password,
+                        available_classes: response.data.client.available_classes
+                    });
+                    console.log(response.data.client)
+                } catch (error) {
+                }
+            };
+            fetchClientData();
+        }
+
+    }, [employee_id]);
+
     const handleEvent = (e) => {
         const currentDate = new Date().toISOString().split('T')[0];
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-            inscription_date: currentDate
-        });
-        //setFormData({ ...formData, inscription_date: currentDate });
+        if (edit) {
+            setFormData({
+                ...formData,
+                [e.target.name]: e.target.value,
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [e.target.name]: e.target.value,
+                inscription_date: currentDate
+            });
+        }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8000/clients', formData);
-            console.log(response.data); // Assuming the API returns the created client data
-            setFormData(initialFormData);
-          } catch (error) {
-            console.error(error);
+        if (edit) {
+            try {
+                const response = await axios.put(`http://localhost:8000/clients/${edit_client_id}`, formData);
+                console.log(response.data); // Assuming the API returns the created client data
+                setFormData(initialFormData);
+                alert('Cliente editado correctamente')
+            } catch (error) {
+                console.error(error);
+            }
+
+        } else {
+            try {
+                const response = await axios.post('http://localhost:8000/clients', formData);
+                console.log(response.data); // Assuming the API returns the created client data
+                setFormData(initialFormData);
+                alert('Cliente creado correctamente')
+            } catch (error) {
+                console.error(error);
+            }
         }
-        
+
         setFormData(initialFormData)
         router.push(`/paginaMonitor?employee_id=${employee_id}`)
     }
-    
+
     const handleSubmit2 = async (e) => {
         console.log(formData)
         e.preventDefault();
@@ -105,13 +139,13 @@ export default function CrearUsuarioInfo(){
                             <div className={styles2.formContainerInfo}>
 
                                 <input
-                                    className={styles2.formInput} 
+                                    className={styles2.formInput}
                                     name='name'
-                                    type="text" 
-                                    placeholder='Nombre' 
+                                    type="text"
+                                    placeholder='Nombre'
                                     value={formData.name}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
                                 <input
@@ -121,94 +155,94 @@ export default function CrearUsuarioInfo(){
                                     placeholder='Apellidos'
                                     value={formData.surname}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
                                 <input
-                                    className={styles2.formInput} 
+                                    className={styles2.formInput}
                                     name='email'
-                                    type="text" 
-                                    placeholder='Email' 
+                                    type="text"
+                                    placeholder='Email'
                                     value={formData.email}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name='birthdate'
-                                    type="text" 
-                                    placeholder='Fecha de Nacimiento' 
+                                    type="text"
+                                    placeholder='Fecha de Nacimiento'
                                     value={formData.birthdate}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                     pattern='^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-9]|3[01])$'
                                 />
 
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name='phone'
-                                    type="text" 
-                                    placeholder='Teléfono' 
+                                    type="text"
+                                    placeholder='Teléfono'
                                     value={formData.phone}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name='emergency_contact'
-                                    type="text" 
-                                    placeholder='Contacto de Emergencia' 
+                                    type="text"
+                                    placeholder='Contacto de Emergencia'
                                     value={formData.emergency_contact}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
 
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name='emergency_phone'
-                                    type="text" 
-                                    placeholder='Teléfono de Emergencia' 
+                                    type="text"
+                                    placeholder='Teléfono de Emergencia'
                                     value={formData.emergency_phone}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name='rate_id'
-                                    type="text" 
-                                    placeholder='Tarifa' 
+                                    type="text"
+                                    placeholder='Tarifa'
                                     value={formData.rate_id}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
                             </div>
                             <div className={styles2.passwordContainer}>
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name="password"
-                                    type="password" 
+                                    type="password"
                                     placeholder='Contraseña'
                                     value={formData.password}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
-                                <input 
-                                    className={styles2.formInput} 
+                                <input
+                                    className={styles2.formInput}
                                     name="password2"
-                                    type="password" 
-                                    placeholder='Repetir contraseña' 
+                                    type="password"
+                                    placeholder='Repetir contraseña'
                                     value={formData.password2}
                                     onChange={handleEvent}
-                                    required 
+                                    required
                                 />
                             </div>
-                            <button 
-                                className={styles2.redRoundButton} 
-                                type="submit" 
+                            <button
+                                className={styles2.redRoundButton}
+                                type="submit"
                                 disabled={!passwordMatch}
-                            >Crear Usuario
+                            >{edit ? 'Editar Cliente' : 'Crear Cliente'}
                             </button>
                         </form>
                     </div>

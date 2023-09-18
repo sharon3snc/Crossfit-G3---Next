@@ -12,8 +12,6 @@ import Link from 'next/link';
 import { render } from 'react-dom'
 import axios from 'axios';
 import { useEffect } from 'react';
-import EditClientModal from './EditClientModal'
-import EditEmployeeModal from './EditEmployeeModal'
 
 
 export default function CrearUsuarioInfo() {
@@ -28,6 +26,12 @@ export default function CrearUsuarioInfo() {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [deleteItemType, setDeleteItemType] = useState(null);
+
+    const [assistanceModalOpen, setAssistanceModalOpen] = useState(false);
+    const [assistanceClassId, setAssistanceClassId] = useState(null);
+    const [assistanceClassDate, setAssistanceClassDate] = useState(null);
+    const [assistanceClassHour, setAssistanceClassHour] = useState(null);
+    const [assistanceData, setAssistanceData] = useState([]);
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [classesDataForSelectedDate, setClassesDataForSelectedDate] = useState([]);
@@ -206,6 +210,39 @@ export default function CrearUsuarioInfo() {
         }
     }
 
+    useEffect(() => {
+        const fetchAssistanceData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/assistance_by_class/${assistanceClassId}`);
+                setAssistanceData(response.data); // Assign the 'clients' array to usersData]
+                console.log(response.data);
+                console.log("fetched")
+            } catch (error) {
+            }
+        };
+        fetchAssistanceData();
+    }, [assistanceModalOpen]);
+
+    const showAssistanceModal = (classId, classDate, classHour) => {
+        setAssistanceModalOpen(true);
+        setAssistanceClassId(classId);
+        setAssistanceClassDate(classDate);
+        setAssistanceClassHour(classHour);
+
+    }
+
+    const closeAssistance = () => {
+        setAssistanceModalOpen(false);
+    }
+
+    const deleteAssistance = async (clientId) => {
+        const response = await axios.delete(`http://localhost:8000/delete_assistance/${clientId}/${assistanceClassId}`);
+        const response2 = await axios.post(`http://127.0.0.1:8000/classes/${assistanceClassId}/increment_spaces`)
+        const client = clientsData.find(client => client.client_id === clientId);
+        alert(`Asistencia de ${client.name} ${client.surname} eliminada.`);
+        setAssistanceModalOpen(false);
+        window.location.reload();
+    }
 
 
     // Función para renderizar el contenido de la página en función del tab activo
@@ -280,7 +317,13 @@ export default function CrearUsuarioInfo() {
                                             <button className={styles2.listButton} onClick={() => deleteUser(client.client_id)}>Borrar</button>
                                         </p>
                                         <p>
-                                            <button className={styles2.listButton} onClick={() => openEditModal(client)}>Editar</button>
+                                            <button
+                                                className={styles2.listButton}
+                                                // onClick={() => openEditModal(client)}
+                                                onClick={() => router.push(`/crearUsuarioInfo?employee_id=${employee_id}&edit=true&edit_client_id=${client.client_id}`)}
+                                            >
+                                                Editar
+                                            </button>
                                         </p>
                                     </div>
                                 )}
@@ -302,7 +345,7 @@ export default function CrearUsuarioInfo() {
                             </div>
                         </div>
                     )}
-                    {editModalOpen && (
+                    {/* {editModalOpen && (
                         <div className={styles2.modal}>
                             <EditClientModal
                                 clientData={clientDataToEdit}
@@ -310,7 +353,7 @@ export default function CrearUsuarioInfo() {
                                 onEdit={() => onEditModalSubmit()}
                             />
                         </div>
-                    )}
+                    )} */}
                 </div>
             );
         } else if (activeTab === 'Horarios') {
@@ -358,7 +401,13 @@ export default function CrearUsuarioInfo() {
                                         {parseInt(employee_id) !== employee.employee_id && (<button className={styles2.listButton} onClick={() => deleteEmployee(employee.employee_id)} >Borrar</button>)}
                                     </p>
                                     <p>
-                                        <button className={styles2.listButton} onClick={() => openEditEmployeeModal(employee)}>Editar</button>
+                                        <button
+                                            className={styles2.listButton}
+                                            // onClick={() => openEditEmployeeModal(employee)}
+                                            onClick={() => router.push(`/crearMonitorInfo?employee_id=${employee_id}&edit=true&edit_employee_id=${employee.employee_id}`)}
+                                        >
+                                            Editar
+                                        </button>
                                     </p>
                                 </p>
                             </div>
@@ -379,7 +428,7 @@ export default function CrearUsuarioInfo() {
                             </div>
                         </div>
                     )}
-                    {editEmployeeModalOpen && (
+                    {/* {editEmployeeModalOpen && (
                         <div className={styles2.modal}>
                             <EditEmployeeModal
                                 employeeData={employeeDataToEdit}
@@ -388,7 +437,7 @@ export default function CrearUsuarioInfo() {
                                 employee={employee_id}
                             />
                         </div>
-                    )}
+                    )} */}
                 </div>
             );
         } else if (activeTab === 'Clases') {
@@ -431,6 +480,9 @@ export default function CrearUsuarioInfo() {
                                         <span> Plazas: {classItem.number_spaces}</span>
                                     </p>
                                 </p>
+                                <p>
+                                    <button className={styles2.listButton} onClick={() => { showAssistanceModal(classItem.class_id, classItem.class_date, classItem.class_hour) }}>Ver Asistencias</button>
+                                </p>
                                 {userData.user_admin && ( // Conditionally render the "Monitores" tab
                                     <div>
                                         <p>
@@ -454,6 +506,29 @@ export default function CrearUsuarioInfo() {
                                 <div>
                                     <button onClick={confirmDeletion}>Confirmar</button>
                                     <button onClick={cancelDeletion}>Cancelar</button>
+                                </div>
+                            </div>
+                        )}
+                        {assistanceModalOpen && (
+                            <div className={styles2.modal}>
+                                <h3>Asistencia para clase de {assistanceClassDate}, {convertSecondsToTime(assistanceClassHour)}:</h3>
+                                <br></br>
+                                {assistanceData && assistanceData.length > 0 ? (
+                                    assistanceData.map((assistanceItem) => {
+                                        const client = clientsData.find(client => client.client_id === assistanceItem.client_id);
+                                        return (
+                                            <div key={assistanceItem.client_id} className={styles2.assistaceList}>
+                                                <p><span>{`${client?.name} ${client?.surname}` || 'Unknown Client'}</span></p>
+                                                <button onClick={() => deleteAssistance(assistanceItem.client_id)}>Borrar</button>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <p>No hay asistencia reservada para esta clase. </p>
+                                )}
+
+                                <div>
+                                    <button onClick={closeAssistance}>Cerrar</button>
                                 </div>
                             </div>
                         )}

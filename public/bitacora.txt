@@ -49,3 +49,23 @@ se hace un fetch con el numero de clase (tambien param), se le asigna al fromDat
 el summit de post a put usando la función de editar.
 - Se agregó la funcionalidad en la página de usuario de, cuando se oprima una clase realice una tarea. En este momento es solo un alert, pero se ampliará
 para realizar una petición a la API de crear una nueva entrada a la tabla de asistencias.
+
+17-09-23
+
+Programa terminado.
+- Se creaoron las funciones en la Api necesarias para poder manerar las asistencias. Se crearon:
+    - Función de busqueda de asistenicia por usuario
+    - Función de busqueda de asistencia por clase
+    - Función de crear asistencias
+    - Función de borrar asistencias
+- También se crearon dos funciones para poder aumentar y disminuir el número de plazas disponibles según se agregue o elimine una asistencia.
+- Se creó la opción al cliente de reservar una clase, asi como de eliminar su asistencia a dicha clase.
+- se creó la opción de los monitores a ver las asistencia de las diferentes clases y poder eliminar a algun usuario de una clase de ser necesario.
+- Se crearon las protecciones necesarias para que los usuarios no se inscriban dos veces a una misma clase, ademas de protecciones de inscripción 
+a una clase en caso de que no haya plazas.
+- Se cambió la forma de editar a los usuarios y a los monitores poniendolos de la misma forma que la edición de las clases. Se abre la pagina de 
+creación de usuario o monitor, se le pasan como parametros si es edición y el usuario a editar. Con esto se hace el respectivo fetch, se muestra la 
+información y se determina si se hace un post o un put.
+
+Pendiente: revisión general de código y demo.
+
