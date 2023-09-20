@@ -39,7 +39,7 @@ export default function CrearMonitorInfo() {
         const fetchEmployeesData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/employees`);
-                setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+                setEmployeesData(response.data.employees);
             } catch (error) {
             }
         };
@@ -74,7 +74,6 @@ export default function CrearMonitorInfo() {
             [e.target.name]: e.target.value,
             inscription_date: currentDate
         });
-        //setFormData({ ...formData, inscription_date: currentDate });
     }
 
     const handleSubmit = async (e) => {
@@ -82,7 +81,7 @@ export default function CrearMonitorInfo() {
         if (edit) {
             try {
                 const response = await axios.put(`http://localhost:8000/employees/${edit_employee_id}`, formData);
-                console.log(response.data); // Assuming the API returns the created client data
+                console.log(response.data);
                 setFormData(initialFormData);
                 alert('Monitor editado correctamente')
             } catch (error) {
@@ -91,7 +90,7 @@ export default function CrearMonitorInfo() {
         } else {
             try {
                 const response = await axios.post('http://localhost:8000/employees', formData);
-                console.log(response.data); // Assuming the API returns the created client data
+                console.log(response.data);
                 setFormData(initialFormData);
                 alert('Monitor creado correctamente')
             } catch (error) {
@@ -213,8 +212,6 @@ export default function CrearMonitorInfo() {
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }

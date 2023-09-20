@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import mysql.connector
 from mysql.connector import connect
 import traceback
-from datetime import date, time
+from datetime import date, time, datetime, timedelta
 
 from pydantic import BaseModel
 
@@ -11,7 +11,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost",
-    "http://localhost:3000",  # Replace with the actual URL of your React app
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -150,7 +150,6 @@ def get_client(client_id: int):
 @app.post("/clients")
 def create_client(client_data: ClientModel):
     try:
-        # Extract data from the request body
         email = client_data.email
         password = client_data.password
         name = client_data.name
@@ -163,13 +162,10 @@ def create_client(client_data: ClientModel):
         rate_id = client_data.rate_id
         available_classes = client_data.available_classes
 
-        # Create a connection to the database
         db = make_connection()
 
-        # Create a cursor to execute SQL queries
         cursor = db.cursor()
 
-        # Construct the SQL query to insert a new client
         query = """
         INSERT INTO clients (email, password, name, surname, birthdate, phone, inscription_date, emergency_contact, emergency_phone, rate_id, available_classes)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -178,21 +174,16 @@ def create_client(client_data: ClientModel):
             email, password, name, surname, birthdate, phone, inscription_date, emergency_contact, emergency_phone, rate_id, available_classes
         )
 
-        # Execute the SQL query
         cursor.execute(query, values)
 
-        # Commit the changes to the database
         db.commit()
 
-        # Close the cursor and database connection
         cursor.close()
         db.close()
 
-        # Return a response indicating success
         return {"message": "Client created successfully"}
 
     except Exception as e:
-        # Handle any exceptions and return an error response
         raise HTTPException(status_code=500, detail=str(e))
     from fastapi import HTTPException
 
@@ -200,7 +191,6 @@ def create_client(client_data: ClientModel):
 @app.put("/clients/{client_id}")
 def update_client(client_id: int, client_data: ClientModel):
     try:
-        # Extract data from the request body
         email = client_data.email
         password = client_data.password
         name = client_data.name
@@ -213,13 +203,10 @@ def update_client(client_id: int, client_data: ClientModel):
         rate_id = client_data.rate_id
         available_classes = client_data.available_classes
 
-        # Create a connection to the database
         db = make_connection()
 
-        # Create a cursor to execute SQL queries
         cursor = db.cursor()
 
-        # Construct the SQL query to update the client
         query = """
         UPDATE clients
         SET email=%s, password=%s, name=%s, surname=%s, birthdate=%s, phone=%s, inscription_date=%s, emergency_contact=%s,
@@ -231,36 +218,28 @@ def update_client(client_id: int, client_data: ClientModel):
             available_classes, client_id
         )
 
-        # Execute the SQL query
         cursor.execute(query, values)
 
-        # Commit the changes to the database
         db.commit()
 
-        # Close the cursor and database connection
         cursor.close()
         db.close()
 
-        # Check if any rows were updated
         if cursor.rowcount == 0:
             raise HTTPException(status_code=404, detail="Client not found")
 
-        # Return a response indicating success
         return {"message": "Client updated successfully"}
 
     except Exception as e:
-        # Handle any exceptions and return an error response
         raise HTTPException(status_code=500, detail=str(e))
-    
-# ---------- Función para eliminar un cliente ---------- #
 
+# ---------- Función para eliminar un cliente ---------- #
 @app.delete("/clients/{client_id}")
 def delete_client(client_id: int):
     try:
         db = make_connection()
         cursor = db.cursor()
 
-        # Check if the client exists
         query = "SELECT * FROM clients WHERE client_id = %s"
         cursor.execute(query, (client_id,))
         result = cursor.fetchone()
@@ -268,7 +247,6 @@ def delete_client(client_id: int):
         if result is None:
             raise HTTPException(status_code=404, detail="Client not found")
 
-        # Delete the client
         delete_query = "DELETE FROM clients WHERE client_id = %s"
         cursor.execute(delete_query, (client_id,))
         db.commit()
@@ -381,7 +359,6 @@ def get_employee(employee_id: int):
 @app.post("/employees")
 def create_employee(employee_data: EmployeeModel):
     try:
-        # Extract data from the request body
         email = employee_data.email
         password = employee_data.password
         name = employee_data.name
@@ -390,13 +367,9 @@ def create_employee(employee_data: EmployeeModel):
         phone = employee_data.phone
         user_admin = employee_data.user_admin
 
-        # Create a connection to the database
         db = make_connection()
 
-        # Create a cursor to execute SQL queries
         cursor = db.cursor()
-
-        # Construct the SQL query to insert a new client
 
         query = """
         INSERT INTO employees (email, password, name, surname, birthdate, phone, user_admin)
@@ -406,29 +379,22 @@ def create_employee(employee_data: EmployeeModel):
             email, password, name, surname, birthdate, phone, user_admin
         )
 
-        # Execute the SQL query
         cursor.execute(query, values)
 
-        # Commit the changes to the database
         db.commit()
 
-        # Close the cursor and database connection
         cursor.close()
         db.close()
 
-        # Return a response indicating success
         return {"message": "Employee created successfully"}
 
     except Exception as e:
-        # Handle any exceptions and return an error response
         raise HTTPException(status_code=500, detail=str(e))
 
 # ---------- Función para editar un nuevo empleado ---------- #
-
 @app.put("/employees/{employee_id}")
 def update_employee(employee_id: int, employee_data: EmployeeModel):
     try:
-        # Extract data from the request body
         email = employee_data.email
         password = employee_data.password
         name = employee_data.name
@@ -437,13 +403,10 @@ def update_employee(employee_id: int, employee_data: EmployeeModel):
         phone = employee_data.phone
         user_admin = employee_data.user_admin
 
-        # Create a connection to the database
         db = make_connection()
 
-        # Create a cursor to execute SQL queries
         cursor = db.cursor()
 
-        # Construct the SQL query to update the employee
         query = """
         UPDATE employees
         SET email=%s, password=%s, name=%s, surname=%s, birthdate=%s, phone=%s, user_admin=%s
@@ -453,36 +416,28 @@ def update_employee(employee_id: int, employee_data: EmployeeModel):
             email, password, name, surname, birthdate, phone, user_admin, employee_id
         )
 
-        # Execute the SQL query
         cursor.execute(query, values)
 
-        # Commit the changes to the database
         db.commit()
 
-        # Close the cursor and database connection
         cursor.close()
         db.close()
 
-        # Check if any rows were updated
         if cursor.rowcount == 0:
             raise HTTPException(status_code=404, detail="Employee not found")
 
-        # Return a response indicating success
         return {"message": "Employee updated successfully"}
 
     except Exception as e:
-        # Handle any exceptions and return an error response
         raise HTTPException(status_code=500, detail=str(e))
 
 # ---------- Función para eliminar un cliente ---------- #
-
 @app.delete("/employees/{employee_id}")
 def delete_employee(employee_id: int):
     try:
         db = make_connection()
         cursor = db.cursor()
 
-        # Check if the employee exists
         query = "SELECT * FROM employees WHERE employee_id = %s"
         cursor.execute(query, (employee_id,))
         result = cursor.fetchone()
@@ -490,7 +445,6 @@ def delete_employee(employee_id: int):
         if result is None:
             raise HTTPException(status_code=404, detail="Client not found")
 
-        # Delete the employee
         delete_query = "DELETE FROM employees WHERE employee_id = %s"
         cursor.execute(delete_query, (employee_id,))
         db.commit()
@@ -570,8 +524,7 @@ def get_classes(day: str):
     try:
         db = make_connection()
         cursor = db.cursor()
-
-        # Use a parameterized query to filter by day
+        
         query = "SELECT * FROM classes WHERE class_date = %s"
         cursor.execute(query, (day,))
         results = cursor.fetchall()
@@ -628,16 +581,12 @@ def get_class_by_id(class_id: int):
         return {"class": class_data}
 
     except Exception as e:
-        # If you want to print the traceback for more detailed error info, you can import it:
-        # import traceback
-        # traceback.print_exc()
         return {"error": str(e)}
 
 # ---------- Función para crear una nueva clase ---------- #
 @app.post("/classes")
 def create_class(class_data: ClassModel):
     try:
-        # Extract data from the request body
         class_date = class_data.class_date
         class_hour = class_data.class_hour
         duration = class_data.duration
@@ -645,47 +594,36 @@ def create_class(class_data: ClassModel):
         class_name = class_data.class_name
         number_spaces = class_data.number_spaces
 
-        # Create a connection to the database
         db = make_connection()
 
-        # Create a cursor to execute SQL queries
         cursor = db.cursor()
 
-        # Construct the SQL query to insert a new class
         query = """
         INSERT INTO classes (class_date, class_hour, duration, employee_id, class_name, number_spaces)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
         values = (class_date, class_hour, duration, employee_id, class_name, number_spaces)
 
-        # Execute the SQL query
         cursor.execute(query, values)
 
-        # Commit the changes to the database
         db.commit()
 
-        # Close the cursor and database connection
         cursor.close()
         db.close()
 
-        # Return a response indicating success
         return {"message": "Class created successfully"}
 
     except Exception as e:
-        # Handle any exceptions and return an error response
         raise HTTPException(status_code=500, detail=str(e))
 
 # ---------- Función para eliminar una clase ---------- #
 @app.delete("/classes/{class_id}")
 def delete_class(class_id: int):
     try:
-        # Create a connection to the database
         db = make_connection()
 
-        # Create a cursor to execute SQL queries
         cursor = db.cursor()
 
-        # Check if the class with the given ID exists
         cursor.execute("SELECT COUNT(1) FROM classes WHERE class_id = %s", (class_id,))
         exists = cursor.fetchone()[0]
         
@@ -694,18 +632,14 @@ def delete_class(class_id: int):
             db.close()
             raise HTTPException(status_code=404, detail="Class not found")
 
-        # Construct the SQL query to delete the class
         query = "DELETE FROM classes WHERE class_id = %s"
         cursor.execute(query, (class_id,))
 
-        # Commit the changes to the database
         db.commit()
 
-        # Close the cursor and database connection
         cursor.close()
         db.close()
 
-        # Return a response indicating success
         return {"message": f"Class with ID {class_id} deleted successfully"}
 
     except Exception as e:
@@ -719,7 +653,6 @@ def update_class(class_id: int, class_data: ClassModel):
         db = make_connection()
         cursor = db.cursor()
 
-        # Construct the SQL query dynamically based on provided data
         update_data = class_data.dict(exclude_unset=True)
         set_statements = [f"{key} = %s" for key in update_data.keys()]
         query = f"UPDATE classes SET {', '.join(set_statements)} WHERE class_id = %s"
@@ -784,6 +717,46 @@ def increment_spaces(class_id: int):
         return {"message": f"Number of spaces for class with ID {class_id} incremented successfully"}
 
     except Exception as e:
+        return {"error": str(e)}
+
+# ---------- Función para obtener las clases del dia y los proximos 6 dias ---------- #
+@app.get("/upcoming_classes")
+def get_upcoming_classes():
+    try:
+        db = make_connection()
+        cursor = db.cursor()
+
+        today = datetime.today().date()
+        seven_days_from_now = today + timedelta(days=6)
+
+        query = """
+        SELECT * FROM classes 
+        WHERE class_date >= %s AND class_date <= %s 
+        ORDER BY class_date ASC, class_hour ASC
+        """
+        cursor.execute(query, (today, seven_days_from_now))
+        results = cursor.fetchall()
+
+        classes = []
+        for result in results:
+            class_data = {
+                "class_id": result[0],
+                "class_date": result[1],
+                "class_hour": result[2],
+                "duration": result[3],
+                "class_name": result[4],
+                "number_spaces": result[5],
+                "employee_id": result[6]
+            }
+            classes.append(class_data)
+
+        cursor.close()
+        db.close()
+
+        return {"upcoming_classes": classes}
+
+    except Exception as e:
+        traceback.print_exc()
         return {"error": str(e)}
 
 

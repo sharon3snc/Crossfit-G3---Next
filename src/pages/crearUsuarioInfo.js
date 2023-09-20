@@ -92,7 +92,7 @@ export default function CrearUsuarioInfo() {
         if (edit) {
             try {
                 const response = await axios.put(`http://localhost:8000/clients/${edit_client_id}`, formData);
-                console.log(response.data); // Assuming the API returns the created client data
+                console.log(response.data);
                 setFormData(initialFormData);
                 alert('Cliente editado correctamente')
             } catch (error) {
@@ -102,7 +102,7 @@ export default function CrearUsuarioInfo() {
         } else {
             try {
                 const response = await axios.post('http://localhost:8000/clients', formData);
-                console.log(response.data); // Assuming the API returns the created client data
+                console.log(response.data);
                 setFormData(initialFormData);
                 alert('Cliente creado correctamente')
             } catch (error) {
@@ -248,8 +248,6 @@ export default function CrearUsuarioInfo() {
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }

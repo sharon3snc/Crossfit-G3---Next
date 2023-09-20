@@ -35,7 +35,7 @@ export default function CrearUsuarioInfo() {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/clients/${client_id}`);
-        setUserData(response.data.client); // Assign the 'clients' array to usersData
+        setUserData(response.data.client);
       } catch (error) {
       }
     };
@@ -43,7 +43,7 @@ export default function CrearUsuarioInfo() {
     const fetchEmployeesData = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/employees`);
-        setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+        setEmployeesData(response.data.employees);
       } catch (error) {
       }
     };
@@ -63,7 +63,7 @@ export default function CrearUsuarioInfo() {
 
   const formatDate = (date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0, so we add 1 and pad with '0'
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
@@ -72,7 +72,7 @@ export default function CrearUsuarioInfo() {
     const fetchClassData = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/classes?day=${formatDate(selectedDate)}`);
-        setClassesDataForSelectedDate(response.data.classes); // Assign the 'clients' array to usersData]
+        setClassesDataForSelectedDate(response.data.classes);
       } catch (error) {
       }
     };
@@ -96,7 +96,7 @@ export default function CrearUsuarioInfo() {
     prevDate.setDate(selectedDate.getDate() - 1);
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    if (prevDate < yesterday) return; // Don't allow the user to select a date in the past
+    if (prevDate < yesterday) return;
     else {
       setSelectedDate(prevDate);
     }
@@ -107,14 +107,14 @@ export default function CrearUsuarioInfo() {
     nextDate.setDate(selectedDate.getDate() + 1);
     const weekFromNow = new Date();
     weekFromNow.setDate(weekFromNow.getDate() + 7);
-    if (nextDate > weekFromNow) return; // Don't allow the user to select a date in the future
+    if (nextDate > weekFromNow) return;
     else {
       setSelectedDate(nextDate);
     }
   };
 
   const convertSecondsToTime = (seconds) => {
-    const date = new Date(Date.UTC(0, 0, 0, Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60))); // Create a date object at UTC midnight
+    const date = new Date(Date.UTC(0, 0, 0, Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60)));
     const options = { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' };
     return date.toLocaleTimeString([], options);
   };
@@ -196,9 +196,6 @@ export default function CrearUsuarioInfo() {
     window.location.reload();
   }
 
-
-
-
   const renderContent = () => {
     if (activeTab === 'Inicio') {
       return (
@@ -266,7 +263,6 @@ export default function CrearUsuarioInfo() {
         <div className={styles2.userInfoContainer}>
           <p className={styles2.userInfoPageTitle}>Información de Clases</p>
 
-          {/* Step 4: Add the header with arrow buttons to select the date */}
           <div className={styles2.dateHeader}>
             <button onClick={handlePrevDate}>&lt;</button>
             <p>{selectedDate.toDateString()}</p>
@@ -361,12 +357,12 @@ export default function CrearUsuarioInfo() {
             >
               Reservas
             </p> */}
-            <p
+            {/* <p
               className={styles2.userPageHeaderItem}
               onClick={() => handleTabClick('Horarios')}
             >
               Horarios
-            </p>
+            </p> */}
             <p
               className={styles2.userPageHeaderItem}
               onClick={() => handleTabClick('Clases')}
@@ -395,8 +391,6 @@ export default function CrearUsuarioInfo() {
           </div>
         </div>
       </div>
-
-
     </>
   )
 }

@@ -7,13 +7,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-// class_date = class_data.class_date
-//         class_hour = class_data.class_hour
-//         duration = class_data.duration
-//         employee_id = class_data.employee_id
-//         class_name = class_data.class_name
-//         number_spaces = class_data.number_spaces
-
 
 export default function CrearMonitorInfo() {
     const router = useRouter();
@@ -44,14 +37,14 @@ export default function CrearMonitorInfo() {
         const fetchEmployeesData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/employees`);
-                setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+                setEmployeesData(response.data.employees);
             } catch (error) {
             }
         };
         const fetchClassesData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/all_classes`);
-                setClassesData(response.data.employees); // Assign the 'clients' array to usersData
+                setClassesData(response.data.employees);
             } catch (error) {
             }
         };
@@ -64,14 +57,14 @@ export default function CrearMonitorInfo() {
             const fetchClassData = async () => {
                 try {
                     const response = await axios.get(`http://127.0.0.1:8000/classes/${edit_class_id}`);
-                    setClassData(response.data); // Assign the 'clients' array to usersData
+                    setClassData(response.data);
                     setFormData({
                         class_date: response.data.class.class_date,
                         class_hour: response.data.class.class_hour,
-                        duration: response.data.class.duration, // converting number to string, if you need it as a string
-                        employee_id: response.data.class.employee_id, // converting number to string, if you need it as a string
+                        duration: response.data.class.duration,
+                        employee_id: response.data.class.employee_id,
                         class_name: response.data.class.class_name,
-                        number_spaces: response.data.class.number_spaces // converting number to string, if you need it as a string
+                        number_spaces: response.data.class.number_spaces
                     });
                 } catch (error) {
                 }
@@ -81,10 +74,10 @@ export default function CrearMonitorInfo() {
             setFormData({
                 class_date: classData.class_date,
                 class_hour: classData.class_hour,
-                duration: classData.duration, // converting number to string, if you need it as a string
-                employee_id: classData.employee_id, // converting number to string, if you need it as a string
+                duration: classData.duration,
+                employee_id: classData.employee_id,
                 class_name: classData.class_name,
-                number_spaces: classData.number_spaces // converting number to string, if you need it as a string
+                number_spaces: classData.number_spaces
             });
         } else {
             console.log('no edit')
@@ -99,7 +92,6 @@ export default function CrearMonitorInfo() {
             ...formData,
             [e.target.name]: e.target.value,
         });
-        // console.log(e.target.value)
     }
 
     const handleSubmit = async (e) => {
@@ -107,7 +99,7 @@ export default function CrearMonitorInfo() {
         if (!edit) {
             try {
                 const response = await axios.post('http://localhost:8000/classes', formData);
-                console.log(response.data); // Assuming the API returns the created client data
+                console.log(response.data);
                 setFormData(initialFormData);
             } catch (error) {
                 console.error(error);
@@ -116,7 +108,7 @@ export default function CrearMonitorInfo() {
         } else {
             try {
                 const response = await axios.put(`http://localhost:8000/classes/${edit_class_id}`, formData);
-                console.log(response.data); // Assuming the API returns the created client data
+                console.log(response.data);
                 setFormData(initialFormData);
             } catch (error) {
                 console.error(error);
@@ -236,8 +228,6 @@ export default function CrearMonitorInfo() {
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }

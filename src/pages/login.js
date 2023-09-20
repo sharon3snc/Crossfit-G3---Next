@@ -113,10 +113,7 @@ const initialFormData = {
 }
 
 export default function loginInfo(){
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter();
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [formData, setFormData] = useState({
         user: '',
         password: ''
@@ -145,7 +142,6 @@ export default function loginInfo(){
                 console.log(user_id)
                 exists = response.data.exists
                 console.log(exists)
-          
                 if (exists) {
                   router.push(`/paginaMonitor?employee_id=${user_id}`)
                 } else {
@@ -163,7 +159,7 @@ export default function loginInfo(){
                 })
           
                 exists = response.data.exists
-          
+
                 if (exists) {
                   router.push(`/paginaUsuario?client_id=${formData.user}`)
                 } else {
@@ -179,17 +175,6 @@ export default function loginInfo(){
         if(!exists){
             alert('El usuario o la contraseña son incorrectos');
         }
-
-        /*
-        if (matchedUser) {
-            console.log('Login correcto');
-            console.log(matchedUser);
-            router.push(`/paginaUsuario?client_id=${matchedUser.client_id}`);
-        } else {
-            console.log('El usuario o la contraseña son incorrectos');
-            alert('El usuario o la contraseña son incorrectos');
-        }
-        */
 
         setFormData(initialFormData)
     }
@@ -247,8 +232,6 @@ export default function loginInfo(){
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }

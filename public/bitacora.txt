@@ -69,3 +69,8 @@ información y se determina si se hace un post o un put.
 
 Pendiente: revisión general de código y demo.
 
+18-09-23
+- Se revisó completamente el codigo y el programa funciona correctamente. No tiene ningun fallo a la hora de la ejecución. 
+
+Pendiente: Demo y despliegue.
+

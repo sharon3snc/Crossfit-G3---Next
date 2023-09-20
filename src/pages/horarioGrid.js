@@ -42,8 +42,6 @@ const HorarioGrid = () => {
             '11:00': 'Strenght',
           },
         };
-    
-
     return (
         <div className= {styles.horario}>
 

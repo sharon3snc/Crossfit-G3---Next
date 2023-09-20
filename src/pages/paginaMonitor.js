@@ -22,7 +22,6 @@ export default function CrearUsuarioInfo() {
     const [clientsData, setClientsData] = useState([]);
     const [classesData, setClassesData] = useState([]);
 
-    //asadfasdasdasd
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState(null);
     const [deleteItemType, setDeleteItemType] = useState(null);
@@ -46,7 +45,7 @@ export default function CrearUsuarioInfo() {
         const fetchUserData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/employees/${employee_id}`);
-                setUserData(response.data.employee); // Assign the 'clients' array to usersData
+                setUserData(response.data.employee);
             } catch (error) {
             }
         };
@@ -54,7 +53,7 @@ export default function CrearUsuarioInfo() {
         const fetchClientsData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/clients`);
-                setClientsData(response.data.clients); // Assign the 'clients' array to usersData]
+                setClientsData(response.data.clients);
             } catch (error) {
             }
         };
@@ -62,7 +61,7 @@ export default function CrearUsuarioInfo() {
         const fetchEmployeesData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/employees`);
-                setEmployeesData(response.data.employees); // Assign the 'clients' array to usersData
+                setEmployeesData(response.data.employees);
             } catch (error) {
             }
         };
@@ -70,7 +69,7 @@ export default function CrearUsuarioInfo() {
         const fetchClassesData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/all_classes`);
-                setClassesData(response.data.classes); // Assign the 'clients' array to usersData
+                setClassesData(response.data.classes);
             } catch (error) {
             }
         };
@@ -83,7 +82,7 @@ export default function CrearUsuarioInfo() {
 
     const formatDate = (date) => {
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0, so we add 1 and pad with '0'
+        const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
@@ -92,7 +91,7 @@ export default function CrearUsuarioInfo() {
         const fetchClassData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/classes?day=${formatDate(selectedDate)}`);
-                setClassesDataForSelectedDate(response.data.classes); // Assign the 'clients' array to usersData]
+                setClassesDataForSelectedDate(response.data.classes);
             } catch (error) {
             }
         };
@@ -196,7 +195,7 @@ export default function CrearUsuarioInfo() {
     }
 
     const convertSecondsToTime = (seconds) => {
-        const date = new Date(Date.UTC(0, 0, 0, Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60))); // Create a date object at UTC midnight
+        const date = new Date(Date.UTC(0, 0, 0, Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60)));
         const options = { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' };
         return date.toLocaleTimeString([], options);
     };
@@ -214,7 +213,7 @@ export default function CrearUsuarioInfo() {
         const fetchAssistanceData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/assistance_by_class/${assistanceClassId}`);
-                setAssistanceData(response.data); // Assign the 'clients' array to usersData]
+                setAssistanceData(response.data);
                 console.log(response.data);
                 console.log("fetched")
             } catch (error) {
@@ -311,7 +310,7 @@ export default function CrearUsuarioInfo() {
                                         <span> {client.available_classes}</span>
                                     </p>
                                 </p>
-                                {userData.user_admin && ( // Conditionally render the "Monitores" tab
+                                {userData.user_admin && (
                                     <div>
                                         <p>
                                             <button className={styles2.listButton} onClick={() => deleteUser(client.client_id)}>Borrar</button>
@@ -319,7 +318,6 @@ export default function CrearUsuarioInfo() {
                                         <p>
                                             <button
                                                 className={styles2.listButton}
-                                                // onClick={() => openEditModal(client)}
                                                 onClick={() => router.push(`/crearUsuarioInfo?employee_id=${employee_id}&edit=true&edit_client_id=${client.client_id}`)}
                                             >
                                                 Editar
@@ -345,15 +343,6 @@ export default function CrearUsuarioInfo() {
                             </div>
                         </div>
                     )}
-                    {/* {editModalOpen && (
-                        <div className={styles2.modal}>
-                            <EditClientModal
-                                clientData={clientDataToEdit}
-                                onClose={() => onCloseModal()}
-                                onEdit={() => onEditModalSubmit()}
-                            />
-                        </div>
-                    )} */}
                 </div>
             );
         } else if (activeTab === 'Horarios') {
@@ -403,7 +392,6 @@ export default function CrearUsuarioInfo() {
                                     <p>
                                         <button
                                             className={styles2.listButton}
-                                            // onClick={() => openEditEmployeeModal(employee)}
                                             onClick={() => router.push(`/crearMonitorInfo?employee_id=${employee_id}&edit=true&edit_employee_id=${employee.employee_id}`)}
                                         >
                                             Editar
@@ -428,24 +416,12 @@ export default function CrearUsuarioInfo() {
                             </div>
                         </div>
                     )}
-                    {/* {editEmployeeModalOpen && (
-                        <div className={styles2.modal}>
-                            <EditEmployeeModal
-                                employeeData={employeeDataToEdit}
-                                onClose={() => onCloseModal()}
-                                onEdit={() => onEditModalSubmit()}
-                                employee={employee_id}
-                            />
-                        </div>
-                    )} */}
                 </div>
             );
         } else if (activeTab === 'Clases') {
             return (
                 <div className={styles2.userInfoContainer}>
                     <p className={styles2.userInfoPageTitle}>Información de Clases</p>
-
-                    {/* Step 4: Add the header with arrow buttons to select the date */}
                     <div className={styles2.dateHeader}>
                         <button onClick={handlePrevDate}>&lt;</button>
                         <p>{selectedDate.toDateString()}</p>
@@ -483,7 +459,7 @@ export default function CrearUsuarioInfo() {
                                 <p>
                                     <button className={styles2.listButton} onClick={() => { showAssistanceModal(classItem.class_id, classItem.class_date, classItem.class_hour) }}>Ver Asistencias</button>
                                 </p>
-                                {userData.user_admin && ( // Conditionally render the "Monitores" tab
+                                {userData.user_admin && ( 
                                     <div>
                                         <p>
                                             <button className={styles2.listButton} onClick={() => deleteClass(classItem.class_id)}>Borrar</button>
@@ -502,7 +478,7 @@ export default function CrearUsuarioInfo() {
                         ))}
                         {deleteModalOpen && (
                             <div className={styles2.modal}>
-                                <p>Estas seguro que deseas eliminar esta {deleteItemType} con id {deleteItemId}?</p>
+                                <p>Estas seguro que deseas eliminar esta {deleteItemType}?</p>
                                 <div>
                                     <button onClick={confirmDeletion}>Confirmar</button>
                                     <button onClick={cancelDeletion}>Cancelar</button>
@@ -518,7 +494,7 @@ export default function CrearUsuarioInfo() {
                                         const client = clientsData.find(client => client.client_id === assistanceItem.client_id);
                                         return (
                                             <div key={assistanceItem.client_id} className={styles2.assistaceList}>
-                                                <p><span>{`${client?.name} ${client?.surname}` || 'Unknown Client'}</span></p>
+                                                <p><span>{`${client?.name} ${client?.surname}` || 'Cliente Desconocido'}</span></p>
                                                 <button onClick={() => deleteAssistance(assistanceItem.client_id)}>Borrar</button>
                                             </div>
                                         );
@@ -533,7 +509,7 @@ export default function CrearUsuarioInfo() {
                             </div>
                         )}
                     </div>
-                    {userData.user_admin && ( // Conditionally render the "Monitores" tab
+                    {userData.user_admin && (
                         <div>
                             <button
                                 className={styles2.redRoundButton}
@@ -568,12 +544,12 @@ export default function CrearUsuarioInfo() {
                         >
                             Perfil
                         </p>
-                        <p
+                        {/* <p
                             className={styles2.userPageHeaderItem}
                             onClick={() => handleTabClick('Horarios')}
                         >
                             Horarios
-                        </p>
+                        </p> */}
                         <p
                             className={styles2.userPageHeaderItem}
                             onClick={() => handleTabClick('Clases')}
@@ -586,7 +562,7 @@ export default function CrearUsuarioInfo() {
                         >
                             Clientes
                         </p>
-                        {userData.user_admin && ( // Conditionally render the "Monitores" tab
+                        {userData.user_admin && (
                             <p
                                 className={styles2.userPageHeaderItem}
                                 onClick={() => handleTabClick('Monitores')}
@@ -616,8 +592,6 @@ export default function CrearUsuarioInfo() {
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }
