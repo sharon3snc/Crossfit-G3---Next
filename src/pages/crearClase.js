@@ -15,6 +15,7 @@ export default function CrearMonitorInfo() {
     const { edit_class_id } = router.query;
     const [employeesData, setEmployeesData] = useState([]);
     const [classData, setClassData] = useState([]);
+    const [repeat, setRepeat] = useState('');
 
     const initialFormData = {
         class_date: '',
@@ -34,6 +35,7 @@ export default function CrearMonitorInfo() {
     });
 
     useEffect(() => {
+        console.log(`edit = ${edit}`)
         const fetchEmployeesData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/employees`);
@@ -94,7 +96,91 @@ export default function CrearMonitorInfo() {
         });
     }
 
+    const generateDates = (startDateStr, repeatType) => {
+        const dates = [];
+        const [year, month, day] = startDateStr.split("-").map(str => parseInt(str, 10));
+        const currentDate = new Date(year, month - 1, day);
+    
+        switch (repeatType) {
+            case "never":
+                dates.push(new Date(currentDate));
+                break;
+            case "everyday":
+                for (let i = 0; i < 30; i++) {
+                    dates.push(new Date(currentDate));
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+            case "weekdays":
+                for (let i = 0; i < 30; i++) {
+                    if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+                        dates.push(new Date(currentDate));
+                    }
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                break;
+            case "weekly":
+                for (let i = 0; i < 4; i++) {
+                    dates.push(new Date(currentDate));
+                    currentDate.setDate(currentDate.getDate() + 7);
+                }
+                break;
+            case "monthly":
+                for (let i = 0; i < 12; i++) {
+                    dates.push(new Date(currentDate));
+                    currentDate.setMonth(currentDate.getMonth() + 1);
+                }
+                break;
+        }
+    
+        return dates;
+    }
+    
+
     const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const repeatType = repeat;
+
+        const dates = generateDates(formData.class_date, repeatType);
+
+        if (edit) {
+            try {
+                const response = await axios.put(`http://localhost:8000/classes/${edit_class_id}`, formData);
+                console.log(response.data);
+                setFormData(initialFormData);
+            } catch (error) {
+                console.error(error);
+            }
+            alert('Clase editada con éxito')
+        } else{
+
+            for (const date of dates) {
+                const adjustedFormData = {
+                    ...formData,
+                    class_date: date.toISOString().split("T")[0]
+                };
+    
+                try {
+                    const response = !edit
+                        ? await axios.post('http://localhost:8000/classes', adjustedFormData)
+                        : await axios.put(`http://localhost:8000/classes/${edit_class_id}`, formData);
+    
+                    console.log(response.data);
+    
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            alert('Clase creada con éxito')
+        }
+        
+
+        setFormData(initialFormData);
+        router.push(`/paginaMonitor?employee_id=${employee_id}`)
+    }
+
+    const handleSubmit3 = async (e) => {
         e.preventDefault();
         if (!edit) {
             try {
@@ -217,6 +303,46 @@ export default function CrearMonitorInfo() {
                                     }}
                                     required
                                 />
+                                {edit ? '' : (
+                                    <select
+                                        className={styles2.formInput}
+                                        name="repeat"
+                                        value={repeat}
+                                        onChange={(e) => setRepeat(e.target.value)}
+                                        required
+                                    >
+                                        <option value="">Repetir clase</option>
+                                        <option value="never">Nunca</option>
+                                        <option value="everyday">Todos los días</option>
+                                        <option value="weekdays">Todos los días de semana</option>
+                                        <option value="weekly">Todas las semanas</option>
+                                        <option value="monthly">Todos los meses</option>
+                                    </select>
+                                )}
+                                {repeat === 'everyday' && (
+                                    <>
+                                        <p></p>
+                                        <p className={styles2.messageText}>* Se crearán clases todos los días de la semana por 30 días</p>
+                                    </>
+                                )}
+                                {repeat === 'weekdays' && (
+                                    <>
+                                        <p></p>
+                                        <p className={styles2.messageText}>* Se crearán clases todos los días de lunes a viernes, por 30 días</p>
+                                    </>
+                                )}
+                                {repeat === 'weekly' && (
+                                    <>
+                                        <p></p>
+                                        <p className={styles2.messageText}>* Se crearán clases el día de la semana seleccionado, por 4 semanas</p>
+                                    </>
+                                )}
+                                {repeat === 'monthly' && (
+                                    <>
+                                        <p></p>
+                                        <p className={styles2.messageText}>* Se crearán clases el día del mes elegido, por los proximos 12 meses</p>
+                                    </>
+                                )}
 
                             </div>
                             <button
