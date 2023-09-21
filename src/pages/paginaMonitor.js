@@ -34,6 +34,7 @@ export default function CrearUsuarioInfo() {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [classesDataForSelectedDate, setClassesDataForSelectedDate] = useState([]);
+    const [sortedClassesDataForSelectedDate, setSortedClassesDataForSelectedDate] = useState([]);
 
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [clientDataToEdit, setClientDataToEdit] = useState(null);
@@ -92,6 +93,8 @@ export default function CrearUsuarioInfo() {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/classes?day=${formatDate(selectedDate)}`);
                 setClassesDataForSelectedDate(response.data.classes);
+                setSortedClassesDataForSelectedDate(response.data.classes.sort((a, b) => a.class_hour - b.class_hour));
+
             } catch (error) {
             }
         };
@@ -429,7 +432,7 @@ export default function CrearUsuarioInfo() {
                     </div>
 
                     <div className={styles2.classesContainer}>
-                        {classesDataForSelectedDate.map((classItem) => (
+                        {sortedClassesDataForSelectedDate.map((classItem) => (
                             <div key={classItem.class_id} className={styles2.clientInfo}>
                                 <p>
                                     <p>
