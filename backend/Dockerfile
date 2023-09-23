@@ -2,13 +2,10 @@
 FROM python:3.11
 
 # Set the working directory in the container to /app
-WORKDIR /backend
-
-# Copy the current directory contents into the container at /app
-COPY . /backend
-
-# Install the required dependencies
+WORKDIR /usr/src/app
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+COPY ./app ./app
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
