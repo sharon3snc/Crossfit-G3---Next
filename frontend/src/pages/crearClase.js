@@ -85,7 +85,7 @@ export default function CrearMonitorInfo() {
             console.log('no edit')
         }
 
-    }, [employee_id]);
+    }, [employee_id, edit, edit_class_id, classData]);
 
 
 

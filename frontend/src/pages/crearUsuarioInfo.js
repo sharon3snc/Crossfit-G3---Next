@@ -69,7 +69,7 @@ export default function CrearUsuarioInfo() {
             fetchClientData();
         }
 
-    }, [employee_id]);
+    }, [employee_id, edit, edit_client_id]);
 
     const handleEvent = (e) => {
         const currentDate = new Date().toISOString().split('T')[0];

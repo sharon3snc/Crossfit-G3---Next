@@ -18,7 +18,8 @@
     "react-dom": "18.2.0",
     "react-router-dom": "^6.11.2",
     "react-slick": "^0.29.0",
-    "reactstrap": "^9.2.0"
+    "reactstrap": "^9.2.0",
+    "sharp": "^0.32.6"
   },
   "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
   "main": "next.config.js",

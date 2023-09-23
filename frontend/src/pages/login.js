@@ -2,10 +2,9 @@ import Head from 'next/head'
 import Logo from '../images/Logo.png'
 import Image from 'next/image'
 import Aros from '../images/aros.jpg'
-import Envelope from '../images/envelope.svg'
 import styles2 from '@/styles/Login.module.css'
 import { useState } from 'react'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import axios from 'axios'
 
 
@@ -14,7 +13,7 @@ const initialFormData = {
     password: '',
 }
 
-export default function loginInfo(){
+export default function LoginInfo(){
     const router = useRouter();
     const [formData, setFormData] = useState({
         user: '',

@@ -211,7 +211,7 @@ export default function CrearUsuarioInfo() {
             }
         };
         fetchAssistanceData();
-    }, [assistanceModalOpen]);
+    }, [assistanceModalOpen, assistanceClassId]);
 
     const showAssistanceModal = (classId, classDate, classHour) => {
         setAssistanceModalOpen(true);

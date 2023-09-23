@@ -65,7 +65,7 @@ export default function CrearMonitorInfo() {
             fetchEmployeeData();
         }
 
-    }, [employee_id]);
+    }, [employee_id, edit, edit_employee_id]);
 
     const handleEvent = (e) => {
         const currentDate = new Date().toISOString().split('T')[0];
