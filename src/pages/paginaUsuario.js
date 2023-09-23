@@ -74,7 +74,7 @@ export default function CrearUsuarioInfo() {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/classes?day=${formatDate(selectedDate)}`);
         setClassesDataForSelectedDate(response.data.classes);
-        setSortedClassesDataForSelectedDate(response.data.classes.sort((a, b) => a.class_hour - b.class_hour));
+        setSortedClassesDataForSelectedDate(response.data.classes.sort((a, b) => a.class_hour.substring(0,2) - b.class_hour.substring(0,2)));
       } catch (error) {
       }
     };
@@ -115,11 +115,6 @@ export default function CrearUsuarioInfo() {
     }
   };
 
-  const convertSecondsToTime = (seconds) => {
-    const date = new Date(Date.UTC(0, 0, 0, Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60)));
-    const options = { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' };
-    return date.toLocaleTimeString([], options);
-  };
 
   const findEmployeeByID = (id) => {
     const selected_employee = employeesData.find((employee) => employee.employee_id === id);
@@ -279,7 +274,7 @@ export default function CrearUsuarioInfo() {
                     <span> {classItem.class_date}</span>
                   </p>
                   <p>
-                    <span> {convertSecondsToTime(classItem.class_hour)}</span>
+                    <span> {classItem.class_hour.substring(0,5)}</span>
                   </p>
                 </p>
                 <p>

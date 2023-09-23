@@ -270,6 +270,7 @@ export default function CrearMonitorInfo() {
                                     onChange={(e) => {
                                         const valueAsInt = parseInt(e.target.value, 10);
                                         handleEvent({ ...e, target: { ...e.target, name: 'employee_id', value: valueAsInt } });
+                                        console.log(formData)
                                     }}
                                     required
                                 >

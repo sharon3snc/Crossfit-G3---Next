@@ -67,18 +67,9 @@ export default function CrearUsuarioInfo() {
             }
         };
 
-        const fetchClassesData = async () => {
-            try {
-                const response = await axios.get(`http://127.0.0.1:8000/all_classes`);
-                setClassesData(response.data.classes);
-            } catch (error) {
-            }
-        };
-
         fetchUserData();
         fetchClientsData();
         fetchEmployeesData();
-        // fetchClassesData();
     }, [employee_id]);
 
     const formatDate = (date) => {
@@ -93,7 +84,7 @@ export default function CrearUsuarioInfo() {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/classes?day=${formatDate(selectedDate)}`);
                 setClassesDataForSelectedDate(response.data.classes);
-                setSortedClassesDataForSelectedDate(response.data.classes.sort((a, b) => a.class_hour - b.class_hour));
+                setSortedClassesDataForSelectedDate(response.data.classes.sort((a, b) => a.class_hour.substring(0,2) - b.class_hour.substring(0,2)));
 
             } catch (error) {
             }
@@ -160,8 +151,6 @@ export default function CrearUsuarioInfo() {
         setDeleteModalOpen(false);
     };
 
-
-
     const handlePrevDate = () => {
         const prevDate = new Date(selectedDate);
         prevDate.setDate(selectedDate.getDate() - 1);
@@ -197,12 +186,6 @@ export default function CrearUsuarioInfo() {
         window.location.reload();
     }
 
-    const convertSecondsToTime = (seconds) => {
-        const date = new Date(Date.UTC(0, 0, 0, Math.floor(seconds / 3600), Math.floor((seconds % 3600) / 60)));
-        const options = { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' };
-        return date.toLocaleTimeString([], options);
-    };
-
     const findEmployeeByID = (id) => {
         const selected_employee = employeesData.find((employee) => employee.employee_id === id);
         if (selected_employee) {
@@ -216,10 +199,15 @@ export default function CrearUsuarioInfo() {
         const fetchAssistanceData = async () => {
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/assistance_by_class/${assistanceClassId}`);
-                setAssistanceData(response.data);
+                if(response.data.length > 0){
+                    setAssistanceData(response.data);
+                }else{
+                    setAssistanceData([]);
+                }
                 console.log(response.data);
                 console.log("fetched")
             } catch (error) {
+                setAssistanceData([]);
             }
         };
         fetchAssistanceData();
@@ -439,7 +427,7 @@ export default function CrearUsuarioInfo() {
                                         <span> {classItem.class_date}</span>
                                     </p>
                                     <p>
-                                        <span> {convertSecondsToTime(classItem.class_hour)}</span>
+                                        <span> {classItem.class_hour.substring(0,5)}</span>
                                     </p>
                                 </p>
                                 <p>
@@ -490,7 +478,7 @@ export default function CrearUsuarioInfo() {
                         )}
                         {assistanceModalOpen && (
                             <div className={styles2.modal}>
-                                <h3>Asistencia para clase de {assistanceClassDate}, {convertSecondsToTime(assistanceClassHour)}:</h3>
+                                <h3>Asistencia para clase de {assistanceClassDate}, {assistanceClassHour.substring(0,5)}:</h3>
                                 <br></br>
                                 {assistanceData && assistanceData.length > 0 ? (
                                     assistanceData.map((assistanceItem) => {
