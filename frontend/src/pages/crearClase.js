@@ -85,7 +85,7 @@ export default function CrearMonitorInfo() {
             console.log('no edit')
         }
 
-    }, [employee_id, edit, edit_class_id, classData]);
+    }, [employee_id, edit, edit_class_id]);
 
 
 
@@ -257,6 +257,7 @@ export default function CrearMonitorInfo() {
                                     }}
                                     required
                                 >
+                                    <option value="">Duración</option>
                                     <option value="15">15 minutos</option>
                                     <option value="30">30 minutos</option>
                                     <option value="45">45 minutos</option>
@@ -274,6 +275,7 @@ export default function CrearMonitorInfo() {
                                     }}
                                     required
                                 >
+                                    <option value="">Monitor</option>
                                     {employeesData.map(employee => (
                                         <option key={employee.employee_id} value={employee.employee_id}>
                                             {employee.name} {employee.surname}

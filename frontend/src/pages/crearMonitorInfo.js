@@ -155,7 +155,7 @@ export default function CrearMonitorInfo() {
                                     className={styles2.formInput}
                                     name='birthdate'
                                     type="text"
-                                    placeholder='Fecha de Nacimiento'
+                                    placeholder='Fecha de Nacimiento (AAAA-MM-DD)'
                                     value={formData.birthdate}
                                     onChange={handleEvent}
                                     required
